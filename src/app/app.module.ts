@@ -5,6 +5,7 @@ import { MainModule } from './layouts/mainlayout/main.module';
 import { ShareModule } from './shares/shares.module'
 import { AppRoutingModule } from './app-routing.module'
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     MainModule,
     RouterModule,
     AppRoutingModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent],
