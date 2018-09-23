@@ -1,0 +1,9 @@
+.avatar {
+  width: 35px;
+  height: 35px;
+}
+
+.icon-container {
+  border: solid 3px;
+  padding: 5px;
+}

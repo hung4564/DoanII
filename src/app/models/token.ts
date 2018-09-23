@@ -1,6 +1,6 @@
 export class Token {
+  id: number;
   name: string;
   color: string;
-  img?: string;
-  type?: string;
+  imgInfo?: { name: string; type: string };
 }

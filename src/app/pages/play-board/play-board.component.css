@@ -1,0 +1,16 @@
+.token-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.token {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-around
+}
+
+.token * {
+  flex: 1;
+  padding: 2px;
+}
