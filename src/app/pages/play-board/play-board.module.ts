@@ -3,6 +3,7 @@ import { PlayBoardComponent } from './play-board.component';
 import { ShareModule } from '@share/shares.module';
 import { CardCompComponent } from './card-comp/card-comp.component'
 import { MaterialModule } from '@share/material.module';
+import { PlayerCompComponent } from './player-comp/player-comp.component';
 @NgModule({
   imports: [
     ShareModule,
@@ -10,7 +11,8 @@ import { MaterialModule } from '@share/material.module';
   ],
   declarations: [
     PlayBoardComponent,
-    CardCompComponent
+    CardCompComponent,
+    PlayerCompComponent
   ]
 })
 export class PlayBoardModule { }

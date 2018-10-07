@@ -1,7 +1,9 @@
 <div>
   <div class="row no-margin">
     <div class="col-md-4">
-
+      <div class="player-list">
+        <player-comp *ngFor="let player of players" [player]="player"></player-comp>
+      </div>
     </div>
     <div class="col-md-1">
       <div class="token-list">
