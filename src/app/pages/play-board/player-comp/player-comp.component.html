@@ -2,12 +2,14 @@
   <div class="avatar">
     <img [src]="player.img" alt="" style="width:inherit">
   </div>
+  <div class="name">{{player.name}}</div>
   <div class="material">
-    <div *ngFor="let materials of player.materials" class="token">
+    <div *ngFor="let material of player.materials" class="token">
       <div style="margin: auto;text-align: center;">
+        <div class="count">{{material.count}}</div>
       </div>
       <div style="margin: auto;text-align: center;">
-        <!-- <icon-comp size="" [token]="materials.token"></icon-comp> -->
+        <icon-comp size="" [token]="material.token"></icon-comp>
       </div>
     </div>
   </div>

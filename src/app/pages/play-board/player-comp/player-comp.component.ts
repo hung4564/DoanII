@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Player } from '@model/player';
+import { IPlayer } from '@interface/iplayer';
 
 @Component({
   selector: 'player-comp',
@@ -7,7 +7,7 @@ import { Player } from '@model/player';
   styleUrls: ['./player-comp.component.css']
 })
 export class PlayerCompComponent implements OnInit {
-  @Input() player: Player
+  @Input() player: IPlayer
   constructor() { }
 
   ngOnInit() {

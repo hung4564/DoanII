@@ -1,3 +1,16 @@
-.avatar{
+.avatar {
   width: 35%
+}
+
+.token {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.material {
+  display: flex;
+  flex: 1;
+  justify-content: space-around;
 }

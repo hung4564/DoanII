@@ -8,4 +8,5 @@
   flex: 1 1 auto;
   display: flex;
   background-color: wheat;
+  overflow: auto;
 }

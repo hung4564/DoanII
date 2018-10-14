@@ -1,19 +1,19 @@
 import { Token } from '../models/token'
 
 
-export const materials: Array<Token> = [
-  { id: 1, name: 'Cow', color: 'c0392b', imgInfo: { name: 'cow', type: 'material' } },
-  { id: 2, name: 'Egg', color: 'ffffff', imgInfo: { name: 'eggs', type: 'material' } },
-  { id: 3, name: 'Fish', color: '2980b9', imgInfo: { name: 'fish', type: 'material' } },
-  { id: 4, name: 'Wheat', color: '000000', imgInfo: { name: 'wheat', type: 'material' } },
-  { id: 5, name: 'Cheese', color: 'f39c12', imgInfo: { name: 'cheese', type: 'material' } },
-  { id: 0, name: 'Salt shaker', color: '7f8c8d', imgInfo: { name: 'salt-shaker', type: 'material' } },
+export const materials: Token[] = [
+  new Token(1, 'Cow', 'c0392b', { name: 'cow', type: 'material' }),
+  new Token(3, 'Fish', '2980b9', { name: 'fish', type: 'material' }),
+  new Token(2, 'Egg', 'ffffff', { name: 'eggs', type: 'material' }),
+  new Token(4, 'Wheat', '000000', { name: 'wheat', type: 'material' }),
+  new Token(5, 'Cheese', 'f39c12', { name: 'cheese', type: 'material' }),
+  new Token(0, 'Salt shaker', '7f8c8d', { name: 'salt-shaker', type: 'material' }),
 ]
 export const foods: Token[] = [
-  { id: 1, name: 'Hamburger', color: 'c0392b', imgInfo: { name: 'hamburger', type: 'food' } },
-  { id: 2, name: 'taco', color: 'ffffff', imgInfo: { name: 'taco', type: 'food' } },
-  { id: 3, name: 'pizza', color: '2980b9', imgInfo: { name: 'pizza', type: 'food' } },
-  { id: 4, name: 'bread', color: '000000', imgInfo: { name: 'bread', type: 'food' } },
-  { id: 5, name: 'restaurant', color: 'f39c12', imgInfo: { name: 'restaurant', type: 'food' } },
-  { id: 0, name: 'service-bell', color: '7f8c8d', imgInfo: { name: 'service-bell', type: 'material' } },
+  new Token(1, 'Hamburger', 'c0392b', { name: 'hamburger', type: 'food' }),
+  new Token(2, 'taco', 'ffffff', { name: 'taco', type: 'food' }),
+  new Token(3, 'pizza', '2980b9', { name: 'pizza', type: 'food' }),
+  new Token(4, 'bread', '000000', { name: 'bread', type: 'food' }),
+  new Token(5, 'restaurant', 'f39c12', { name: 'restaurant', type: 'food' }),
+  new Token(0, 'service-bell', '7f8c8d', { name: 'service-bell', type: 'material' }),
 ]

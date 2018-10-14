@@ -7,9 +7,9 @@
     </div>
     <div class="col-md-1">
       <div class="token-list">
-        <div *ngFor="let token of materials" class="token">
+        <div *ngFor="let token of board.materials" class="token">
           <div style="margin: auto;text-align: center;">
-            {{tokensCount[token.id]}}
+            {{board.tokensCount[token.id]}}
           </div>
           <div style="margin: auto;text-align: center;">
             <icon-comp size="" [token]="token"></icon-comp>

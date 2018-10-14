@@ -1,22 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-
-import { Token } from '@model/token';
-import { Card } from '@model/card';
-import { materials } from '@data/token';
-import { Player } from '@model/player';
+import { Board } from '@model/board';
+import { IPlayer } from '@interface/iplayer'
+import { UserPlayer } from '@model/Userplayer';
+import { AIPlayer } from '@model/AIplayer';
 @Component({
   selector: 'app-play-board',
   templateUrl: './play-board.component.html',
   styleUrls: ['./play-board.component.css']
 })
 export class PlayBoardComponent implements OnInit {
-  constructor() { }
-  tokensCount: number[] = [5, 7, 7, 7, 7, 7];
-  materials: Token[] = materials;
-  card1s: Array<Card>
-  players: Player[];
+  board: Board;
+  players: IPlayer[];
+  constructor() {
+    this.players = [new UserPlayer(), new AIPlayer()];
+    this.board = new Board(this.players);
+  }
   ngOnInit() {
-    this.players = [new Player(), new Player(), new Player(), new Player()]
   }
 
 }

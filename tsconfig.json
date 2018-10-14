@@ -21,6 +21,9 @@
       "@model/*": [
         "app/models/*"
       ],
+      "@interface/*": [
+        "app/interface/*"
+      ],
       "@data/*": [
         "app/data/*"
       ],
