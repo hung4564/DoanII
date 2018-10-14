@@ -1,0 +1,12 @@
+.menu {
+  margin: auto;
+  width: 20vw;
+}
+
+.menu * {
+  font-size: 2em;
+}
+
+.menu>* {
+  margin: 5%;
+}

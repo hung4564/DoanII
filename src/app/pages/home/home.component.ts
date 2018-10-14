@@ -14,5 +14,8 @@ export class HomeComponent implements OnInit {
   play(){
     this.router.navigate(['/play'])
   }
+  about(){
+    this.router.navigate(['/about'])
+  }
 
 }
