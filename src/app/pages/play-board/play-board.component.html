@@ -20,7 +20,14 @@
     <div class="col-md-1">
     </div>
     <div class="col-md-6">
-
+      <div class="card-list">
+        <div class="card-1-list">
+          <div *ngFor="let card of board.card_1s" class="col-md-3 card">
+            <card-comp [card]="card"></card-comp>
+          </div>
+        </div>
+       
+      </div>
     </div>
   </div>
 </div>
