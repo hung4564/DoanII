@@ -1,32 +1,12 @@
-<div>
+<div id="board-body" style="width: 100%;height: 100%;">
   <div class="row no-margin">
-    <div class="col-md-4">
-      <div class="player-list">
-        <player-comp *ngFor="let player of players" [player]="player"></player-comp>
-      </div>
-    </div>
-    <div class="col-md-1">
-      <div class="token-list">
-        <div *ngFor="let token of board.materials" class="token">
-          <div style="margin: auto;text-align: center;">
-            {{board.tokensCount[token.id]}}
-          </div>
-          <div style="margin: auto;text-align: center;">
-            <icon-comp size="" [token]="token"></icon-comp>
-          </div>
+    <list-player-comp [size-comp]="player_list_size" [players]="board.listPlayer"></list-player-comp>
+
+    <div [style.width.px]="card_list_size.width" [style.height.px]="card_list_size.height">
+      <div class="card-1-list">
+        <div *ngFor="let card of board.card_1s" class="col-md-3 card">
+          <card-comp [card]="card"></card-comp>
         </div>
-      </div>
-    </div>
-    <div class="col-md-1">
-    </div>
-    <div class="col-md-6">
-      <div class="card-list">
-        <div class="card-1-list">
-          <div *ngFor="let card of board.card_1s" class="col-md-3 card">
-            <card-comp [card]="card"></card-comp>
-          </div>
-        </div>
-       
       </div>
     </div>
   </div>

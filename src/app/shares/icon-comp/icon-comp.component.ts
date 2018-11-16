@@ -12,7 +12,6 @@ export class IconCompComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log('#' + this.token.color + ":" + '#' + '80' + this.token.color);
     this.src = 'assets/icon/' + this.token.imgInfo.type + '/' + this.token.imgInfo.name + '-96.png';
   }
 
