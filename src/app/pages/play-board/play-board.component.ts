@@ -21,7 +21,7 @@ export class PlayBoardComponent implements OnInit {
   player_list_size: Size;
   card_list_size: Size;
   constructor() {
-    this.players = [new UserPlayer(), new AIPlayer()];
+    this.players = [new UserPlayer(), new AIPlayer(), new AIPlayer(), new AIPlayer()];
     this.board = new Board(this.players);
 
   }
@@ -30,7 +30,6 @@ export class PlayBoardComponent implements OnInit {
     this.board_size = new Size(board_body.width(), board_body.height());
     this.player_list_size = new Size(this.board_size.width * 0.3, this.board_size.height);
     this.card_list_size = new Size(this.board_size.width * 0.6, this.board_size.height);
-    console.log(this.player_list_size.toString());
   }
   ngOnInit() {
     this.onResize()

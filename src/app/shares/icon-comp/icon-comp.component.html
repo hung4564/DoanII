@@ -1,3 +1,3 @@
-<div class="icon-container img-circle" [ngStyle]="{'color':'#'+token.color,'background-color':'#'+token.color+'80'}">
-  <img class="avatar " [src]="src" [alt]="token.name">
+<div class="icon-container img-circle" [ngStyle]="containerStyle">
+  <img class="avatar " [src]="src" [alt]="token.name" [style.width.px]="img_size.width" [style.height.px]="img_size.height">
 </div>

@@ -1,16 +1,17 @@
-<div [style.width.px]="size.width" [style.height.px]="size.height">
-  <div class="avatar">
-    <img [src]="player.img" alt="" style="width:inherit">
+<div [ngStyle]="myStyles">
+  <div class="name">
+    {{player.name}}
   </div>
-  <div class="name">{{player.name}}</div>
-  <div class="material">
-    <div *ngFor="let material of player.materials" class="token">
-      <div style="margin: auto;text-align: center;">
-        <div class="count">{{material.count}}</div>
-      </div>
-      <div style="margin: auto;text-align: center;">
-        <icon-comp size="" [token]="material.token"></icon-comp>
-      </div>
+  <div class="token-list">
+    <div *ngFor="let material of player.materials" class="token" [ngStyle]="tokenStyles">
+      <div class="count" [ngStyle]="countStyles">{{material.count}}</div>
+      <icon-comp [size-comp]="token_size" [token]="material.token"></icon-comp>
+    </div>
+  </div>
+  <div class="token-list">
+    <div *ngFor="let material of player.materials" class="token" [ngStyle]="tokenStyles">
+      <div class="count" [ngStyle]="countStyles">{{material.count}}</div>
+      <icon-comp [size-comp]="token_size" [token]="material.token"></icon-comp>
     </div>
   </div>
 </div>

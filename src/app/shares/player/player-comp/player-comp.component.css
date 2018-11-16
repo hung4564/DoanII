@@ -1,16 +1,24 @@
-.avatar {
-  width: 35%
+.token>*,
+.token-list>.token {
+  display: inline-block;
+}
+
+.count {
+  margin: auto;
+  text-align: center;
+  color: white;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
 .token {
-  display: flex;
-  flex: 1;
-  flex-direction: row;
-  justify-content: space-around;
+  position: relative;
 }
 
-.material {
-  display: flex;
-  flex: 1;
-  justify-content: space-around;
+.count {
+  position: absolute;
+  bottom: 0px;
+}
+
+.name {
+  font-size: 24px;
 }

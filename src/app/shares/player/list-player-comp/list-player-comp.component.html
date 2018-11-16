@@ -1,3 +1,3 @@
-<div [style.width.px]="size.width" [style.height.px]="size.height">
+<div [ngStyle]="myStyles">
   <player-comp *ngFor="let player of players" [player]="player" [size-comp]="player_size"></player-comp>
 </div>

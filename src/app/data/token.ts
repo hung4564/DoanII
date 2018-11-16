@@ -15,5 +15,5 @@ export const foods: Token[] = [
   new Token(3, 'pizza', '2980b9', { name: 'pizza', type: 'food' }),
   new Token(4, 'bread', '000000', { name: 'bread', type: 'food' }),
   new Token(5, 'restaurant', 'f39c12', { name: 'restaurant', type: 'food' }),
-  new Token(0, 'service-bell', '7f8c8d', { name: 'service-bell', type: 'material' }),
+  new Token(0, 'service-bell', '7f8c8d', { name: 'service-bell', type: 'food' }),
 ]
