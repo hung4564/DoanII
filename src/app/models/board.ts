@@ -9,6 +9,7 @@ export class Board {
   tokensCount: number[] = [5, 7, 7, 7, 7, 7];
   materials: Token[] = materials;
   cardCount: number[] = [40, 30, 20];
+  listCards: Card[][];
   card_1s: Array<Card>;
   card_2s: Array<Card>;
   card_3s: Array<Card>;
@@ -59,14 +60,14 @@ export class Board {
     let maxToken = this.randomIntFromInterval(1, 4);
     let countToken = this.randomIntFromInterval(price_ranger[0], price_ranger[1]);
     let price: { count: number, token: Token }[] = [];
-    for (let i = 1; i < maxToken; i++) {
+    for (let i = 0; i < maxToken; i++) {
       let get_token = this.randomToken();
-      if (!price.filter(price => (price.token === get_token))) {
+      if (price.filter(price => (price.token === get_token))) {
         price.push({ count: 0, token: get_token });
       }
     }
     price.forEach(function (value) {
-      value.count = this.randomIntFromInterval(1, Math.round(countToken / price.length));
+      value.count = 3;
     })
     temp.price = price;
     return temp;

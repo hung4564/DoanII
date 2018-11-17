@@ -17,20 +17,25 @@ export class PlayerCompComponent implements OnInit {
       'height.px': this.size.height,
     };
   }
-  get countStyles() {
+  get listTokenStyles() {
     return {
-      'font-size.px': this.token_size.height * 2 / 3
-    }
-  }
-  get tokenStyles() {
-    return {
+      'width.px': this.size.width,
+      'height.px': this.size.height / 3,
       'padding': (new Padding(5)).toStringPx(),
     }
   }
   constructor() { }
 
   ngOnInit() {
-    this.token_size = (new Size(this.size.width / 9)).subpadding(new Padding(5));
+    let height_token;
+    if (this.size.width / 7 > this.size.height / 3) {
+      height_token = this.size.height / 3
+    }
+    else {
+      height_token = this.size.width / 7
+    }
+    this.token_size = (new Size(height_token)).subpadding(new Padding(5));
+    console.log(this.token_size);
   }
 
 }

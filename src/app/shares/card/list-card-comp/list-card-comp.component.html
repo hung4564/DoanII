@@ -1,0 +1,5 @@
+<div [ngStyle]="myStyles">
+  <div class="list-card-1" [ngStyle]="listCardStyles">
+    <card-comp *ngFor="let card of cards" [card]="card" [size-comp]="card_size"></card-comp>
+  </div>
+</div>

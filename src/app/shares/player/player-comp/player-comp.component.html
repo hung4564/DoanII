@@ -2,16 +2,12 @@
   <div class="name">
     {{player.name}}
   </div>
-  <div class="token-list">
-    <div *ngFor="let material of player.materials" class="token" [ngStyle]="tokenStyles">
-      <div class="count" [ngStyle]="countStyles">{{material.count}}</div>
-      <icon-comp [size-comp]="token_size" [token]="material.token"></icon-comp>
-    </div>
+  <div class="token-list" [ngStyle]="listTokenStyles">
+    <icon-comp *ngFor="let material of player.materials" class="token" [size-comp]="token_size" [token]="material.token"
+      [count]="material.count"></icon-comp>
   </div>
-  <div class="token-list">
-    <div *ngFor="let material of player.materials" class="token" [ngStyle]="tokenStyles">
-      <div class="count" [ngStyle]="countStyles">{{material.count}}</div>
-      <icon-comp [size-comp]="token_size" [token]="material.token"></icon-comp>
-    </div>
+  <div class="token-list" [ngStyle]="listTokenStyles">
+    <icon-comp *ngFor="let material of player.materials" class="token" [size-comp]="token_size" [token]="material.token"
+      [count]="material.count" [center]="'number'"></icon-comp>
   </div>
 </div>
