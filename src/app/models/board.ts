@@ -62,7 +62,7 @@ export class Board {
     let price: { count: number, token: Token }[] = [];
     for (let i = 0; i < maxToken; i++) {
       let get_token = this.randomToken();
-      if (price.filter(price => (price.token === get_token))) {
+      if (price.length == 0 || !price.filter(price => (price.token === get_token))) {
         price.push({ count: 0, token: get_token });
       }
     }

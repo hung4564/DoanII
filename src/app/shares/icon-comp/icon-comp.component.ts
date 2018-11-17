@@ -50,6 +50,7 @@ export class IconCompComponent implements OnInit {
       'height.px': this.size.height,
       'padding.px': this.padding.padding_top,
       'margin-left.px': this.padding.padding_left,
+      'position': 'relative',
     }
   }
   get countStyles() {
@@ -79,6 +80,7 @@ export class IconCompComponent implements OnInit {
 
   }
   ngOnInit() {
+    console.log(this.count)
     this.onResize();
     this.src = 'assets/icon/' + this.token.imgInfo.type + '/' + this.token.imgInfo.name + '-96.png';
   }

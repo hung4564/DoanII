@@ -4,7 +4,10 @@ import { Size, Padding } from '@model/Size';
 @Component({
   selector: 'card-comp',
   templateUrl: './card-comp.component.html',
-  styleUrls: ['./card-comp.component.css']
+  styleUrls: ['./card-comp.component.css'],
+  host: {
+    '(window:resize)': 'onResize()',
+  }
 })
 export class CardCompComponent implements OnInit {
   @Input('size-comp') size: Size;
@@ -14,15 +17,20 @@ export class CardCompComponent implements OnInit {
       'height': this.size ? this.size.height + "px" : '30%',
       'background-color': 'red',
       'display': 'inline-block',
-      'padding': this.padding.toStringPx(),
+      'margin': this.margin.toStringPx(),
     };
   }
-  padding = new Padding(5);
+  token_size: Size
+  margin = new Padding(5);
   @Input() card: Card;
   constructor() { }
-
+  onResize() {
+    this.size = this.size.subpadding(this.margin);
+    this.token_size = new Size(this.size.height / 4);
+  }
   ngOnInit() {
-    this.size = this.size.subpadding(this.padding);
+    console.log(this.card);
+    this.onResize();
   }
 
 }

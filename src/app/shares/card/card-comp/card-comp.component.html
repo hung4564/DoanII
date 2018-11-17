@@ -1,2 +1,11 @@
 <div [ngStyle]="myStyles">
+  <div class="value flex">
+    <div class="count">
+      {{card.value.point}}
+    </div>
+    <icon-comp class="token" [size-comp]="token_size" [token]="card.value.token"></icon-comp>
+  </div>
+  <div class="price">
+    <icon-comp *ngFor="let price of card.price" class=" token" [size-comp]="token_size" [token]="price.token" [count]="price.count"></icon-comp>
+  </div>
 </div>

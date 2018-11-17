@@ -36,7 +36,6 @@ export class PlayerCompComponent implements OnInit {
       height_token = this.size.width / 7
     }
     this.token_size = (new Size(height_token)).subpadding(new Padding(5));
-    console.log(this.token_size);
   }
   constructor() { }
 

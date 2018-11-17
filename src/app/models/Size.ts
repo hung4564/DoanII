@@ -3,8 +3,8 @@ export class Size {
   height: number;
   constructor(width: number, height: number = 0) {
 
-    this.height = Math.round((height == 0) ? width : height);
-    this.width = Math.round(width);
+    this.height = Math.floor((height == 0) ? width : height);
+    this.width = Math.floor(width);
   }
   public toString() {
     return "width:" + this.width + ":" + "height:" + this.height;

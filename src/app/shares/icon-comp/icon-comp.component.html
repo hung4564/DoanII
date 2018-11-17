@@ -1,4 +1,4 @@
 <div class="icon-container img-circle" [ngStyle]="containerStyle">
-  <div class="count" [ngStyle]="countStyles" *ngIf="!count">{{count}}</div>
+  <div class="count" [ngStyle]="countStyles" *ngIf="count>=0">{{count}}</div>
   <img class="avatar " [src]="src" [alt]="token.name" [ngStyle]="imgStyles">
 </div>
