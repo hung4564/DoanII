@@ -4,7 +4,10 @@ import { IPlayer } from '@interface/iplayer'
 @Component({
   selector: 'list-player-comp',
   templateUrl: './list-player-comp.component.html',
-  styleUrls: ['./list-player-comp.component.css']
+  styleUrls: ['./list-player-comp.component.css'],
+  host: {
+    '(window:resize)': 'onResize()',
+  }
 })
 export class ListPlayerCompComponent implements OnInit {
   @Input('size-comp') size: Size;
@@ -18,12 +21,15 @@ export class ListPlayerCompComponent implements OnInit {
       'background-color': 'yellow'
     };
   }
-  ngOnInit() {
+  onResize() {
     let player_height = this.size.height / this.players.length;
     if (player_height > this.size.width / 3) {
       player_height = this.size.width / 3;
     }
     this.player_size = new Size(this.size.width, player_height);
+  }
+  ngOnInit() {
+    this.onResize();
   }
 
 }

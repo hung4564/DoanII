@@ -5,7 +5,10 @@ import { Card } from '@model/card';
 @Component({
   selector: 'list-card-comp',
   templateUrl: './list-card-comp.component.html',
-  styleUrls: ['./list-card-comp.component.css']
+  styleUrls: ['./list-card-comp.component.css'],
+  host: {
+    '(window:resize)': 'onResize()',
+  }
 })
 export class ListCardCompComponent implements OnInit {
   @Input('cards') cards: Card[];
@@ -25,10 +28,13 @@ export class ListCardCompComponent implements OnInit {
       'height.px': this.list_card_size.height,
     }
   }
-  ngOnInit() {
+  onResize() {
+
     this.list_card_size = new Size(this.size.width, this.size.height / 3);
     this.card_size = new Size(this.list_card_size.width / 4, this.list_card_size.height);
-    console.log(this.cards);
+  }
+  ngOnInit() {
+    this.onResize();
   }
 
 }

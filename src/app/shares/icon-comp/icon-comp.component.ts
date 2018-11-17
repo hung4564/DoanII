@@ -4,7 +4,10 @@ import { Size, Padding } from '@model/Size';
 @Component({
   selector: 'icon-comp',
   templateUrl: './icon-comp.component.html',
-  styleUrls: ['./icon-comp.component.css']
+  styleUrls: ['./icon-comp.component.css'],
+  host: {
+    '(window:resize)': 'onResize()',
+  }
 })
 // % => hexa
 // 100% — FF
@@ -70,10 +73,13 @@ export class IconCompComponent implements OnInit {
       'transform': this.center !== "token" ? 'unset' : 'translate(-50%, -50%)',
     }
   }
-  ngOnInit() {
+  onResize() {
     this.padding = new Padding(Math.round(this.size.width / 5));
     this.img_size = this.size.subpadding(this.padding).subpadding(new Padding(2));
 
+  }
+  ngOnInit() {
+    this.onResize();
     this.src = 'assets/icon/' + this.token.imgInfo.type + '/' + this.token.imgInfo.name + '-96.png';
   }
 

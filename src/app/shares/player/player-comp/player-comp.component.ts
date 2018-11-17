@@ -5,7 +5,10 @@ import { Size, Padding } from '@model/Size';
 @Component({
   selector: 'player-comp',
   templateUrl: './player-comp.component.html',
-  styleUrls: ['./player-comp.component.css']
+  styleUrls: ['./player-comp.component.css'],
+  host: {
+    '(window:resize)': 'onResize()',
+  }
 })
 export class PlayerCompComponent implements OnInit {
   @Input() player: IPlayer;
@@ -24,9 +27,7 @@ export class PlayerCompComponent implements OnInit {
       'padding': (new Padding(5)).toStringPx(),
     }
   }
-  constructor() { }
-
-  ngOnInit() {
+  onResize() {
     let height_token;
     if (this.size.width / 7 > this.size.height / 3) {
       height_token = this.size.height / 3
@@ -36,6 +37,11 @@ export class PlayerCompComponent implements OnInit {
     }
     this.token_size = (new Size(height_token)).subpadding(new Padding(5));
     console.log(this.token_size);
+  }
+  constructor() { }
+
+  ngOnInit() {
+    this.onResize();
   }
 
 }
