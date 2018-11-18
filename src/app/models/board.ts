@@ -15,7 +15,7 @@ export class Board {
   tokensCount: number[] = [5, 7, 7, 7, 7, 7];
   materials: Token[] = materials;
   cardCount: number[] = [40, 30, 20];
-  listCards: { name: string, list: Card[] }[];
+  listCards: { level: number, list: Card[] }[];
   private card_1s: Array<Card>;
   private card_2s: Array<Card>;
   private card_3s: Array<Card>;
@@ -45,18 +45,19 @@ export class Board {
       this.card_2s.push(new Card(1));
       this.card_3s.push(new Card(2));
     }
-    this.listCards.push({ name: 'level 1', list: this.card_1s });
-    this.listCards.push({ name: 'level 2', list: this.card_2s });
-    this.listCards.push({ name: 'level 3', list: this.card_3s });
+    this.listCards.push({ level: 0, list: this.card_1s });
+    this.listCards.push({ level: 1, list: this.card_2s });
+    this.listCards.push({ level: 2, list: this.card_3s });
   }
   addCard(level: number) {
-    this.listCards['card_' + (level + 1)].push(new Card(level));
+    let cardlist = this.listCards.find(x => x.level === level).list;
+    cardlist.push(new Card(level));
   }
   removeCard(card: Card) {
     let level = card.level;
-    let levelstring = 'card_' + (level + 1)
-    let x = this.listCards[levelstring].indexOf(card);
-    this.listCards[levelstring].splice(x, 1);
+    let cardList = this.listCards.find(x => x.level === level)
+    let x = cardList.list.indexOf(card);
+    cardList.list.splice(x, 1);
   }
   buyCard(card: Card) {
     this._currentPlayer.buyCard(card);
