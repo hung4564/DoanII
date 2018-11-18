@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject, Output, EventEmitter } from '@angular/core';
 import { Size } from '@model/Size';
 import { Card } from '@model/card';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
@@ -17,6 +17,7 @@ export interface DialogData {
 export class ListCardCompComponent implements OnInit {
   @Input('cards') cards: Card[][];
   @Input('size-comp') size: Size;
+  @Output() action = new EventEmitter<any>();
   card_size: Size;
   list_card_size: Size;
   constructor(private dialog: MatDialog) { }
@@ -40,17 +41,18 @@ export class ListCardCompComponent implements OnInit {
   ngOnInit() {
     this.onResize();
   }
-  animal
   click_card(card: Card) {
     const dialogRef = this.dialog.open(CardDialog, {
-      width: 400+"px",
+      width: 400 + "px",
       data: { card: card }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
-      this.animal = result;
+      this.cardAction(result, card);
     });
+  }
+  cardAction(action: string, card: Card) {
+    this.action.next({ action: action, card: card });
   }
 
 }

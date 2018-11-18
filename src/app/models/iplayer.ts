@@ -1,7 +1,8 @@
 
 import { materials, foods } from '@data/token';
 import { Token } from '@angular/compiler';
-export abstract class APlayer {
+import { Card } from './card';
+export class IPlayer {
   name: string;
   img: string;
   materials: { count: number, token: any }[] = [];
@@ -15,5 +16,12 @@ export abstract class APlayer {
     foods.forEach((item, index) => {
       this.foods[index] = { count: 0, token: item };
     })
+  }
+  buyCard(card: Card) {
+    console.log('user buy card');
+  }
+  holdCard(card: Card) {
+    console.log('user hold card');
+
   }
 }

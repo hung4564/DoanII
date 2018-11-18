@@ -1,11 +1,5 @@
 <div [ngStyle]="myStyles">
-  <div class="list-card-1" [ngStyle]="listCardStyles">
-    <card-comp *ngFor="let card of cards['card_1']" [card]="card" [size-comp]="card_size" (click)="click_card(card)"></card-comp>
-  </div>
-  <div class="list-card-2" [ngStyle]="listCardStyles">
-    <card-comp *ngFor="let card of cards['card_2']" [card]="card" [size-comp]="card_size"></card-comp>
-  </div>
-  <div class="list-card-3" [ngStyle]="listCardStyles">
-    <card-comp *ngFor="let card of cards['card_3']" [card]="card" [size-comp]="card_size"></card-comp>
+  <div class="list-card" [ngStyle]="listCardStyles" *ngFor="let cardlist of cards">
+    <card-comp *ngFor="let card of cardlist.list" [card]="card" [size-comp]="card_size" (click)="click_card(card)"></card-comp>
   </div>
 </div>

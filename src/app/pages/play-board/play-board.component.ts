@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Board } from '@model/board';
-import { IPlayer } from '@interface/iplayer'
+import { IPlayer } from '@model/iplayer'
 import { UserPlayer } from '@model/Userplayer';
 import { AIPlayer } from '@model/AIplayer';
 import { Size } from '@model/Size';
 import { UserService } from 'app/services/user-service.service';
+import { Card } from '@model/card';
 declare var $: any;
 @Component({
   selector: 'app-play-board',
@@ -35,5 +36,21 @@ export class PlayBoardComponent implements OnInit {
     this.board = new Board(this.players);
     this.onResize()
   }
+  action($event) {
+    switch ($event.action) {
+      case 'hold':
+        this.holdCard($event.card)
+        break;
+      case 'buy':
+        this.buyCard($event.card);
+        break;
+    }
+  }
+  buyCard(card: Card) {
+    this.board.buyCard(card)
 
+  }
+  holdCard(card: Card) {
+    this.board.holdCard(card);
+  }
 }

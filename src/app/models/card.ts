@@ -1,6 +1,7 @@
 import { Token } from './token';
 import { materials } from '@data/token';
 export class Card {
+  id: number;
   level: number;
   value: { point: number, token: Token }
   price: { count: number, token: Token }[];

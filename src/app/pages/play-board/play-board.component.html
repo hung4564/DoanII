@@ -2,7 +2,7 @@
   <div class="row no-margin">
     <list-player-comp [size-comp]="player_list_size" [players]="board.listPlayer"></list-player-comp>
     <div [ngStyle]="{'width.px':board_size.width * 0.1,'height.px':board_size.height}" style="background-color: green"></div>
-    <list-card-comp [size-comp]="card_list_size" [cards]="board.listCards"></list-card-comp>
+    <list-card-comp [size-comp]="card_list_size" [cards]="board.listCards" (action)="action($event)"></list-card-comp>
     <!-- <div [style.width.px]="card_list_size.width" [style.height.px]="card_list_size.height">
       <div class="card-1-list">
         <div *ngFor="let card of board.card_1s" class="col-md-3 card">
