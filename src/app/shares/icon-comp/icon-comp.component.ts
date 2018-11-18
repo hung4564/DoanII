@@ -80,7 +80,6 @@ export class IconCompComponent implements OnInit {
 
   }
   ngOnInit() {
-    console.log(this.count)
     this.onResize();
     this.src = 'assets/icon/' + this.token.imgInfo.type + '/' + this.token.imgInfo.name + '-96.png';
   }

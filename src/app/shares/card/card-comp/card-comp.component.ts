@@ -26,7 +26,7 @@ export class CardCompComponent implements OnInit {
   constructor() { }
   onResize() {
     this.size = this.size.subpadding(this.margin);
-    this.token_size = new Size(this.size.height / 4);
+    this.token_size = new Size(this.size.height / 6);
   }
   ngOnInit() {
     console.log(this.card);

@@ -11,7 +11,7 @@ import { Card } from '@model/card';
   }
 })
 export class ListCardCompComponent implements OnInit {
-  @Input('cards') cards: Card[];
+  @Input('cards') cards: Card[][];
   @Input('size-comp') size: Size;
   card_size: Size;
   list_card_size: Size;

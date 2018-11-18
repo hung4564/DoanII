@@ -5,3 +5,9 @@
 .value {
   justify-content: space-between;
 }
+
+.price {
+  flex-direction: column-reverse;
+  display: flex;
+  height: 80%;
+}
