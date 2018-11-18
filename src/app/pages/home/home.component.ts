@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserService } from 'app/services/user-service.service';
+import { UserPlayer } from '@model/Userplayer';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -7,14 +9,15 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(public router: Router,) { }
+  constructor(public router: Router, private _userService: UserService) { }
 
   ngOnInit() {
+    this._userService.user = new UserPlayer();
   }
-  play(){
+  play() {
     this.router.navigate(['/play'])
   }
-  about(){
+  about() {
     this.router.navigate(['/about'])
   }
 

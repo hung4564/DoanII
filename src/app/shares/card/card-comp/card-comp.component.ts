@@ -29,7 +29,6 @@ export class CardCompComponent implements OnInit {
     this.token_size = new Size(this.size.height / 6);
   }
   ngOnInit() {
-    console.log(this.card);
     this.onResize();
   }
 

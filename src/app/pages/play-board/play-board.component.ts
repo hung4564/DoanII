@@ -4,6 +4,7 @@ import { IPlayer } from '@interface/iplayer'
 import { UserPlayer } from '@model/Userplayer';
 import { AIPlayer } from '@model/AIplayer';
 import { Size } from '@model/Size';
+import { UserService } from 'app/services/user-service.service';
 declare var $: any;
 @Component({
   selector: 'app-play-board',
@@ -20,9 +21,7 @@ export class PlayBoardComponent implements OnInit {
   board_size: Size;
   player_list_size: Size;
   card_list_size: Size;
-  constructor() {
-    this.players = [new UserPlayer(), new AIPlayer(), new AIPlayer(), new AIPlayer()];
-    this.board = new Board(this.players);
+  constructor(private _userService: UserService) {
 
   }
   onResize() {
@@ -32,6 +31,8 @@ export class PlayBoardComponent implements OnInit {
     this.card_list_size = new Size(this.board_size.width * 0.6, this.board_size.height);
   }
   ngOnInit() {
+    this.players = [this._userService.user, new AIPlayer(), new AIPlayer(), new AIPlayer()];
+    this.board = new Board(this.players);
     this.onResize()
   }
 

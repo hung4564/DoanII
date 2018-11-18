@@ -36,5 +36,8 @@ export class ListCardCompComponent implements OnInit {
   ngOnInit() {
     this.onResize();
   }
+  click_card(card: Card) {
+    console.log(card);
+  }
 
 }
