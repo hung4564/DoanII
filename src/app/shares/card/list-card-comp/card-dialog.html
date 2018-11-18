@@ -1,0 +1,13 @@
+<div mat-dialog-content style="display: flex;">
+  <card-comp [card]="card" [size-comp]="card_size"></card-comp>
+  <div style="
+  display: inline-flex;
+  justify-content: space-around;
+  flex-direction: column;
+  height: 250px;
+  width: 100%;
+  align-items: center;">
+    <button mat-button [mat-dialog-close]="'hold'">Hold</button>
+    <button mat-button [mat-dialog-close]="'buy'">Buy</button>
+  </div>
+</div>

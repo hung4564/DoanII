@@ -1,7 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Inject } from '@angular/core';
 import { Size } from '@model/Size';
 import { Card } from '@model/card';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
+export interface DialogData {
+  card: Card;
+}
 @Component({
   selector: 'list-card-comp',
   templateUrl: './list-card-comp.component.html',
@@ -15,7 +19,7 @@ export class ListCardCompComponent implements OnInit {
   @Input('size-comp') size: Size;
   card_size: Size;
   list_card_size: Size;
-  constructor() { }
+  constructor(private dialog: MatDialog) { }
   get myStyles(): any {
     return {
       'width.px': this.size.width,
@@ -36,8 +40,33 @@ export class ListCardCompComponent implements OnInit {
   ngOnInit() {
     this.onResize();
   }
+  animal
   click_card(card: Card) {
-    console.log(card);
+    const dialogRef = this.dialog.open(CardDialog, {
+      width: 400+"px",
+      data: { card: card }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      this.animal = result;
+    });
+  }
+
+}
+
+@Component({
+  selector: 'dialog-overview-example-dialog',
+  templateUrl: 'card-dialog.html',
+})
+export class CardDialog {
+  card: Card
+  card_size: Size;
+  constructor(
+    public dialogRef: MatDialogRef<CardDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData) {
+    this.card = data.card;
+    this.card_size = new Size(250);
   }
 
 }
