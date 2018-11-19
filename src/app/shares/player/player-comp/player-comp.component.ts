@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IPlayer } from '@interface/iplayer';
+import { IPlayer } from '@model/iplayer';
 import { Size, Padding } from '@model/Size';
 
 @Component({

@@ -60,11 +60,19 @@ export class Board {
     cardList.list.splice(x, 1);
   }
   buyCard(card: Card) {
+    if (!this._currentPlayer.canBuy(card)) {
+      throw "Khong the mua";
+      console.log('khong the mua');
+      return;
+    }
     this._currentPlayer.buyCard(card);
     this.removeCard(card);
     this.addCard(card.level);
   }
   holdCard(card: Card) {
+    if (!this._currentPlayer.canHold()) {
+      return;
+    }
     this._currentPlayer.holdCard(card);
     this.removeCard(card);
     this.addCard(card.level);

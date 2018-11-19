@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Size, Padding } from '@model/Size';
-import { IPlayer } from '@interface/iplayer'
+import { IPlayer } from '@model/iplayer'
 @Component({
   selector: 'list-player-comp',
   templateUrl: './list-player-comp.component.html',

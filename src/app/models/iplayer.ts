@@ -22,6 +22,10 @@ export class IPlayer {
     })
   }
   buyCard(card: Card) {
+    if (!this.canBuy(card)) {
+      return;
+    }
+    console.log(this.canBuy(card));
     console.log('user buy card');
     card.price.forEach((item, index) => {
       let material = this.materials.find(x => x.token.id == item.token.id);
@@ -32,9 +36,28 @@ export class IPlayer {
     this.listCard.push(card);
   }
   holdCard(card: Card) {
+    if (!this.canHold()) {
+      return;
+    }
     console.log('user hold card');
     let token = this.materials.find(x => x.token.id == 0);
     token.count++;
     this.listHoldCard.push(card);
+  }
+  canHold() {
+    //moi nguoi khong the dc giu qua 3 the hay 3 dong vang
+    return this.materials.find(x => x.token.id == 0).count <= 3 || this.listHoldCard.length <= 3
+  }
+  canBuy(card: Card): boolean {
+    let count_need: number = 0; // gia tri can bu 
+    card.price.forEach((item, index) => {
+      let material = this.materials.find(x => x.token.id == item.token.id);
+      let product = this.product.find(x => x.token.id == item.token.id);
+      let difference_count = item.count - (material.count + product.count);
+      //neu chenh lenh nho hon => can bu von, khong thi khong can
+      count_need = count_need + difference_count > 0 ? difference_count : 0
+    })
+    //neu nhu bu < von => co the mua
+    return (count_need <= this.materials.find(x => x.token.id == 0).count);
   }
 }

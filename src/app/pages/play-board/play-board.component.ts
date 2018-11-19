@@ -6,6 +6,7 @@ import { AIPlayer } from '@model/AIplayer';
 import { Size } from '@model/Size';
 import { UserService } from 'app/services/user-service.service';
 import { Card } from '@model/card';
+import { MessageService } from 'app/services/message-service/message.service';
 declare var $: any;
 @Component({
   selector: 'app-play-board',
@@ -22,7 +23,7 @@ export class PlayBoardComponent implements OnInit {
   board_size: Size;
   player_list_size: Size;
   card_list_size: Size;
-  constructor(private _userService: UserService) {
+  constructor(private _userService: UserService, private _messageSV: MessageService) {
 
   }
   onResize() {
@@ -47,7 +48,12 @@ export class PlayBoardComponent implements OnInit {
     }
   }
   buyCard(card: Card) {
-    this.board.buyCard(card)
+    try {
+
+      this.board.buyCard(card)
+    } catch (error) {
+      this._messageSV.showWarningMessage(error);
+    }
 
   }
   holdCard(card: Card) {

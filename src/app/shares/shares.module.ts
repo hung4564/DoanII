@@ -14,7 +14,7 @@ import { FormsModule } from '@angular/forms';
     ListPlayerCompComponent,
     CardCompComponent,
     ListCardCompComponent,
-    CardDialog
+    CardDialog,
   ],
   imports: [
     BrowserModule,
