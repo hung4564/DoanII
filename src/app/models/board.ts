@@ -12,8 +12,7 @@ export class Board {
   }
   private _currentPlayer;
   listPlayer: IPlayer[];
-  tokensCount: number[] = [5, 7, 7, 7, 7, 7];
-  materials: Token[] = materials;
+  tokensCount: { count: number, token_id: any }[] = [];
   cardCount: number[] = [40, 30, 20];
   listCards: { level: number, list: Card[] }[];
   private card_1s: Array<Card>;
@@ -28,13 +27,19 @@ export class Board {
   private init() {
     switch (this.countPlayer) {
       case 2:
-        this.tokensCount = [5, 4, 4, 4, 4, 4];
+        for (let index = 0; index < materials.length; index++) {
+          this.tokensCount[index] = { count: materials[index].id == 0 ? 5 : 4, token_id: materials[index].id }
+        }
         break;
       case 3:
-        this.tokensCount = [5, 5, 5, 5, 5, 5];
+        for (let index = 0; index < materials.length; index++) {
+          this.tokensCount[index] = { count: materials[index].id == 0 ? 5 : 5, token_id: materials[index].id }
+        }
         break;
       default:
-        this.tokensCount = [5, 7, 7, 7, 7, 7];
+        for (let index = 0; index < materials.length; index++) {
+          this.tokensCount[index] = { count: materials[index].id == 0 ? 5 : 7, token_id: materials[index].id }
+        }
         break;
     }
     this.card_1s = [];

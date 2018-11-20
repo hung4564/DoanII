@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Token } from '@model/token';
 import { Size, Padding } from '@model/Size';
+import { materials } from '@data/token';
 @Component({
   selector: 'icon-comp',
   templateUrl: './icon-comp.component.html',
@@ -32,7 +33,8 @@ import { Size, Padding } from '@model/Size';
 // 5% — 0D
 // 0% — 00
 export class IconCompComponent implements OnInit {
-  @Input() token: Token
+  @Input() token: Token;
+  @Input() token_id: number = -1;
   @Input('size-comp') size: Size;
   @Input() count: number;
   @Input() center: string = "token";
@@ -80,7 +82,9 @@ export class IconCompComponent implements OnInit {
 
   }
   ngOnInit() {
+    this.token = this.token_id == -1 ? this.token : materials.find(x => x.id == this.token_id);
     this.onResize();
+    console.log(this.token)
     this.src = 'assets/icon/' + this.token.imgInfo.type + '/' + this.token.imgInfo.name + '-96.png';
   }
 

@@ -1,0 +1,4 @@
+<div [ngStyle]="myStyles">
+  <icon-comp *ngFor="let material of materials" class="token" [size-comp]="token_size" [token_id]="material.token_id"
+    [count]="material.count"></icon-comp>
+</div>

@@ -5,8 +5,8 @@ import { Card } from './card';
 export class IPlayer {
   name: string;
   img: string;
-  materials: { count: number, token: any }[] = [];
-  product: { count: number, token: any }[] = [];
+  materials: { count: number, token_id: number }[] = [];
+  product: { count: number, token_id: number }[] = [];
   listCard: Card[];
   listHoldCard: Card[];
   constructor(name?, img?) {
@@ -15,10 +15,10 @@ export class IPlayer {
     this.listCard = [];
     this.listHoldCard = [];
     materials.forEach((item, index) => {
-      this.materials.push({ count: 0, token: item });
+      this.materials.push({ count: 0, token_id: item.id });
     })
     materials.forEach((item, index) => {
-      this.product.push({ count: 0, token: item });
+      this.product.push({ count: 0, token_id: item.id });
     })
   }
   buyCard(card: Card) {
@@ -28,11 +28,11 @@ export class IPlayer {
     console.log(this.canBuy(card));
     console.log('user buy card');
     card.price.forEach((item, index) => {
-      let material = this.materials.find(x => x.token.id == item.token.id);
-      let product = this.product.find(x => x.token.id == item.token.id);
+      let material = this.materials.find(x => x.token_id == item.token_id);
+      let product = this.product.find(x => x.token_id == item.token_id);
       material.count = material.count - item.count + product.count;
     })
-    this.product.find(x => x.token.id == card.value.token.id).count++;
+    this.product.find(x => x.token_id == card.value.token_id).count++;
     this.listCard.push(card);
   }
   holdCard(card: Card) {
@@ -40,24 +40,24 @@ export class IPlayer {
       return;
     }
     console.log('user hold card');
-    let token = this.materials.find(x => x.token.id == 0);
+    let token = this.materials.find(x => x.token_id == 0);
     token.count++;
     this.listHoldCard.push(card);
   }
   canHold() {
     //moi nguoi khong the dc giu qua 3 the hay 3 dong vang
-    return this.materials.find(x => x.token.id == 0).count <= 3 || this.listHoldCard.length <= 3
+    return this.materials.find(x => x.token_id == 0).count <= 3 || this.listHoldCard.length <= 3
   }
   canBuy(card: Card): boolean {
     let count_need: number = 0; // gia tri can bu 
     card.price.forEach((item, index) => {
-      let material = this.materials.find(x => x.token.id == item.token.id);
-      let product = this.product.find(x => x.token.id == item.token.id);
+      let material = this.materials.find(x => x.token_id == item.token_id);
+      let product = this.product.find(x => x.token_id == item.token_id);
       let difference_count = item.count - (material.count + product.count);
       //neu chenh lenh nho hon => can bu von, khong thi khong can
       count_need = count_need + difference_count > 0 ? difference_count : 0
     })
     //neu nhu bu < von => co the mua
-    return (count_need <= this.materials.find(x => x.token.id == 0).count);
+    return (count_need <= this.materials.find(x => x.token_id == 0).count);
   }
 }

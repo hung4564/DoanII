@@ -23,6 +23,7 @@ export class PlayBoardComponent implements OnInit {
   board_size: Size;
   player_list_size: Size;
   card_list_size: Size;
+  material_list_size: Size;
   constructor(private _userService: UserService, private _messageSV: MessageService) {
 
   }
@@ -31,6 +32,8 @@ export class PlayBoardComponent implements OnInit {
     this.board_size = new Size(board_body.width(), board_body.height());
     this.player_list_size = new Size(this.board_size.width * 0.3, this.board_size.height);
     this.card_list_size = new Size(this.board_size.width * 0.6, this.board_size.height);
+    this.material_list_size = new Size(this.board_size.width * 0.1, this.board_size.height);
+
   }
   ngOnInit() {
     this.players = [this._userService.user, new AIPlayer(), new AIPlayer(), new AIPlayer()];
@@ -49,7 +52,6 @@ export class PlayBoardComponent implements OnInit {
   }
   buyCard(card: Card) {
     try {
-
       this.board.buyCard(card)
     } catch (error) {
       this._messageSV.showWarningMessage(error);
