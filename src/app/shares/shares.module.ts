@@ -7,7 +7,7 @@ import { MaterialModule } from './material.module';
 import { CardCompComponent } from './card/card-comp/card-comp.component';
 import { ListCardCompComponent, CardDialog } from './card/list-card-comp/list-card-comp.component'
 import { FormsModule } from '@angular/forms';
-import { ListMaterialCompComponent } from './material/list-material-comp/list-material-comp.component';
+import { ListMaterialCompComponent, ListMaterialDialog } from './material/list-material-comp/list-material-comp.component';
 @NgModule({
   declarations: [
     IconCompComponent,
@@ -17,6 +17,7 @@ import { ListMaterialCompComponent } from './material/list-material-comp/list-ma
     ListCardCompComponent,
     CardDialog,
     ListMaterialCompComponent,
+    ListMaterialDialog,
   ],
   imports: [
     BrowserModule,
@@ -31,10 +32,12 @@ import { ListMaterialCompComponent } from './material/list-material-comp/list-ma
     ListCardCompComponent,
     CardDialog,
     ListMaterialCompComponent,
+    ListMaterialDialog,
     BrowserModule
   ],
   entryComponents: [
-    CardDialog
+    CardDialog,
+    ListMaterialDialog,
   ],
   providers: [],
 })

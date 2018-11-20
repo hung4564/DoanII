@@ -84,7 +84,6 @@ export class IconCompComponent implements OnInit {
   ngOnInit() {
     this.token = this.token_id == -1 ? this.token : materials.find(x => x.id == this.token_id);
     this.onResize();
-    console.log(this.token)
     this.src = 'assets/icon/' + this.token.imgInfo.type + '/' + this.token.imgInfo.name + '-96.png';
   }
 
