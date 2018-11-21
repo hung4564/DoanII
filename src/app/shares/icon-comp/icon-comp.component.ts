@@ -38,6 +38,7 @@ export class IconCompComponent implements OnInit {
   @Input('size-comp') size: Size;
   @Input() count: number;
   @Input() center: string = "token";
+  @Input() disbale: boolean;
   src: string;
   img_size: Size;
   padding: Padding;

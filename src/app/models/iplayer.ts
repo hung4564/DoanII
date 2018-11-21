@@ -25,7 +25,6 @@ export class IPlayer {
     if (!this.canBuy(card)) {
       return;
     }
-    console.log(this.canBuy(card));
     console.log('user buy card');
     card.price.forEach((item, index) => {
       let material = this.materials.find(x => x.token_id == item.token_id);
@@ -59,5 +58,10 @@ export class IPlayer {
     })
     //neu nhu bu < von => co the mua
     return (count_need <= this.materials.find(x => x.token_id == 0).count);
+  }
+  setToken(tokenList: { count: number, token_id: any }[]) {
+    tokenList.forEach(token => {
+      this.materials.find(x => x.token_id == token.token_id).count += token.count;
+    })
   }
 }

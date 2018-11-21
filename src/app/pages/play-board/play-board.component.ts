@@ -61,4 +61,7 @@ export class PlayBoardComponent implements OnInit {
   holdCard(card: Card) {
     this.board.holdCard(card);
   }
+  setToken(tokenList: { count: number, token_id: any }[]) {
+    this.board.setToken(tokenList);
+  }
 }

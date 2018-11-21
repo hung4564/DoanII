@@ -82,4 +82,10 @@ export class Board {
     this.removeCard(card);
     this.addCard(card.level);
   }
+  setToken(tokenList: { count: number, token_id: any }[]) {
+    this._currentPlayer.setToken(tokenList);
+    tokenList.forEach(x => {
+      this.tokensCount.find(y => y.token_id == x.token_id).count -= x.count;
+    })
+  }
 }

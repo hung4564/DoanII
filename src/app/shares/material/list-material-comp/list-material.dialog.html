@@ -1,4 +1,14 @@
 <div>
   <icon-comp *ngFor="let material of materials" class="token" [size-comp]="token_size" [token_id]="material.token_id"
-    [count]="material.count" style="display: inline-block;"></icon-comp>
+    [count]="material.count" style="display: inline-block;" (click)="selectToken(material.token_id)">
+  </icon-comp>
+</div>
+<div>
+  <icon-comp *ngFor="let material of get_materials" class="token" [size-comp]="token_size" [token_id]="material.token_id"
+    [count]="material.count" style="display: inline-block;" [ngStyle]="{'visibility':material.count==0?'hidden':''}"
+    (click)="unselectToken(material.token_id)"></icon-comp>
+</div>
+<div>
+  <button mat-button mat-dialog-close>close</button>
+  <button mat-button (click)="getToken()">Select</button>
 </div>
