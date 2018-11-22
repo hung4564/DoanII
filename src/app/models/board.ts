@@ -3,18 +3,19 @@ import { IPlayer } from '@model/iplayer'
 import { Token } from '@model/token';
 import { Card } from '@model/card';
 import { materials } from '@data/token';
+import { LiteEvent } from './LiteEvent';
 export class Board {
   get countPlayer() {
     return this.listPlayer.length;
   }
-  get currentPlayer() {
+  get currentPlayer(): IPlayer {
     return this._currentPlayer;
   }
   private _indexPlayer;
   get indexCurrentPlayer() {
     return this._indexPlayer;
   }
-  private _currentPlayer;
+  private _currentPlayer: IPlayer;
   listPlayer: IPlayer[];
   tokensCount: { count: number, token_id: any }[] = [];
   cardCount: number[] = [40, 30, 20];
@@ -22,12 +23,17 @@ export class Board {
   private card_1s: Array<Card>;
   private card_2s: Array<Card>;
   private card_3s: Array<Card>;
+  //event
+
   constructor(list: IPlayer[]) {
     this.listCards = [];
     this.listPlayer = list;
     this.init();
     this._currentPlayer = this.listPlayer[0];
     this._indexPlayer = 0;
+    this.listPlayer.forEach(x => {
+      x.buyCardEvent.on((data) => { this.changeNextPlayer(); console.log(data) });
+    })
   }
   private init() {
     switch (this.countPlayer) {
@@ -71,14 +77,12 @@ export class Board {
   }
   buyCard(card: Card) {
     if (!this._currentPlayer.canBuy(card)) {
-      throw "Khong the mua";
       console.log('khong the mua');
-      return;
+      //return;
     }
     this._currentPlayer.buyCard(card);
     this.removeCard(card);
     this.addCard(card.level);
-    this.changeNextPlayer();
   }
   holdCard(card: Card) {
     if (!this._currentPlayer.canHold()) {
@@ -87,17 +91,15 @@ export class Board {
     this._currentPlayer.holdCard(card);
     this.removeCard(card);
     this.addCard(card.level);
-    this.changeNextPlayer();
   }
   setToken(tokenList: { count: number, token_id: any }[]) {
     this._currentPlayer.setToken(tokenList);
     tokenList.forEach(x => {
       this.tokensCount.find(y => y.token_id == x.token_id).count -= x.count;
     })
-    this.changeNextPlayer();
   }
   changeNextPlayer() {
-    this._currentPlayer = this.listPlayer[this._indexPlayer++ % this.countPlayer];
-    console.log(this._currentPlayer)
+    this._currentPlayer = this.listPlayer[++this._indexPlayer % this.countPlayer];
+    console.log(this._currentPlayer);
   }
 }

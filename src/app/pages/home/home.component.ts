@@ -12,7 +12,7 @@ export class HomeComponent implements OnInit {
   constructor(public router: Router, private _userService: UserService) { }
 
   ngOnInit() {
-    this._userService.user = new UserPlayer();
+    this._userService.user = new UserPlayer('test');
   }
   play() {
     this.router.navigate(['/play'])

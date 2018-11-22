@@ -51,11 +51,7 @@ export class PlayBoardComponent implements OnInit {
     }
   }
   buyCard(card: Card) {
-    try {
-      this.board.buyCard(card)
-    } catch (error) {
-      this._messageSV.showWarningMessage(error);
-    }
+    this.board.buyCard(card)
 
   }
   holdCard(card: Card) {

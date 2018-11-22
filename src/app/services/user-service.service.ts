@@ -7,7 +7,7 @@ import { UserPlayer } from '@model/Userplayer';
 export class UserService {
   user: UserPlayer;
   public isLogin() {
-    return this.user && this.user != null;
+    return !!this.user
   }
   constructor() { }
 }
