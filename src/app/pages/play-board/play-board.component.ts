@@ -6,7 +6,7 @@ import { AIPlayer } from '@model/AIplayer';
 import { Size } from '@model/Size';
 import { UserService } from 'app/services/user-service.service';
 import { Card } from '@model/card';
-import { MessageService } from 'app/services/message-service/message.service';
+import { MessageService } from 'app/services/message.service';
 declare var $: any;
 @Component({
   selector: 'app-play-board',

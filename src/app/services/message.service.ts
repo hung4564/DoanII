@@ -1,5 +1,4 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { MessageType } from "./message.component";
 declare var jQuery: any;
 declare var $: any;
 
