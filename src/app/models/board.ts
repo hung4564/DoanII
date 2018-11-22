@@ -10,6 +10,10 @@ export class Board {
   get currentPlayer() {
     return this._currentPlayer;
   }
+  private _indexPlayer;
+  get indexCurrentPlayer() {
+    return this._indexPlayer;
+  }
   private _currentPlayer;
   listPlayer: IPlayer[];
   tokensCount: { count: number, token_id: any }[] = [];
@@ -23,6 +27,7 @@ export class Board {
     this.listPlayer = list;
     this.init();
     this._currentPlayer = this.listPlayer[0];
+    this._indexPlayer = 0;
   }
   private init() {
     switch (this.countPlayer) {
@@ -73,6 +78,7 @@ export class Board {
     this._currentPlayer.buyCard(card);
     this.removeCard(card);
     this.addCard(card.level);
+    this.changeNextPlayer();
   }
   holdCard(card: Card) {
     if (!this._currentPlayer.canHold()) {
@@ -81,11 +87,17 @@ export class Board {
     this._currentPlayer.holdCard(card);
     this.removeCard(card);
     this.addCard(card.level);
+    this.changeNextPlayer();
   }
   setToken(tokenList: { count: number, token_id: any }[]) {
     this._currentPlayer.setToken(tokenList);
     tokenList.forEach(x => {
       this.tokensCount.find(y => y.token_id == x.token_id).count -= x.count;
     })
+    this.changeNextPlayer();
+  }
+  changeNextPlayer() {
+    this._currentPlayer = this.listPlayer[this._indexPlayer++ % this.countPlayer];
+    console.log(this._currentPlayer)
   }
 }

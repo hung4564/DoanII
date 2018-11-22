@@ -86,13 +86,20 @@ export class ListMaterialDialog implements OnInit {
     if (count == 2 && this.get_materials.find(x => x.token_id == token_id).count > 0) {
       return;
     }
+    if (this.get_materials.some(x => x.count >= 2)) {
+      return;
+    }
     if (canSelect) {
       this.materials.find(x => x.token_id == token_id).count--;
       this.get_materials.find(x => x.token_id == token_id).count++;
     }
   }
   unselectToken(token_id: number) {
-    let token = this.get_materials.find(x => x.token_id == token_id);
+    let token = this.materials.find(x => x.token_id == token_id);
+    if (token) {
+      token.count++;
+    }
+    token = this.get_materials.find(x => x.token_id == token_id);
     if (token) {
       token.count--;
     }
