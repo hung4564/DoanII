@@ -1,4 +1,6 @@
 import { Token } from '../models/token'
+import { Card } from '@model/card';
+import { Nobletile } from '@model/nobletile';
 
 
 export const materials: Token[] = [
@@ -16,4 +18,13 @@ export const foods: Token[] = [
   new Token(3, 'pizza', '2980b9', { name: 'pizza', type: 'food' }),
   new Token(4, 'bread', '000000', { name: 'bread', type: 'food' }),
   new Token(5, 'restaurant', 'f39c12', { name: 'restaurant', type: 'food' }),
+]
+export const nobletiles: Nobletile[] = [
+  new Nobletile(0, { point: 3 }, [{ count: 4, token_id: 1 }, { count: 4, token_id: 2 }, { count: 4, token_id: 3 }]),
+
+  new Nobletile(1, { point: 3 }, [{ count: 4, token_id: 1 }, { count: 4, token_id: 2 }, { count: 4, token_id: 3 }]),
+
+  new Nobletile(2, { point: 3 }, [{ count: 4, token_id: 1 }, { count: 4, token_id: 2 }, { count: 4, token_id: 3 }]),
+
+  new Nobletile(3, { point: 3 }, [{ count: 4, token_id: 1 }, { count: 4, token_id: 2 }, { count: 4, token_id: 3 }]),
 ]

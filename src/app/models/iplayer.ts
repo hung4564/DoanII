@@ -1,8 +1,9 @@
 
-import { materials, foods } from '@data/token';
+import { materials, foods, nobletiles } from '@data/token';
 import { Token } from '@angular/compiler';
 import { Card } from './card';
 import { LiteEvent } from './LiteEvent';
+import { Nobletile } from './nobletile';
 export class IPlayer {
   name: string;
   img: string;
@@ -10,15 +11,36 @@ export class IPlayer {
   product: { count: number, token_id: number }[] = [];
   listCard: Card[];
   listHoldCard: Card[];
+  listNobletile: Nobletile[];
+  public get point() {
+    let point = 0;
+    if (this.listCard.length > 0) {
+      point += this.listCard.map(item => item.value.point).reduce((prev, next) => prev + next)
+    }
+    if (this.listNobletile.length > 0) {
+      point += this.listNobletile.map(item => item.value.point).reduce((prev, next) => prev + next)
+    }
+    return point
+  }
   //event
-  private readonly _buyCardEvent: LiteEvent<Card> = new LiteEvent<Card>();
-  public get buyCardEvent() { return this._buyCardEvent.expose(); }
+  private readonly _eventBuyCard = new LiteEvent();
+  public get eventBuyCard() { return this._eventBuyCard.expose(); }
+
+  private readonly _eventHoldCard = new LiteEvent();
+  public get eventHoldCard() { return this._eventHoldCard.expose(); }
+
+  private readonly _eventSetToken = new LiteEvent();
+  public get eventSetToken() { return this._eventSetToken.expose(); }
+  private readonly _eventRefundToken = new LiteEvent();
+  public get eventRefundToken() { return this._eventRefundToken.expose(); }
+
 
   constructor(name?, img?) {
     this.img = img ? img : 'assets/img/user.png';
     this.name = name ? name : 'test name';
     this.listCard = [];
     this.listHoldCard = [];
+    this.listNobletile = [];
     materials.forEach((item, index) => {
       this.materials.push({ count: 0, token_id: item.id });
     })
@@ -28,7 +50,7 @@ export class IPlayer {
   }
   buyCard(card: Card) {
     if (!this.canBuy(card)) {
-      //return;
+      return;
     }
     console.log('user buy card');
     card.price.forEach((item, index) => {
@@ -38,7 +60,7 @@ export class IPlayer {
     })
     this.product.find(x => x.token_id == card.value.token_id).count++;
     this.listCard.push(card);
-    this._buyCardEvent.trigger(card);
+    this._eventBuyCard.trigger();
   }
   holdCard(card: Card) {
     if (!this.canHold()) {
@@ -48,6 +70,7 @@ export class IPlayer {
     let token = this.materials.find(x => x.token_id == 0);
     token.count++;
     this.listHoldCard.push(card);
+    this._eventHoldCard.trigger();
   }
   canHold() {
     //moi nguoi khong the dc giu qua 3 the hay 3 dong vang
@@ -73,6 +96,18 @@ export class IPlayer {
       tokenList.forEach(token => {
         this.materials.find(x => x.token_id == token.token_id).count += token.count;
       })
+      if (tokenList.map(item => item.count).reduce((prev, next) => prev + next) >= 10) {
+        this._eventRefundToken.trigger();
+      }
+      else {
+        this._eventSetToken.trigger();
+      }
     }
+  }
+  refundToken() {
+
+  }
+  setNobletile(nobletiles: Nobletile) {
+    this.listNobletile.push(nobletiles);
   }
 }
