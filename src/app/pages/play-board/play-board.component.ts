@@ -34,7 +34,7 @@ export class PlayBoardComponent implements OnInit {
     let token_list_width = 70;
     this.player_list_size = new Size(300, this.board_size.height);
     this.material_list_size = new Size(token_list_width, this.board_size.height);
-    this.nobletile_list_size = new Size(this.board_size.width * 0.6, this.board_size.height)
+    this.nobletile_list_size = new Size(100, this.board_size.height)
     this.card_list_size = new Size(800, this.board_size.height);
     return;
 

@@ -44,7 +44,7 @@ export class IPlayer {
     materials.forEach((item, index) => {
       this.materials.push({ count: 0, token_id: item.id });
     })
-    materials.forEach((item, index) => {
+    materials.filter(x => x.id > 0).forEach((item, index) => {
       this.product.push({ count: 0, token_id: item.id });
     })
   }

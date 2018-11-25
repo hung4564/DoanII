@@ -11,6 +11,7 @@ export class Card {
     this.value = { point: 0, token_id: 1 };
     this.price = [];
     this.generateCard();
+    this.img = "";
   }
   private generateCard() {
     let value_ranger;

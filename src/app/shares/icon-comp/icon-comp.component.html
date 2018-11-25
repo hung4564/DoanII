@@ -1,4 +1,9 @@
-<div class="icon-container img-circle" [ngStyle]="containerStyle">
-  <div class="count" [ngStyle]="countStyles" *ngIf="count>=0">{{count}}</div>
-  <img class="avatar " [src]="src" [alt]="token.name" [ngStyle]="imgStyles">
+<div class="icon-container flex flex-center" [ngStyle]="containerStyle">
+  <div class="count" [ngStyle]="countStyles" *ngIf="center!='icon'&&count>=0">{{count}}</div>
+  <img class="avatar " [src]="_src" [alt]="token.name" [ngStyle]="imgStyles">
+  <div class="flex flex-center">
+    <div>
+      <ng-content></ng-content>
+    </div>
+  </div>
 </div>

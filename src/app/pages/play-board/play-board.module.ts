@@ -5,6 +5,7 @@ import { ListPlayerCompComponent } from './list-player-comp/list-player-comp.com
 import { ListCardCompComponent, CardDialog } from './list-card-comp/list-card-comp.component'
 
 import { ListMaterialCompComponent, ListMaterialDialog } from './list-material-comp/list-material-comp.component';
+import { ListNobletileComponent } from './list-nobletile-comp/list-nobletile.component';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { ListMaterialCompComponent, ListMaterialDialog } from './list-material-c
     ListMaterialCompComponent,
     CardDialog,
     ListMaterialDialog,
+    ListNobletileComponent,
   ],
   entryComponents: [
     CardDialog,

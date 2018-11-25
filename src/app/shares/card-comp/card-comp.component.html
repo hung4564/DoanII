@@ -3,7 +3,7 @@
     <div class="count" style="font-size: 2em;">
       {{card.value.point}}
     </div>
-    <icon-comp class="token" [size-comp]="token_size" [token_id]="card.value.token_id"></icon-comp>
+    <icon-comp *ngIf="card.value.token_id" class="token" [size-comp]="token_size" [token_id]="card.value.token_id"></icon-comp>
   </div>
   <div class="price">
     <icon-comp *ngFor="let price of card.price" class=" token" [size-comp]="token_size" [token_id]="price.token_id"

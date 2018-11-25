@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Token } from '@model/token';
 import { Size, Padding } from '@model/Size';
 import { materials } from '@data/token';
+
 @Component({
   selector: 'icon-comp',
   templateUrl: './icon-comp.component.html',
@@ -32,14 +33,21 @@ import { materials } from '@data/token';
 // 10% — 1A
 // 5% — 0D
 // 0% — 00
+
 export class IconCompComponent implements OnInit {
   @Input() token: Token;
   @Input() token_id: number = -1;
   @Input('size-comp') size: Size;
   @Input() count: number;
-  @Input() center: string = "token";
+  @Input() center: string = 'token';
+  @Input() type: string = 'round'; //round or rectangle
   @Input() disbale: boolean;
-  src: string;
+  private get _src(): string {
+    if (!!this.token) {
+      return 'assets/icon/' + this.token.imgInfo.type + '/' + this.token.imgInfo.name + '-96.png';
+
+    }
+  };
   img_size: Size;
   padding: Padding;
   constructor() {
@@ -51,30 +59,26 @@ export class IconCompComponent implements OnInit {
       'border': 'solid 2px',
       'width.px': this.size.width,
       'height.px': this.size.height,
-      'padding.px': this.padding.padding_top,
       'margin-left.px': this.padding.padding_left,
       'position': 'relative',
+      'border-radius': this.type == 'round' ? '50%' : 'none'
     }
   }
   get countStyles() {
     return {
-      'font-size.px': this.size.height * 2 / 3,
+      'font-size.px': this.size.height * 1 / 2,
       'bottom.px': this.center === "token" ? '-' + this.size.width * 1 / 3 : 0,
-      'position': 'absolute',
-      'top': this.center === "token" ? 'unset' : '50%',
-      'left': this.center === "token" ? '-' + this.size.height * 1 / 3 + 'px' : '50%',
-      'transform': this.center === "token" ? 'unset' : 'translate(-50%, -100%)',
+      'position': this.center === "token"?'absolute':'static',
+      'left': this.center === "token" ? '-' + this.size.height * 1 / 8 + 'px' : 'unset',
     }
   }
   get imgStyles() {
     return {
       'width.px': this.img_size.width,
       'height.px': this.img_size.height,
-      'bottom.px': this.center !== "token" ? '-' + this.size.width * 1 / 3 : 0,
-      'position': 'absolute',
-      'top': this.center !== "token" ? 'unset' : '50%',
+      'bottom.px': this.center !== "token" ? '-' + this.size.width * 1 / 3 : 'unset',
+      'position': this.center !== "token"?'absolute':'static',
       'left': this.center !== "token" ? this.img_size.height + 'px' : '50%',
-      'transform': this.center !== "token" ? 'unset' : 'translate(-50%, -50%)',
     }
   }
   onResize() {
@@ -83,9 +87,8 @@ export class IconCompComponent implements OnInit {
 
   }
   ngOnInit() {
-    this.token = this.token_id == -1 ? this.token : materials.find(x => x.id == this.token_id);
     this.onResize();
-    this.src = 'assets/icon/' + this.token.imgInfo.type + '/' + this.token.imgInfo.name + '-96.png';
+    this.token = materials.find(x => x.id == this.token_id);
   }
 
 }
