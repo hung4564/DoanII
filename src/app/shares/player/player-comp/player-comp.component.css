@@ -1,7 +1,4 @@
-.token>*,
-.token-list>.token {
-  display: inline-block;
-}
+
 
 .name {
   font-size: 24px;

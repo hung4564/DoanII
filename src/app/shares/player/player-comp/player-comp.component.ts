@@ -17,25 +17,19 @@ export class PlayerCompComponent implements OnInit {
   get myStyles(): any {
     return {
       'width.px': this.size.width,
-      'height.px': this.size.height,
+      'height.px': this.size.width / 6 * 3 - 10,
+      'padding.px': 5
     };
   }
   get listTokenStyles() {
     return {
-      'width.px': this.size.width,
-      'height.px': this.size.height / 3,
-      'padding': (new Padding(5)).toStringPx(),
+      'width': '100%',
+      'padding.px': 5
     }
   }
   onResize() {
-    let height_token;
-    if (this.size.width / 7 > this.size.height / 3) {
-      height_token = this.size.height / 3
-    }
-    else {
-      height_token = this.size.width / 7
-    }
-    this.token_size = (new Size(height_token)).subpadding(new Padding(5));
+    let height_token = this.size.width / 6;
+    this.token_size = (new Size(height_token).subpadding(new Padding(5)));
   }
   constructor() { }
 

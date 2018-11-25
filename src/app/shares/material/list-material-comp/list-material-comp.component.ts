@@ -20,14 +20,16 @@ export class ListMaterialCompComponent implements OnInit {
     return {
       'width.px': this.size.width,
       'height.px': this.size.height,
-      'background-color': 'green'
+      'background-color': 'green',
+      'flex-direction': 'column',
+      'justify-content': 'start',
     };
   }
   constructor(private dialog: MatDialog) {
 
   }
   onResize() {
-    this.token_size = new Size(this.size.width * 0.5);
+    this.token_size = new Size(this.size.width * 0.65);
   }
   ngOnInit() {
 

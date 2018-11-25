@@ -1,4 +1,4 @@
-<div [ngStyle]="myStyles" (click)="openModal()">
-  <icon-comp *ngFor="let material of materials" class="token" [size-comp]="token_size" [token_id]="material.token_id"
+<div [ngStyle]="myStyles" (click)="openModal()" class="flex">
+  <icon-comp style="display:inline-block" *ngFor="let material of materials" class="token" [size-comp]="token_size" [token_id]="material.token_id"
     [count]="material.count"></icon-comp>
 </div>

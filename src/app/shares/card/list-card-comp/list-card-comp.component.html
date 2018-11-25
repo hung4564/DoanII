@@ -1,5 +1,15 @@
-<div [ngStyle]="myStyles">
-  <div class="list-card" [ngStyle]="listCardStyles" *ngFor="let cardlist of cards">
+<div class="flex flex-column flex-center" [ngStyle]="myStyles" style="justify-content: space-around">
+  <div class="flex flex-row" [ngStyle]="listCardStyles" *ngFor="let cardlist of cards" style="justify-content: space-around;">
+    <div class="count flex flex-column" [ngStyle]="cardSetStyles" style="justify-content: space-between;align-items: center;">
+      <div>
+        <p>
+          {{cardlist.count}}
+        </p>
+      </div>
+      <div>
+        <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+      </div>
+    </div>
     <card-comp *ngFor="let card of cardlist.list" [card]="card" [size-comp]="card_size" (click)="click_card(card)"></card-comp>
   </div>
 </div>

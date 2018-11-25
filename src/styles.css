@@ -23,9 +23,24 @@ body {
   margin: 0;
   font-family: 'Roboto', sans-serif;
 }
-.flex{
+
+.flex {
   display: flex
 }
+
+.flex-row {
+  flex-direction: row,
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-center {
+  justify-content: center;
+  align-items: center
+}
+
 .count {
   color: white;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;

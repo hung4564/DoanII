@@ -36,8 +36,7 @@ export class Board {
   listPlayer: IPlayer[];
   listNobletile: Nobletile[];
   tokensCount: { count: number, token_id: any }[] = [];
-  cardCount: number[] = [40, 30, 20];
-  listCards: { level: number, list: Card[] }[];
+  listCards: { level: number, count: number, list: Card[] }[];
   isEndGame: boolean = false;
   constructor(list: IPlayer[]) {
     this.listCards = [];
@@ -80,9 +79,9 @@ export class Board {
       card_2s.push(new Card(1));
       card_3s.push(new Card(2));
     }
-    this.listCards.push({ level: 0, list: card_1s });
-    this.listCards.push({ level: 1, list: card_2s });
-    this.listCards.push({ level: 2, list: card_3s });
+    this.listCards.push({ level: 0, count: 40, list: card_1s });
+    this.listCards.push({ level: 1, count: 30, list: card_2s });
+    this.listCards.push({ level: 2, count: 20, list: card_3s });
   }
   addCard(level: number) {
     let cardlist = this.listCards.find(x => x.level === level).list;
@@ -93,6 +92,7 @@ export class Board {
     let cardList = this.listCards.find(x => x.level === level)
     let x = cardList.list.indexOf(card);
     cardList.list.splice(x, 1);
+    cardList.count--;
   }
   actionOfUser(type: string, data) {
     switch (type) {

@@ -23,9 +23,6 @@ export class ListPlayerCompComponent implements OnInit {
   }
   onResize() {
     let player_height = this.size.height / this.players.length;
-    if (player_height > this.size.width / 3) {
-      player_height = this.size.width / 3;
-    }
     this.player_size = new Size(this.size.width, player_height);
   }
   ngOnInit() {

@@ -2,11 +2,11 @@
   <div class="name">
     {{player.name}}
   </div>
-  <div class="token-list" [ngStyle]="listTokenStyles">
+  <div class="flex flex-row flex-center" [ngStyle]="listTokenStyles">
     <icon-comp *ngFor="let material of player.materials" class="token" [size-comp]="token_size" [token_id]="material.token_id"
       [count]="material.count"></icon-comp>
   </div>
-  <div class="token-list" [ngStyle]="listTokenStyles">
+  <div class="flex flex-row flex-center" [ngStyle]="listTokenStyles">
     <icon-comp *ngFor="let material of player.product" class="token" [size-comp]="token_size" [token_id]="material.token_id"
       [count]="material.count" [center]="'number'"></icon-comp>
   </div>

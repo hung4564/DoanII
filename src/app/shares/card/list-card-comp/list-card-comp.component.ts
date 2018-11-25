@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Inject, Output, EventEmitter } from '@angular/core';
-import { Size } from '@model/Size';
+import { Size, Padding } from '@model/Size';
 import { Card } from '@model/card';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
@@ -31,12 +31,21 @@ export class ListCardCompComponent implements OnInit {
     return {
       'width.px': this.list_card_size.width,
       'height.px': this.list_card_size.height,
+      'padding': this.padding.toStringPx()
     }
   }
+  get cardSetStyles() {
+    return {
+      'width': '40px',
+      'height': '60px',
+      'background-color': 'red'
+    }
+  }
+  padding: Padding = new Padding(5, 0);
   onResize() {
 
-    this.list_card_size = new Size(this.size.width, this.size.height / 3);
-    this.card_size = new Size(this.list_card_size.width / 4, this.list_card_size.height);
+    this.list_card_size = new Size(this.size.width, this.size.height / 3).subpadding(this.padding);
+    this.card_size = new Size(this.list_card_size.width / 5, this.list_card_size.height);
   }
   ngOnInit() {
     this.onResize();
@@ -52,7 +61,7 @@ export class ListCardCompComponent implements OnInit {
     });
   }
   cardAction(action: string, card: Card) {
-    this.action.next({ action: action, card: card });
+    this.action.next({ action: action, data: card });
   }
 
 }

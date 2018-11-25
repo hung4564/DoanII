@@ -31,10 +31,13 @@ export class PlayBoardComponent implements OnInit {
   onResize() {
     let board_body = $('#board-body')
     this.board_size = new Size(board_body.width(), board_body.height());
-    this.player_list_size = new Size(this.board_size.width * 0.3, this.board_size.height);
-    this.material_list_size = new Size(this.board_size.width * 0.1, this.board_size.height);
-    this.nobletile_list_size = new Size(this.board_size.width * 0.6, this.board_size.height * 0.25)
-    this.card_list_size = new Size(this.board_size.width * 0.6, this.board_size.height * 0.75);
+    let token_list_width = 70;
+    this.player_list_size = new Size(300, this.board_size.height);
+    this.material_list_size = new Size(token_list_width, this.board_size.height);
+    this.nobletile_list_size = new Size(this.board_size.width * 0.6, this.board_size.height)
+    this.card_list_size = new Size(800, this.board_size.height);
+    return;
+
   }
   ngOnInit() {
     this.players = [this._userService.user, new AIPlayer(), new AIPlayer(), new AIPlayer()];
@@ -42,6 +45,7 @@ export class PlayBoardComponent implements OnInit {
     this.onResize()
   }
   action($event: { action: string, data?: any }) {
+    console.log($event);
     this.board.actionOfUser($event.action, $event.data)
   }
   setToken(tokenList: { count: number, token_id: any }[]) {
