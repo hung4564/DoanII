@@ -76,7 +76,7 @@ import { Nobletile } from './nobletile';export class IPlayer {
   }
   canHold() {
     //moi nguoi khong the dc giu qua 3 the hay 3 dong vang
-    return this.materials.find(x => x.token_id == 0).count <= 3 || this.listHoldCard.length <= 3
+    return this.materials.find(x => x.token_id == 0).count < 3 || this.listHoldCard.length < 3
   }
   canBuy(card: Card): boolean {
     if (!!card) {

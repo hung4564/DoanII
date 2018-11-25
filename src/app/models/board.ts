@@ -134,7 +134,7 @@ export class Board {
       this.addCard(card.level);
     }
     else {
-      this._eventBoardNotice.trigger(new Message("Can't buy that card"))
+      this._eventBoardNotice.trigger(new Message("Can't hold that card"))
     }
   }
   setToken(tokenList: { count: number, token_id: any }[]) {
@@ -146,22 +146,26 @@ export class Board {
     }
   }
   checkNobletile() {
-    console.log('check the quy toc cua user ' + this.currentPlayer.id)
     //check the quy toc
     let get = true;
-    this.listNobletile.every((nobletiles, index) => {
-      nobletiles.price.forEach(token => {
-        if (this._currentPlayer.product.find(x => x.token_id == token.token_id).count < token.count) {
+    let get_index = -1;
+    this.listNobletile.every((nobletiles, index) => {get = true;
+      nobletiles.price.every(token => {if (this._currentPlayer.product.find(x => x.token_id == token.token_id).count < token.count) {
           get = false;
+          return false;
         }
+        return true;
       })
       if (get == true) {
         this._currentPlayer.setNobletile(nobletiles);
-        this.listNobletile.splice(index, 1);
+        get_index = index;
         return false;
       }
       return true;
     })
+    if (get_index >= 0) {
+      this.listNobletile.splice(get_index, 1);
+    }
     return get;
 
   }
@@ -177,8 +181,6 @@ export class Board {
       this.isEndGame = true;
     }
     if (this.isEndGame) {
-      console.log(this.isEndGame);
-      console.log(this._currentPlayer.id)
       if (this._currentPlayer.id == 3) this.endGame();
     }
     this._currentPlayer = this.listPlayer[++this._indexPlayer % this.countPlayer];
