@@ -57,9 +57,8 @@ export class IconCompComponent implements OnInit {
       'color': '#' + this.token.color + 'CC',
       'background-color': '#' + this.token.color + '33',
       'border': 'solid 2px',
-      'width.px': this.size.width,
+      'width.px': this.type == 'round' ? this.size.width : this.size.height * 2 / 3,
       'height.px': this.size.height,
-      'margin-left.px': this.padding.padding_left,
       'position': 'relative',
       'border-radius': this.type == 'round' ? '50%' : 'none'
     }
@@ -68,7 +67,7 @@ export class IconCompComponent implements OnInit {
     return {
       'font-size.px': this.size.height * 1 / 2,
       'bottom.px': this.center === "token" ? '-' + this.size.width * 1 / 3 : 0,
-      'position': this.center === "token"?'absolute':'static',
+      'position': this.center === "token" ? 'absolute' : 'static',
       'left': this.center === "token" ? '-' + this.size.height * 1 / 8 + 'px' : 'unset',
     }
   }
@@ -77,7 +76,7 @@ export class IconCompComponent implements OnInit {
       'width.px': this.img_size.width,
       'height.px': this.img_size.height,
       'bottom.px': this.center !== "token" ? '-' + this.size.width * 1 / 3 : 'unset',
-      'position': this.center !== "token"?'absolute':'static',
+      'position': this.center !== "token" ? 'absolute' : 'static',
       'left': this.center !== "token" ? this.img_size.height + 'px' : '50%',
     }
   }

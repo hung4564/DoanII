@@ -1,4 +1,4 @@
-<div [ngStyle]="myStyles">
+<div [ngStyle]="myStyles" class="flex flex-column">
   <div class="header flex flex-row" style="justify-content:space-between;align-items: baseline;">
     <div class="name">
       {{player.name}}
@@ -8,18 +8,18 @@
     </div>
   </div>
   <div class="body">
-    <div class="flex flex-row flex-center" [ngStyle]="listTokenStyles">
+    <div class="flex flex-row" [ngStyle]="listTokenStyles">
       <icon-comp *ngFor="let material of player.materials" class="token" [size-comp]="token_size" [token_id]="material.token_id"
-        [count]="material.count"></icon-comp>
+        [count]="material.count" style="flex: 1" class="flex flex-center"></icon-comp>
     </div>
-    <div class="flex flex-row flex-center" [ngStyle]="listTokenStyles">
+    <div class="flex flex-row" [ngStyle]="listTokenStyles">
       <icon-comp class=" token" [size-comp]="token_size" token_id="0" [count]="player.listNobletile.length" type='rectangle'
-        [center]="'icon'">
+        [center]="'icon'" style="flex: 1" class="flex flex-center">
         <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
       </icon-comp>
 
       <icon-comp *ngFor="let material of player.product" class="token" [size-comp]="token_size" [token_id]="material.token_id"
-        type='rectangle' [count]="material.count" [center]="'number'"></icon-comp>
+        type='rectangle' [count]="material.count" [center]="'number'" style="flex: 1" class="flex flex-center"></icon-comp>
     </div>
   </div>
 </div>

@@ -18,7 +18,8 @@ export class PlayerCompComponent implements OnInit {
     return {
       'width.px': this.size.width,
       'height.px': this.size.width / 6 * 3 - 10,
-      'padding.px': 5
+      'padding.px': 5,
+      'border': this.player.IsMyTurn ? 'solid 2px' : ''
     };
   }
   get listTokenStyles() {

@@ -3,7 +3,7 @@ import { materials, foods, nobletiles } from '@data/token';
 import { Token } from '@angular/compiler';
 import { Card } from './card';
 import { LiteEvent } from './LiteEvent';
-import { Nobletile } from './nobletile';export class IPlayer {
+import { Nobletile } from './nobletile'; export class IPlayer {
   id: number;
   name: string;
   img: string;
@@ -12,6 +12,7 @@ import { Nobletile } from './nobletile';export class IPlayer {
   listCard: Card[];
   listHoldCard: Card[];
   listNobletile: Nobletile[];
+  IsMyTurn: boolean;
   public get point() {
     let point = 0;
     if (this.listCard.length > 0) {
@@ -41,6 +42,7 @@ import { Nobletile } from './nobletile';export class IPlayer {
     this.listCard = [];
     this.listHoldCard = [];
     this.listNobletile = [];
+    this.IsMyTurn = false;
     materials.forEach((item, index) => {
       this.materials.push({ count: 0, token_id: item.id });
     })

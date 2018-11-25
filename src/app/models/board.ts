@@ -52,6 +52,7 @@ export class Board {
     this.listPlayer = list;
     this.init();
     this._currentPlayer = this.listPlayer[0];
+    this._currentPlayer.IsMyTurn = true;
     this._indexPlayer = 0;
     this.listNobletile = nobletiles;
     let eventEndTurn = data => { this.endUserTurn(); }
@@ -149,8 +150,10 @@ export class Board {
     //check the quy toc
     let get = true;
     let get_index = -1;
-    this.listNobletile.every((nobletiles, index) => {get = true;
-      nobletiles.price.every(token => {if (this._currentPlayer.product.find(x => x.token_id == token.token_id).count < token.count) {
+    this.listNobletile.every((nobletiles, index) => {
+      get = true;
+      nobletiles.price.every(token => {
+        if (this._currentPlayer.product.find(x => x.token_id == token.token_id).count < token.count) {
           get = false;
           return false;
         }
@@ -183,6 +186,8 @@ export class Board {
     if (this.isEndGame) {
       if (this._currentPlayer.id == 3) this.endGame();
     }
+    this._currentPlayer.IsMyTurn = false;
     this._currentPlayer = this.listPlayer[++this._indexPlayer % this.countPlayer];
+    this._currentPlayer.IsMyTurn = true;
   }
 }
