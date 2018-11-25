@@ -5,6 +5,7 @@ import { Card } from '@model/card';
 import { materials, nobletiles } from '@data/token';
 import { LiteEvent } from './LiteEvent';
 import { Nobletile } from './nobletile';
+import { Message } from '@model/message';
 export class BroadConfig {
   timeOneTurn: number;//minute
   maxPlayer: number;//int
@@ -38,6 +39,14 @@ export class Board {
   tokensCount: { count: number, token_id: any }[] = [];
   listCards: { level: number, count: number, list: Card[] }[];
   isEndGame: boolean = false;
+
+  //event
+  private readonly _eventBoardNotice = new LiteEvent<Message>();
+  public get eventBoardNotice() { return this._eventBoardNotice.expose(); }
+
+  private readonly _eventEndGame = new LiteEvent<Message>();
+  public get eventEndGame() { return this._eventEndGame.expose(); }
+
   constructor(list: IPlayer[]) {
     this.listCards = [];
     this.listPlayer = list;
@@ -46,7 +55,8 @@ export class Board {
     this._indexPlayer = 0;
     this.listNobletile = nobletiles;
     let eventEndTurn = data => { this.endUserTurn(); }
-    this.listPlayer.forEach(x => {
+    this.listPlayer.forEach((x, index) => {
+      x.id = index;
       x.eventBuyCard.on(eventEndTurn);
       x.eventHoldCard.on(eventEndTurn);
       x.eventSetToken.on(eventEndTurn);
@@ -110,14 +120,22 @@ export class Board {
     }
   }
   buyCard(card: Card) {
-    this._currentPlayer.buyCard(card);
-    this.removeCard(card);
-    this.addCard(card.level);
+    if (this._currentPlayer.buyCard(card)) {
+      this.removeCard(card);
+      this.addCard(card.level);
+    }
+    else {
+      this._eventBoardNotice.trigger(new Message("Can't buy that card"))
+    }
   }
   holdCard(card: Card) {
-    this._currentPlayer.holdCard(card);
-    this.removeCard(card);
-    this.addCard(card.level);
+    if (this._currentPlayer.holdCard(card)) {
+      this.removeCard(card);
+      this.addCard(card.level);
+    }
+    else {
+      this._eventBoardNotice.trigger(new Message("Can't buy that card"))
+    }
   }
   setToken(tokenList: { count: number, token_id: any }[]) {
     if (!!tokenList) {
@@ -128,9 +146,10 @@ export class Board {
     }
   }
   checkNobletile() {
+    console.log('check the quy toc cua user ' + this.currentPlayer.id)
     //check the quy toc
     let get = true;
-    this.listNobletile.forEach(nobletiles => {
+    this.listNobletile.every((nobletiles, index) => {
       nobletiles.price.forEach(token => {
         if (this._currentPlayer.product.find(x => x.token_id == token.token_id).count < token.count) {
           get = false;
@@ -138,13 +157,16 @@ export class Board {
       })
       if (get == true) {
         this._currentPlayer.setNobletile(nobletiles);
-        return
+        this.listNobletile.splice(index, 1);
+        return false;
       }
+      return true;
     })
+    return get;
 
   }
   endGame() {
-
+    this._eventEndGame.trigger();
   }
   endUserTurn() {
     this.checkNobletile();
@@ -155,7 +177,9 @@ export class Board {
       this.isEndGame = true;
     }
     if (this.isEndGame) {
-      if (this._indexPlayer == 3) this.endGame();
+      console.log(this.isEndGame);
+      console.log(this._currentPlayer.id)
+      if (this._currentPlayer.id == 3) this.endGame();
     }
     this._currentPlayer = this.listPlayer[++this._indexPlayer % this.countPlayer];
   }

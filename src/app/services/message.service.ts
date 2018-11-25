@@ -1,25 +1,28 @@
 import { Injectable, EventEmitter } from '@angular/core';
+import { Message } from '@model/message';
 declare var jQuery: any;
 declare var $: any;
 
 @Injectable()
 export class MessageService {
-  public triggerEvent = new EventEmitter();
   public displayTime = 3000;
-
-  showSuccessMessage(message, ele?) {
-    jQuery.notify({
-      message: message,
-      icon: 'fa fa-check'
-    },{
-      type: 'success',
+  constructor() {
+    $.notifyDefaults({
+      type: 'danger',
+      delay: this.displayTime,
+      z_index: 9999,
       animate: {
         enter: 'animated bounceInRight',
         exit: 'animated bounceOutRight'
-      },
-      z_index: 99999,
+      }
     });
   }
+  notice(message: Message) {
+    jQuery.notify({
+      message: message.content,
+      type: message.style
+    })
 
- 
+  }
+
 }

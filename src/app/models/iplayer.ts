@@ -3,8 +3,8 @@ import { materials, foods, nobletiles } from '@data/token';
 import { Token } from '@angular/compiler';
 import { Card } from './card';
 import { LiteEvent } from './LiteEvent';
-import { Nobletile } from './nobletile';
-export class IPlayer {
+import { Nobletile } from './nobletile';export class IPlayer {
+  id: number;
   name: string;
   img: string;
   materials: { count: number, token_id: number }[] = [];
@@ -50,7 +50,7 @@ export class IPlayer {
   }
   buyCard(card: Card) {
     if (!this.canBuy(card)) {
-      return;
+      return false;
     }
     console.log('user buy card');
     card.price.forEach((item, index) => {
@@ -60,17 +60,19 @@ export class IPlayer {
     })
     this.product.find(x => x.token_id == card.value.token_id).count++;
     this.listCard.push(card);
-    this._eventBuyCard.trigger();
+    this._eventBuyCard.trigger({ action: 'buy', user_id: this.id });
+    return true;
   }
   holdCard(card: Card) {
     if (!this.canHold()) {
-      return;
+      return false;
     }
     console.log('user hold card');
     let token = this.materials.find(x => x.token_id == 0);
     token.count++;
     this.listHoldCard.push(card);
-    this._eventHoldCard.trigger();
+    this._eventHoldCard.trigger({ action: 'buy', user_id: this.id });
+    return true;
   }
   canHold() {
     //moi nguoi khong the dc giu qua 3 the hay 3 dong vang

@@ -7,6 +7,7 @@ import { Size } from '@model/Size';
 import { UserService } from 'app/services/user-service.service';
 import { Card } from '@model/card';
 import { MessageService } from 'app/services/message.service';
+import { Message } from '@model/message';
 declare var $: any;
 @Component({
   selector: 'app-play-board',
@@ -42,10 +43,20 @@ export class PlayBoardComponent implements OnInit {
   ngOnInit() {
     this.players = [this._userService.user, new AIPlayer(), new AIPlayer(), new AIPlayer()];
     this.board = new Board(this.players);
+    this.board.listPlayer[0].product.forEach(x => x.count = 4)
+    this.board.eventBoardNotice.on((x: Message) => this.notice(x))
+    this.board.eventEndGame.on(() => this.endGame())
     this.onResize()
   }
+  endGame() {
+    console.log('endgame');
+    this.notice(new Message('endgame'));
+  }
+  notice(message: Message) {
+
+    this._messageSV.notice(message);
+  }
   action($event: { action: string, data?: any }) {
-    console.log($event);
     this.board.actionOfUser($event.action, $event.data)
   }
   setToken(tokenList: { count: number, token_id: any }[]) {
