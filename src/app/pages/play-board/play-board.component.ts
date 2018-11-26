@@ -8,6 +8,8 @@ import { UserService } from 'app/services/user-service.service';
 import { Card } from '@model/card';
 import { MessageService } from 'app/services/message.service';
 import { Message } from '@model/message';
+import { SetMaterialDialog, RefundMaterialDialog } from './dialog/material.dialog.component';
+import { MatDialog } from '@angular/material';
 declare var $: any;
 @Component({
   selector: 'app-play-board',
@@ -26,7 +28,11 @@ export class PlayBoardComponent implements OnInit {
   card_list_size: Size;
   material_list_size: Size;
   nobletile_list_size: Size;
-  constructor(private _userService: UserService, private _messageSV: MessageService) {
+  constructor(
+    private _userService: UserService,
+    private _messageSV: MessageService,
+    private _dialog: MatDialog
+  ) {
 
   }
   onResize() {
@@ -43,10 +49,22 @@ export class PlayBoardComponent implements OnInit {
   ngOnInit() {
     this.players = [this._userService.user, new AIPlayer(), new AIPlayer(), new AIPlayer()];
     this.board = new Board(this.players);
-    this.board.listPlayer[0].product.forEach(x => x.count = 4)
+    this.board.currentPlayer.materials.forEach(x => x.count = 4);
     this.board.eventBoardNotice.on((x: Message) => this.notice(x))
     this.board.eventEndGame.on(() => this.endGame())
+    this.board.eventRefundToken.on((data) => this.openModalrefundToken(data))
     this.onResize()
+  }
+  openModalrefundToken(data) {
+    const dialogRef = this._dialog.open(RefundMaterialDialog, {
+      width: 400 + "px",
+      disableClose: true,
+      data: { materials: this.board.currentPlayer.materials.filter(x => x.token_id != 0) }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.action({ action: 'refundToken', data: result })
+    });
   }
   endGame() {
     console.log('endgame');
@@ -61,5 +79,15 @@ export class PlayBoardComponent implements OnInit {
   }
   setToken(tokenList: { count: number, token_id: any }[]) {
     this.board.setToken(tokenList);
+  }
+  openModal() {
+    const dialogRef = this._dialog.open(SetMaterialDialog, {
+      width: 400 + "px",
+      data: { materials: this.board.listToken.filter(x => x.token_id != 0) }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.action({ action: 'setToken', data: result })
+    });
   }
 }

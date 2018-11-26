@@ -100,8 +100,9 @@ import { Nobletile } from './nobletile'; export class IPlayer {
       tokenList.forEach(token => {
         this.materials.find(x => x.token_id == token.token_id).count += token.count;
       })
-      if (tokenList.map(item => item.count).reduce((prev, next) => prev + next) >= 10) {
-        this._eventRefundToken.trigger();
+      let count = this.materials.map(item => item.count).reduce((prev, next) => prev + next);
+      if (count >= 10) {
+        this._eventRefundToken.trigger({ data: count });
       }
       else {
         this._eventSetToken.trigger();

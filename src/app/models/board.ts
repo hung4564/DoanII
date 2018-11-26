@@ -37,7 +37,7 @@ export class Board {
   private _currentPlayer: IPlayer;
   listPlayer: IPlayer[];
   listNobletile: Nobletile[];
-  tokensCount: { count: number, token_id: any }[] = [];
+  listToken: { count: number, token_id: any }[] = [];
   listCards: { level: number, count: number, list: Card[] }[];
   isEndGame: boolean = false;
 
@@ -47,6 +47,10 @@ export class Board {
 
   private readonly _eventEndGame = new LiteEvent<Message>();
   public get eventEndGame() { return this._eventEndGame.expose(); }
+
+  private readonly _eventRefundToken = new LiteEvent<Message>();
+  public get eventRefundToken() { return this._eventRefundToken.expose(); }
+
 
   constructor(list: IPlayer[]) {
     this.listCards = [];
@@ -62,24 +66,27 @@ export class Board {
       x.eventBuyCard.on(eventEndTurn);
       x.eventHoldCard.on(eventEndTurn);
       x.eventSetToken.on(eventEndTurn);
-      x.eventRefundToken.on(eventEndTurn);
+      x.eventRefundToken.on((data?) => this.refundTokenOfUser(data));
     })
+  }
+  private refundTokenOfUser(data) {
+    this._eventRefundToken.trigger(data);
   }
   private init() {
     switch (this.countPlayer) {
       case 2:
         for (let index = 0; index < materials.length; index++) {
-          this.tokensCount[index] = { count: materials[index].id == 0 ? 5 : 4, token_id: materials[index].id }
+          this.listToken[index] = { count: materials[index].id == 0 ? 5 : 4, token_id: materials[index].id }
         }
         break;
       case 3:
         for (let index = 0; index < materials.length; index++) {
-          this.tokensCount[index] = { count: materials[index].id == 0 ? 5 : 5, token_id: materials[index].id }
+          this.listToken[index] = { count: materials[index].id == 0 ? 5 : 5, token_id: materials[index].id }
         }
         break;
       default:
         for (let index = 0; index < materials.length; index++) {
-          this.tokensCount[index] = { count: materials[index].id == 0 ? 5 : 7, token_id: materials[index].id }
+          this.listToken[index] = { count: materials[index].id == 0 ? 5 : 7, token_id: materials[index].id }
         }
         break;
     }
@@ -118,8 +125,20 @@ export class Board {
         this.setToken(data);
         break;
       case 'refundToken':
+        this.refundToken(data);
         break;
     }
+  }
+  refundToken(data) {
+    let playerToken;
+    let boardToken;
+    data.forEach(token => {
+      playerToken = this.currentPlayer.materials.find(x => x.token_id == token.token_id)
+      playerToken.count = playerToken.count - token.count;
+      boardToken = this.listToken.find(x => x.token_id == token.token_id);
+      boardToken.count = boardToken.count + token.count;
+    })
+    this.endUserTurn();
   }
   buyCard(card: Card) {
     if (this._currentPlayer.buyCard(card)) {
@@ -143,7 +162,7 @@ export class Board {
     if (!!tokenList) {
       this._currentPlayer.setToken(tokenList);
       tokenList.forEach(x => {
-        this.tokensCount.find(y => y.token_id == x.token_id).count -= x.count;
+        this.listToken.find(y => y.token_id == x.token_id).count -= x.count;
       })
     }
   }
