@@ -1,5 +1,5 @@
 
-import { materials, foods, nobletiles } from '@data/token';
+import { materials } from '@data/token';
 import { Token } from '@angular/compiler';
 import { Card } from './card';
 import { LiteEvent } from './LiteEvent';

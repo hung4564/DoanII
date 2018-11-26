@@ -2,7 +2,8 @@ import { IPlayer } from '@model/iplayer'
 
 import { Token } from '@model/token';
 import { Card } from '@model/card';
-import { materials, nobletiles } from '@data/token';
+import { materials, } from '@data/token';
+import { nobletiles } from '@data/card'
 import { LiteEvent } from './LiteEvent';
 import { Nobletile } from './nobletile';
 import { Message } from '@model/message';

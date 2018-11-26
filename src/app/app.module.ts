@@ -18,11 +18,10 @@ import { MessageService } from './services/message.service';
     MainModule,
     RouterModule,
     AppRoutingModule,
-    ModalModule.forRoot(),
     BrowserAnimationsModule
   ],
   providers: [UserService, MessageService],
   bootstrap: [AppComponent],
-  exports: [ModalModule]
+  exports: []
 })
 export class AppModule { }
