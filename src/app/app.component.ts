@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { TranslateService } from './services/translate.service';
+import { TranslatePipe } from '@pipes/translate.pipe';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'doan2';
+  constructor(private _translateSv: TranslateService) {
+  }
+  setLang(lang: string) {
+    this._translateSv.use(lang);
+  }
 }

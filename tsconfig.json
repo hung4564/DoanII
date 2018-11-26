@@ -29,7 +29,13 @@
       ],
       "@pages/*": [
         "app/pages/*"
-      ]
+      ],
+      "@services/*": [
+        "app/services/*"
+      ],
+      "@pipes/*": [
+        "app/pipes/*"
+      ],
     }
   }
 }

@@ -5,6 +5,8 @@ import { PlayerCompComponent } from './player-comp/player-comp.component';
 import { MaterialModule } from './material.module';
 import { CardCompComponent } from './card-comp/card-comp.component';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { MainPipe } from '@pipes/pipe.module';
 @NgModule({
   declarations: [
     IconCompComponent,
@@ -14,7 +16,9 @@ import { FormsModule } from '@angular/forms';
   imports: [
     BrowserModule,
     FormsModule,
-    MaterialModule
+    MaterialModule,
+    HttpClientModule,
+    MainPipe
   ],
   exports: [
     IconCompComponent,
@@ -22,7 +26,9 @@ import { FormsModule } from '@angular/forms';
     CardCompComponent,
     BrowserModule,
     FormsModule,
-    MaterialModule
+    MaterialModule,
+    HttpClientModule,
+    MainPipe
   ],
   providers: [],
 })
