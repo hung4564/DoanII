@@ -41,10 +41,10 @@ export class IconCompComponent implements OnInit {
   @Input() count: number;
   @Input() center: string = 'token';
   @Input() type: string = 'round'; //round or rectangle
-  @Input() disbale: boolean;
+  @Input() disable: boolean;
   private get _src(): string {
     if (!!this.token) {
-      return 'assets/icon/' + this.token.imgInfo.type + '/' + this.token.imgInfo.name + '-96.png';
+      return 'assets/icon/' + this.token.imgInfo.type + '/' + (this.disable ? 'disable-' : '') + this.token.imgInfo.name + '-96.png';
 
     }
   };
@@ -54,8 +54,8 @@ export class IconCompComponent implements OnInit {
   }
   get containerStyle() {
     return {
-      'color': '#' + this.token.color + 'CC',
-      'background-color': '#' + this.token.color + '33',
+      'color': (this.disable ? '#cccccc' : '#' + this.token.color) + 'CC',
+      'background-color': (this.disable ? '#cccccc' : '#' + this.token.color) + '33',
       'border': 'solid 2px',
       'width.px': this.type == 'round' ? this.size.width : this.size.height * 2 / 3,
       'height.px': this.size.height,
