@@ -42,13 +42,13 @@ export class Board {
   isEndGame: boolean = false;
 
   //event
-  private readonly _eventBoardNotice = new LiteEvent<Message>();
+  private readonly _eventBoardNotice = new LiteEvent<any>();
   public get eventBoardNotice() { return this._eventBoardNotice.expose(); }
 
-  private readonly _eventEndGame = new LiteEvent<Message>();
+  private readonly _eventEndGame = new LiteEvent<any>();
   public get eventEndGame() { return this._eventEndGame.expose(); }
 
-  private readonly _eventRefundToken = new LiteEvent<Message>();
+  private readonly _eventRefundToken = new LiteEvent<any>();
   public get eventRefundToken() { return this._eventRefundToken.expose(); }
 
 
@@ -193,7 +193,12 @@ export class Board {
 
   }
   endGame() {
-    this._eventEndGame.trigger();
+    let scorelist: { player_id: number, name: string, point: number }[] =[];
+    this.listPlayer.forEach(player => {
+      scorelist.push({ player_id: player.id, name: player.name, point: player.point });
+    })
+    scorelist.sort((x, y) => { return y.point - x.point })
+    this._eventEndGame.trigger(scorelist);
   }
   endUserTurn() {
     this.checkNobletile();

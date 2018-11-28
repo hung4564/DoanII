@@ -49,3 +49,7 @@ body {
 .pointer {
   cursor: pointer;
 }
+
+.flex>.item-flex {
+  flex: 0 1 auto;
+}

@@ -21,7 +21,7 @@ import { Nobletile } from './nobletile'; export class IPlayer {
     if (this.listNobletile.length > 0) {
       point += this.listNobletile.map(item => item.value.point).reduce((prev, next) => prev + next)
     }
-    return point
+    return 15+this.id;
   }
   //event
   private readonly _eventBuyCard = new LiteEvent();

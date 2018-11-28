@@ -10,6 +10,8 @@ import { MessageService } from 'app/services/message.service';
 import { Message } from '@model/message';
 import { SetMaterialDialog, RefundMaterialDialog } from './dialog/material.dialog.component';
 import { MatDialog } from '@angular/material';
+import { endGameDialog } from './dialog/endgame.dialog.component';
+import { Route, Router } from '@angular/router';
 declare var $: any;
 @Component({
   selector: 'app-play-board',
@@ -31,7 +33,8 @@ export class PlayBoardComponent implements OnInit {
   constructor(
     private _userService: UserService,
     private _messageSV: MessageService,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _router: Router
   ) {
 
   }
@@ -49,11 +52,22 @@ export class PlayBoardComponent implements OnInit {
   ngOnInit() {
     this.players = [this._userService.user, new AIPlayer(), new AIPlayer(), new AIPlayer()];
     this.board = new Board(this.players);
-    this.board.currentPlayer.materials.forEach(x => x.count = 4);
     this.board.eventBoardNotice.on((x: Message) => this.notice(x))
-    this.board.eventEndGame.on(() => this.endGame())
     this.board.eventRefundToken.on((data) => this.openModalrefundToken(data))
+    this.board.eventEndGame.on((data) => this.openModalEndGame(data));
     this.onResize()
+  }
+  ngAfterViewInit() {
+  }
+  openModalEndGame(data) {
+    const dialogRef = this._dialog.open(endGameDialog, {
+      disableClose: true,
+      data: { scoreList: data }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this._router.navigate(['/home'])
+    });
   }
   openModalrefundToken(data) {
     const dialogRef = this._dialog.open(RefundMaterialDialog, {
@@ -65,10 +79,6 @@ export class PlayBoardComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.action({ action: 'refundToken', data: result })
     });
-  }
-  endGame() {
-    console.log('endgame');
-    this.notice(new Message('endgame'));
   }
   notice(message: Message) {
 

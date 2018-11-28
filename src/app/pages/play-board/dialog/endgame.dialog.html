@@ -1,0 +1,19 @@
+<h1 mat-dialog-title>
+  {{text}}
+</h1>
+<mat-dialog-content>
+  <div class="col-md-12 no-padding" style="min-width:500px">
+    <div class="flex flex-column list">
+      <div [style.font-size]="getSize(i)" *ngFor="let player of scoreList let i=index" class="flex flex-row row-list"
+        style="justify-content: space-between;">
+        <div class="item-flex type" style="width: 150px;text-align: center;">{{getType(i)}}</div>
+        <div class="item-flex name" style="flex:1 1 auto">{{player.name}}</div>
+        <div class="item-flex point" style="width: 40px;text-align: center;">{{player.point}}</div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>close</button>
+</mat-dialog-actions>
