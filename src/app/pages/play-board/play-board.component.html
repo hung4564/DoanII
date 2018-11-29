@@ -1,7 +1,7 @@
 <div id="board-body" class="full">
   <div class="row no-margin">
     <div class="flex flex-center full no-margin">
-      <list-player-comp [size-comp]="player_list_size" [players]="board.listPlayer"></list-player-comp>
+      <list-player-comp (OpenPlayer)="OpenPlayer($event)" [size-comp]="player_list_size" [players]="board.listPlayer"></list-player-comp>
       <div class="flex flex-column">
         <div [ngStyle]="myStyles" class="flex">
           <div class="clock">

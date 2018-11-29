@@ -8,6 +8,7 @@ import { ListMaterialCompComponent, } from './list-material-comp/list-material-c
 import { ListNobletileComponent } from './list-nobletile-comp/list-nobletile.component';
 import { SetMaterialDialog, RefundMaterialDialog } from './dialog/material.dialog.component';
 import { endGameDialog } from './dialog/endgame.dialog.component';
+import { PlayerDialog } from './dialog/player-dialog.component';
 @NgModule({
   imports: [
     ShareModule
@@ -22,12 +23,14 @@ import { endGameDialog } from './dialog/endgame.dialog.component';
     RefundMaterialDialog,
     ListNobletileComponent,
     endGameDialog,
+    PlayerDialog
   ],
   entryComponents: [
     CardDialog,
     SetMaterialDialog,
     RefundMaterialDialog,
-    endGameDialog
+    endGameDialog,
+    PlayerDialog
   ],
 })
 export class PlayBoardModule { }

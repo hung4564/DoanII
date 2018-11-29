@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Size, Padding } from '@model/Size';
 import { IPlayer } from '@model/iplayer'
 @Component({
@@ -12,6 +12,7 @@ import { IPlayer } from '@model/iplayer'
 export class ListPlayerCompComponent implements OnInit {
   @Input('size-comp') size: Size;
   @Input() players: IPlayer[];
+  @Output() OpenPlayer = new EventEmitter<any>();
   player_size: Size;
   constructor() { }
   get myStyles(): any {
@@ -26,6 +27,9 @@ export class ListPlayerCompComponent implements OnInit {
   }
   ngOnInit() {
     this.onResize();
+  }
+  openModalPlayer(id: number) {
+    this.OpenPlayer.emit({ player_id: id });
   }
 
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, Input, EventEmitter, Output, ViewChild } from '@angular/core';
 import { Config } from 'ngx-countdown/src/interfaces';
 import { Size } from '@model/Size';
+import { CountdownComponent } from 'ngx-countdown';
 declare var jQuery: any;
 
 @Component({
@@ -9,7 +10,7 @@ declare var jQuery: any;
   styleUrls: ['./countdown.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class CountdownComponent implements OnInit {
+export class FlipCountdownComponent implements OnInit {
   @ViewChild(CountdownComponent) counter: CountdownComponent;
   config: Config
 

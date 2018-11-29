@@ -1,5 +1,5 @@
 <div class="text-center mt-5 mb-5">
-  <countdown [config]="config" class="flip-cd" (start)="onStart()" (finished)="onFinished()">
+  <countdown #counter [config]="config" class="flip-cd" (start)="onStart()" (finished)="onFinished()">
     <div class="time" style="margin-right:2px;">$!m!
     </div>
     <div class="time">$!s!

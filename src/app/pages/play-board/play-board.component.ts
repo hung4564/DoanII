@@ -12,9 +12,10 @@ import { SetMaterialDialog, RefundMaterialDialog } from './dialog/material.dialo
 import { MatDialog } from '@angular/material';
 import { endGameDialog } from './dialog/endgame.dialog.component';
 import { Route, Router } from '@angular/router';
-import { CountdownComponent } from '@share/countdown/countdown.component';
+import { FlipCountdownComponent } from '@share/countdown/countdown.component';
 import { ConfigDialogComponent } from '@share/config-dialog/config-dialog.component';
 import { Config } from 'ngx-countdown';
+import { PlayerDialog } from './dialog/player-dialog.component';
 declare var $: any;
 @Component({
   selector: 'app-play-board',
@@ -26,7 +27,7 @@ declare var $: any;
 })
 
 export class PlayBoardComponent implements OnInit {
-  @ViewChild(CountdownComponent) counter: CountdownComponent;
+  @ViewChild(FlipCountdownComponent) counter: FlipCountdownComponent;
   board: Board;
   players: IPlayer[];
   board_size: Size;
@@ -75,6 +76,18 @@ export class PlayBoardComponent implements OnInit {
     }
     return;
   }
+  OpenPlayer($event) {
+    const dialogRef = this._dialog.open(PlayerDialog, {
+      data: {
+        player: this.board.listPlayer.find(x => x.id == $event.player_id)
+      }
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      if (!!result) {W
+        this.action({ action: 'buy', data: result.card })
+      }
+    });
+  }
   passTurn() {
     const dialogRef = this._dialog.open(ConfigDialogComponent, {
       data: {
@@ -97,6 +110,7 @@ export class PlayBoardComponent implements OnInit {
     this.onResize()
   }
   nextPlayer() {
+    this.counter.config.leftTime = 10 * 60;
     this.counter.restart();
   }
   ngAfterViewInit() {
