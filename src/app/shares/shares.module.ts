@@ -7,18 +7,22 @@ import { CardCompComponent } from './card-comp/card-comp.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MainPipe } from '@pipes/pipe.module';
+import { CountdownModule } from 'ngx-countdown';
+import { ConfigDialogComponent } from './config-dialog/config-dialog.component';
 @NgModule({
   declarations: [
     IconCompComponent,
     PlayerCompComponent,
     CardCompComponent,
+    ConfigDialogComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     MaterialModule,
     HttpClientModule,
-    MainPipe
+    MainPipe,
+    CountdownModule,
   ],
   exports: [
     IconCompComponent,
@@ -28,8 +32,13 @@ import { MainPipe } from '@pipes/pipe.module';
     FormsModule,
     MaterialModule,
     HttpClientModule,
-    MainPipe
+    MainPipe,
+    CountdownModule,
+    ConfigDialogComponent
   ],
   providers: [],
+  entryComponents: [
+    ConfigDialogComponent,
+  ]
 })
 export class ShareModule { }

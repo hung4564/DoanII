@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserService } from './services/user-service.service';
 import { MessageService } from './services/message.service';
 import { TranslateService } from './services/translate.service';
+
 export function setupTranslateFactory(
   service: TranslateService): Function {
   return () => service.use('en');
@@ -21,7 +22,7 @@ export function setupTranslateFactory(
     MainModule,
     RouterModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
   ],
   providers: [
     UserService,

@@ -1,4 +1,4 @@
-import { IPlayer } from '@model/iplayer'
+import { IPlayer, EventActionData, UserAction } from '@model/iplayer'
 
 import { Token } from '@model/token';
 import { Card } from '@model/card';
@@ -17,12 +17,7 @@ export class BroadConfig {
     this.maxPointWin = 15;
   }
 }
-export enum UserAction {
-  buyCard,
-  holdCard,
-  setToken,
-  refundToken
-}
+
 export class Board {
   get countPlayer() {
     return this.listPlayer.length;
@@ -42,7 +37,7 @@ export class Board {
   isEndGame: boolean = false;
 
   //event
-  private readonly _eventBoardNotice = new LiteEvent<any>();
+  private readonly _eventBoardNotice = new LiteEvent<Message>();
   public get eventBoardNotice() { return this._eventBoardNotice.expose(); }
 
   private readonly _eventEndGame = new LiteEvent<any>();
@@ -60,18 +55,14 @@ export class Board {
     this._currentPlayer.IsMyTurn = true;
     this._indexPlayer = 0;
     this.listNobletile = nobletiles;
-    let eventEndTurn = data => { this.endUserTurn(); }
+    let eventActionOfUser = (data: EventActionData) => { this.afterActionOfUser(data); }
     this.listPlayer.forEach((x, index) => {
       x.id = index;
-      x.eventBuyCard.on(eventEndTurn);
-      x.eventHoldCard.on(eventEndTurn);
-      x.eventSetToken.on(eventEndTurn);
-      x.eventRefundToken.on((data?) => this.refundTokenOfUser(data));
+      x.eventActionOfUser.on(eventActionOfUser);
+      x.eventEndTurn.on(data => this.endUserTurn(x.id));
     })
   }
-  private refundTokenOfUser(data) {
-    this._eventRefundToken.trigger(data);
-  }
+  public startGame() { }
   private init() {
     switch (this.countPlayer) {
       case 2:
@@ -113,54 +104,73 @@ export class Board {
     cardList.list.splice(x, 1);
     cardList.count--;
   }
-  actionOfUser(type: string, data) {
+  onActionOfUser(type: string, data?) {
     switch (type) {
       case 'hold':
-        this.holdCard(data)
+        this._currentPlayer.holdCard(data)
         break;
       case 'buy':
-        this.buyCard(data);
+        this._currentPlayer.buyCard(data);
         break;
       case 'setToken':
-        this.setToken(data);
+        this._currentPlayer.setToken(data);
         break;
       case 'refundToken':
-        this.refundToken(data);
+        this._currentPlayer.refundToken(data);
+        break;
+      case 'pass':
+        this._currentPlayer.passTurn();
+        break;
+      default:
         break;
     }
   }
+  afterActionOfUser(data: EventActionData) {
+    if (data.isActive) {
+      switch (data.action) {
+        case UserAction.buyCard:
+          this.buyCard(data.data);
+          break;
+        case UserAction.holdCard:
+          this.holdCard(data.data);
+          break;
+        case UserAction.setToken:
+          this.setToken(data.data);
+          break;
+        case UserAction.refundToken:
+          this.refundToken(data.data)
+          break;
+        case UserAction.needrefundToken:
+          this._eventRefundToken.trigger();
+          return;
+          break;
+        default:
+          break;
+      }
+      this._currentPlayer.endTurn();
+    }
+    else {
+      this._eventBoardNotice.trigger(new Message('cant do that'))
+    }
+
+  }
   refundToken(data) {
-    let playerToken;
     let boardToken;
     data.forEach(token => {
-      playerToken = this.currentPlayer.materials.find(x => x.token_id == token.token_id)
-      playerToken.count = playerToken.count - token.count;
       boardToken = this.listToken.find(x => x.token_id == token.token_id);
       boardToken.count = boardToken.count + token.count;
     })
-    this.endUserTurn();
   }
   buyCard(card: Card) {
-    if (this._currentPlayer.buyCard(card)) {
-      this.removeCard(card);
-      this.addCard(card.level);
-    }
-    else {
-      this._eventBoardNotice.trigger(new Message("Can't buy that card"))
-    }
+    this.removeCard(card);
+    this.addCard(card.level);
   }
   holdCard(card: Card) {
-    if (this._currentPlayer.holdCard(card)) {
-      this.removeCard(card);
-      this.addCard(card.level);
-    }
-    else {
-      this._eventBoardNotice.trigger(new Message("Can't hold that card"))
-    }
+    this.removeCard(card);
+    this.addCard(card.level);
   }
   setToken(tokenList: { count: number, token_id: any }[]) {
     if (!!tokenList) {
-      this._currentPlayer.setToken(tokenList);
       tokenList.forEach(x => {
         this.listToken.find(y => y.token_id == x.token_id).count -= x.count;
       })
@@ -193,16 +203,20 @@ export class Board {
 
   }
   endGame() {
-    let scorelist: { player_id: number, name: string, point: number }[] =[];
+    let scorelist: { player_id: number, name: string, point: number }[] = [];
     this.listPlayer.forEach(player => {
       scorelist.push({ player_id: player.id, name: player.name, point: player.point });
     })
     scorelist.sort((x, y) => { return y.point - x.point })
     this._eventEndGame.trigger(scorelist);
   }
-  endUserTurn() {
+  endUserTurn(user_id?: number) {
+    if (!user_id && user_id != this._currentPlayer.id) {
+      return;
+    }
     this.checkNobletile();
     this.changeNextPlayer();
+    this._currentPlayer.startTurn();
   }
   changeNextPlayer() {
     if (this._currentPlayer.point >= 15) {

@@ -1,7 +1,23 @@
 <div id="board-body" style="width: 100%;height: 100%;">
   <div class="row no-margin">
     <list-player-comp [size-comp]="player_list_size" [players]="board.listPlayer"></list-player-comp>
-    <list-material-comp class="pointer" (click)="openModal()" [size-comp]="material_list_size" [materials]="board.listToken"></list-material-comp>
+    <div class="flex flex-column">
+      <div [ngStyle]="myStyles" class="flex">
+        <div class="clock">
+          <countdown [config]="configCountdown" (start)="onStart()" (finished)="onFinished()"></countdown>
+        </div>
+
+        <button (click)="counter.pause();">stop</button>
+
+        <button (click)="counter.resume();">resume</button>
+
+        <button (click)="counter.restart();">restart</button>
+        <button [disabled]="!_userService.user.IsMyTurn" (click)="openModal()">get material</button>
+        <button [disabled]="!_userService.user.IsMyTurn" (click)="passTurn()">pass</button>
+      </div>
+      <list-material-comp class="pointer" (click)="openModal()" [size-comp]="material_list_size" [materials]="board.listToken"></list-material-comp>
+
+    </div>
     <list-nobletile-comp [size-comp]="nobletile_list_size" [nobletiles]="board.listNobletile"></list-nobletile-comp>
     <list-card-comp [size-comp]="card_list_size" [cards]="board.listCards" (action)="action($event)"></list-card-comp>
     <!-- <div [style.width.px]="card_list_size.width" [style.height.px]="card_list_size.height">

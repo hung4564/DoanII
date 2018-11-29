@@ -3,6 +3,20 @@ import { materials } from '@data/token';
 import { Token } from '@angular/compiler';
 import { Card } from './card';
 import { LiteEvent } from './LiteEvent';
+export class EventActionData {
+  action: UserAction;
+  user_id: number;
+  isActive: boolean;
+  data?: any;
+}
+export enum UserAction {
+  buyCard,
+  holdCard,
+  setToken,
+  needrefundToken,
+  refundToken,
+  passTurn
+}
 import { Nobletile } from './nobletile'; export class IPlayer {
   id: number;
   name: string;
@@ -21,20 +35,13 @@ import { Nobletile } from './nobletile'; export class IPlayer {
     if (this.listNobletile.length > 0) {
       point += this.listNobletile.map(item => item.value.point).reduce((prev, next) => prev + next)
     }
-    return 15+this.id;
+    return 15 + this.id;
   }
   //event
-  private readonly _eventBuyCard = new LiteEvent();
-  public get eventBuyCard() { return this._eventBuyCard.expose(); }
-
-  private readonly _eventHoldCard = new LiteEvent();
-  public get eventHoldCard() { return this._eventHoldCard.expose(); }
-
-  private readonly _eventSetToken = new LiteEvent();
-  public get eventSetToken() { return this._eventSetToken.expose(); }
-  private readonly _eventRefundToken = new LiteEvent();
-  public get eventRefundToken() { return this._eventRefundToken.expose(); }
-
+  private readonly _eventActionOfUser = new LiteEvent<EventActionData>();
+  public get eventActionOfUser() { return this._eventActionOfUser.expose(); }
+  private readonly _eventEndTurn = new LiteEvent<EventActionData>();
+  public get eventEndTurn() { return this._eventEndTurn.expose(); }
 
   constructor(name?, img?) {
     this.img = img ? img : 'assets/img/user.png';
@@ -50,11 +57,28 @@ import { Nobletile } from './nobletile'; export class IPlayer {
       this.product.push({ count: 0, token_id: item.id });
     })
   }
+  startTurn() {
+
+  }
+  passTurn() {
+    this.endTurn()
+  }
+  endTurn() {
+    let count = this.materials.map(item => item.count).reduce((prev, next) => prev + next);
+    if (count > 10) {
+      this.callEvent(UserAction.needrefundToken, true);
+      return;
+    }
+    this._eventEndTurn.trigger();
+  }
+  callEvent(action: UserAction, isActive: boolean, data?: any) {
+    this._eventActionOfUser.trigger({ action: action, user_id: this.id, isActive, data: data });
+  }
   buyCard(card: Card) {
     if (!this.canBuy(card)) {
+      this.callEvent(UserAction.buyCard, false);
       return false;
     }
-    console.log('user buy card');
     card.price.forEach((item, index) => {
       let material = this.materials.find(x => x.token_id == item.token_id);
       let product = this.product.find(x => x.token_id == item.token_id);
@@ -62,18 +86,18 @@ import { Nobletile } from './nobletile'; export class IPlayer {
     })
     this.product.find(x => x.token_id == card.value.token_id).count++;
     this.listCard.push(card);
-    this._eventBuyCard.trigger({ action: 'buy', user_id: this.id });
+    this.callEvent(UserAction.buyCard, true, card);
     return true;
   }
   holdCard(card: Card) {
     if (!this.canHold()) {
+      this.callEvent(UserAction.holdCard, false, card);
       return false;
     }
-    console.log('user hold card');
     let token = this.materials.find(x => x.token_id == 0);
     token.count++;
     this.listHoldCard.push(card);
-    this._eventHoldCard.trigger({ action: 'buy', user_id: this.id });
+    this.callEvent(UserAction.holdCard, true, card);
     return true;
   }
   canHold() {
@@ -100,17 +124,19 @@ import { Nobletile } from './nobletile'; export class IPlayer {
       tokenList.forEach(token => {
         this.materials.find(x => x.token_id == token.token_id).count += token.count;
       })
-      let count = this.materials.map(item => item.count).reduce((prev, next) => prev + next);
-      if (count >= 10) {
-        this._eventRefundToken.trigger({ data: count });
-      }
-      else {
-        this._eventSetToken.trigger();
-      }
+      this.callEvent(UserAction.setToken, true, tokenList);
     }
   }
-  refundToken() {
-
+  refundToken(data) {
+    if (!data) {
+      return
+    }
+    let playerToken;
+    data.forEach(token => {
+      playerToken = this.materials.find(x => x.token_id == token.token_id)
+      playerToken.count = playerToken.count - token.count;
+    })
+    this.callEvent(UserAction.refundToken, true, data);
   }
   setNobletile(nobletiles: Nobletile) {
     this.listNobletile.push(nobletiles);

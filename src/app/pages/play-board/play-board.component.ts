@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Board } from '@model/board';
 import { IPlayer } from '@model/iplayer'
 import { UserPlayer } from '@model/Userplayer';
@@ -12,6 +12,8 @@ import { SetMaterialDialog, RefundMaterialDialog } from './dialog/material.dialo
 import { MatDialog } from '@angular/material';
 import { endGameDialog } from './dialog/endgame.dialog.component';
 import { Route, Router } from '@angular/router';
+import { CountdownComponent } from 'ngx-countdown';
+import { ConfigDialogComponent } from '@share/config-dialog/config-dialog.component';
 declare var $: any;
 @Component({
   selector: 'app-play-board',
@@ -23,6 +25,7 @@ declare var $: any;
 })
 
 export class PlayBoardComponent implements OnInit {
+  @ViewChild(CountdownComponent) counter: CountdownComponent;
   board: Board;
   players: IPlayer[];
   board_size: Size;
@@ -30,28 +33,64 @@ export class PlayBoardComponent implements OnInit {
   card_list_size: Size;
   material_list_size: Size;
   nobletile_list_size: Size;
+  size
+  configCountdown
+  get myStyles(): any {
+    return {
+      'width.px': this.material_list_size.width,
+      'height.px': this.material_list_size.height,
+      'background-color': 'green',
+      'flex-direction': 'column',
+      'justify-content': 'space-around',
+      'align-items': 'center',
+    };
+  }
   constructor(
     private _userService: UserService,
     private _messageSV: MessageService,
     private _dialog: MatDialog,
     private _router: Router
   ) {
+    this.configCountdown = {
+      leftTime: 10 * 60,
+      template: '$!m!:$!s!'
+    }
+
+  }
+  onStart() {
+
+  }
+  onFinished() {
 
   }
   onResize() {
     let board_body = $('#board-body')
-    this.board_size = new Size(board_body.width(), board_body.height());
-    let token_list_width = 70;
-    this.player_list_size = new Size(300, this.board_size.height);
-    this.material_list_size = new Size(token_list_width, this.board_size.height);
-    this.nobletile_list_size = new Size(100, this.board_size.height)
-    this.card_list_size = new Size(800, this.board_size.height);
+    if (board_body.width() > board_body.height()) {
+      this.size = this.material_list_size;
+      this.board_size = new Size(board_body.height() * 3 / 2, board_body.height());
+      this.player_list_size = new Size(this.board_size.width * 0.3, this.board_size.height);
+      this.material_list_size = new Size(this.board_size.width * 0.1, this.board_size.height * 0.5);
+      this.nobletile_list_size = new Size(this.board_size.width * 0.1, this.board_size.height)
+      this.card_list_size = new Size(this.board_size.width * 0.7, this.board_size.height);
+    }
     return;
-
+  }
+  passTurn() {
+    const dialogRef = this._dialog.open(ConfigDialogComponent, {
+      data: {
+        title: 'pass game',
+      }
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      if (!!result) {
+        this.board.onActionOfUser('pass');
+      }
+    });
   }
   ngOnInit() {
     this.players = [this._userService.user, new AIPlayer(), new AIPlayer(), new AIPlayer()];
     this.board = new Board(this.players);
+    this.board.currentPlayer.materials.forEach(x => x.count = 4);
     this.board.eventBoardNotice.on((x: Message) => this.notice(x))
     this.board.eventRefundToken.on((data) => this.openModalrefundToken(data))
     this.board.eventEndGame.on((data) => this.openModalEndGame(data));
@@ -73,7 +112,7 @@ export class PlayBoardComponent implements OnInit {
     const dialogRef = this._dialog.open(RefundMaterialDialog, {
       width: 400 + "px",
       disableClose: true,
-      data: { materials: this.board.currentPlayer.materials.filter(x => x.token_id != 0) }
+      data: { materials: this.board.currentPlayer.materials }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -81,14 +120,10 @@ export class PlayBoardComponent implements OnInit {
     });
   }
   notice(message: Message) {
-
     this._messageSV.notice(message);
   }
   action($event: { action: string, data?: any }) {
-    this.board.actionOfUser($event.action, $event.data)
-  }
-  setToken(tokenList: { count: number, token_id: any }[]) {
-    this.board.setToken(tokenList);
+    this.board.onActionOfUser($event.action, $event.data)
   }
   openModal() {
     const dialogRef = this._dialog.open(SetMaterialDialog, {
