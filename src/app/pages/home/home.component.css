@@ -1,12 +1,7 @@
-.menu {
-  margin: auto;
-  width: 20vw;
+.menu .menu-button {
+  max-width: 200px;
 }
 
 .menu * {
-  font-size: 2em;
-}
-
-.menu>* {
-  margin: 5%;
+  margin: 5px;
 }

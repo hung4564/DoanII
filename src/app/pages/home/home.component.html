@@ -1,6 +1,14 @@
 <div class="row no-margin">
-    <div class="menu">{{ 'title' | translate }}!
+  <div class="flex flex-column flex-center full menu">
+    <div class="icon">
+      <img style="height:30vh;" src="assets/icon/icon.svg" alt="icon">
+    </div>
+    <div class="title" style="font-size:5vh">
+      {{'title'|translate}}
+    </div>
+    <div class="menu-button">
       <a class="btn btn-primary" style="width: 100%;" (click)="play()">Play</a>
       <a class="btn btn-primary" style="width: 100%;" (click)="about()">About</a>
     </div>
+  </div>
 </div>

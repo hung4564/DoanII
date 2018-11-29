@@ -46,6 +46,8 @@ export class Board {
   private readonly _eventRefundToken = new LiteEvent<any>();
   public get eventRefundToken() { return this._eventRefundToken.expose(); }
 
+  private readonly _eventNextPlayer = new LiteEvent<any>();
+  public get eventNextPlayer() { return this._eventNextPlayer.expose(); }
 
   constructor(list: IPlayer[]) {
     this.listCards = [];
@@ -94,8 +96,9 @@ export class Board {
     this.listCards.push({ level: 2, count: 20, list: card_3s });
   }
   addCard(level: number) {
-    let cardlist = this.listCards.find(x => x.level === level).list;
-    cardlist.push(new Card(level));
+    let cardlist = this.listCards.find(x => x.level === level);
+    if (cardlist.count > 0)
+      cardlist.list.push(new Card(level));
   }
   removeCard(card: Card) {
     let level = card.level;
@@ -211,11 +214,12 @@ export class Board {
     this._eventEndGame.trigger(scorelist);
   }
   endUserTurn(user_id?: number) {
-    if (!user_id && user_id != this._currentPlayer.id) {
+    if (!!user_id && user_id != this._currentPlayer.id) {
       return;
     }
     this.checkNobletile();
     this.changeNextPlayer();
+    this._eventNextPlayer.trigger();
     this._currentPlayer.startTurn();
   }
   changeNextPlayer() {

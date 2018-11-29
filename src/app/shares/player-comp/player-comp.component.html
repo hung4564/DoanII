@@ -1,10 +1,14 @@
-<div [ngStyle]="myStyles" class="flex flex-column">
+<div [ngStyle]="myStyles" class="flex flex-column player">
   <div class="header flex flex-row" style="justify-content:space-between;align-items: baseline;">
     <div class="name">
-      {{player.name}}
+      <p>
+        {{player.name}}
+      </p>
     </div>
-    <div class="point count" style="font-size: 2em;">
-      {{player.point}}
+    <div class="point text-white">
+      <p>
+        {{player.point}}
+      </p>
     </div>
   </div>
   <div class="body">

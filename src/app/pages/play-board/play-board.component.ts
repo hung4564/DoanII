@@ -3,7 +3,7 @@ import { Board } from '@model/board';
 import { IPlayer } from '@model/iplayer'
 import { UserPlayer } from '@model/Userplayer';
 import { AIPlayer } from '@model/AIplayer';
-import { Size } from '@model/Size';
+import { Size, Padding } from '@model/Size';
 import { UserService } from 'app/services/user-service.service';
 import { Card } from '@model/card';
 import { MessageService } from 'app/services/message.service';
@@ -53,21 +53,23 @@ export class PlayBoardComponent implements OnInit {
   ) {
     this.configCountdown = {
       leftTime: 10 * 60,
-      template: '$!m!:$!s!'
+      template: '$!m!:$!s!',
+      demand: false
     }
 
   }
   onStart() {
-
+    this.counter.stop();
   }
   onFinished() {
+    this.board.endUserTurn();
 
   }
   onResize() {
     let board_body = $('#board-body')
     if (board_body.width() > board_body.height()) {
       this.size = this.material_list_size;
-      this.board_size = new Size(board_body.height() * 3 / 2, board_body.height());
+      this.board_size = new Size(board_body.height() * 3 / 2, board_body.height()).subpadding(new Padding(5, 0));
       this.player_list_size = new Size(this.board_size.width * 0.3, this.board_size.height);
       this.material_list_size = new Size(this.board_size.width * 0.1, this.board_size.height * 0.5);
       this.nobletile_list_size = new Size(this.board_size.width * 0.1, this.board_size.height)
@@ -90,13 +92,17 @@ export class PlayBoardComponent implements OnInit {
   ngOnInit() {
     this.players = [this._userService.user, new AIPlayer(), new AIPlayer(), new AIPlayer()];
     this.board = new Board(this.players);
-    this.board.currentPlayer.materials.forEach(x => x.count = 4);
     this.board.eventBoardNotice.on((x: Message) => this.notice(x))
     this.board.eventRefundToken.on((data) => this.openModalrefundToken(data))
     this.board.eventEndGame.on((data) => this.openModalEndGame(data));
+    this.board.eventNextPlayer.on((data) => this.nextPlayer());
     this.onResize()
   }
+  nextPlayer() {
+    this.counter.restart();
+  }
   ngAfterViewInit() {
+
   }
   openModalEndGame(data) {
     const dialogRef = this._dialog.open(endGameDialog, {

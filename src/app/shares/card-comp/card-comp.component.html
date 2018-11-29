@@ -1,6 +1,6 @@
 <div [ngStyle]="myStyles" class="flex flex-column">
   <div class="flex flex-row" style="justify-content: space-between; align-items: center">
-    <div class="count" style="font-size: 2em;">
+    <div class="text-white" style="font-size: 2em;">
       {{card.value.point}}
     </div>
     <icon-comp *ngIf="card.value.token_id" class="token" [size-comp]="token_size" [token_id]="card.value.token_id"></icon-comp>

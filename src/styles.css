@@ -10,7 +10,6 @@
 }
 
 .row {
-  display: flex;
   width: 100vw;
   height: 100%;
 }
@@ -41,7 +40,7 @@ body {
   align-items: center
 }
 
-.count {
+.text-white {
   color: white;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
@@ -52,4 +51,9 @@ body {
 
 .flex>.item-flex {
   flex: 0 1 auto;
+}
+
+.full {
+  width: 100%;
+  height: 100%;
 }
