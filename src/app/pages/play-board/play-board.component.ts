@@ -12,8 +12,9 @@ import { SetMaterialDialog, RefundMaterialDialog } from './dialog/material.dialo
 import { MatDialog } from '@angular/material';
 import { endGameDialog } from './dialog/endgame.dialog.component';
 import { Route, Router } from '@angular/router';
-import { CountdownComponent } from 'ngx-countdown';
+import { CountdownComponent } from '@share/countdown/countdown.component';
 import { ConfigDialogComponent } from '@share/config-dialog/config-dialog.component';
+import { Config } from 'ngx-countdown';
 declare var $: any;
 @Component({
   selector: 'app-play-board',
@@ -33,8 +34,8 @@ export class PlayBoardComponent implements OnInit {
   card_list_size: Size;
   material_list_size: Size;
   nobletile_list_size: Size;
-  size
-  configCountdown
+  countdown_size: Size;
+  configCountdown: Config
   get myStyles(): any {
     return {
       'width.px': this.material_list_size.width,
@@ -53,27 +54,24 @@ export class PlayBoardComponent implements OnInit {
   ) {
     this.configCountdown = {
       leftTime: 10 * 60,
-      template: '$!m!:$!s!',
       demand: false
     }
-
   }
   onStart() {
     this.counter.stop();
   }
   onFinished() {
     this.board.endUserTurn();
-
   }
   onResize() {
     let board_body = $('#board-body')
     if (board_body.width() > board_body.height()) {
-      this.size = this.material_list_size;
       this.board_size = new Size(board_body.height() * 3 / 2, board_body.height()).subpadding(new Padding(5, 0));
       this.player_list_size = new Size(this.board_size.width * 0.3, this.board_size.height);
       this.material_list_size = new Size(this.board_size.width * 0.1, this.board_size.height * 0.5);
       this.nobletile_list_size = new Size(this.board_size.width * 0.1, this.board_size.height)
       this.card_list_size = new Size(this.board_size.width * 0.7, this.board_size.height);
+      this.countdown_size = new Size(this.material_list_size.width);
     }
     return;
   }

@@ -9,12 +9,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { MainPipe } from '@pipes/pipe.module';
 import { CountdownModule } from 'ngx-countdown';
 import { ConfigDialogComponent } from './config-dialog/config-dialog.component';
+import { CountdownComponent } from './countdown/countdown.component';
 @NgModule({
   declarations: [
     IconCompComponent,
     PlayerCompComponent,
     CardCompComponent,
-    ConfigDialogComponent
+    ConfigDialogComponent,
+    CountdownComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +36,8 @@ import { ConfigDialogComponent } from './config-dialog/config-dialog.component';
     HttpClientModule,
     MainPipe,
     CountdownModule,
-    ConfigDialogComponent
+    ConfigDialogComponent,
+    CountdownComponent
   ],
   providers: [],
   entryComponents: [

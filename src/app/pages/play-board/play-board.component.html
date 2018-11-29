@@ -5,7 +5,7 @@
       <div class="flex flex-column">
         <div [ngStyle]="myStyles" class="flex">
           <div class="clock">
-            <countdown [config]="configCountdown" (start)="onStart()" (finished)="onFinished()"></countdown>
+            <app-countdown [config-comp]="configCountdown" (start)="onStart()" (finished)="onFinished()" [size-comp]="countdown_size"></app-countdown>
           </div>
           <button class="btn" [disabled]="!_userService.user.IsMyTurn" (click)="openModal()">get material</button>
           <button class="btn" [disabled]="!_userService.user.IsMyTurn" (click)="passTurn()">pass</button>
