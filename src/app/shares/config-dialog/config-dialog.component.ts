@@ -20,5 +20,5 @@ export class ConfigDialogComponent {
 }
 
 interface DialoglData {
-  tile: string;
+  title: string;
 }

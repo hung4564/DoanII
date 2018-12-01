@@ -76,26 +76,28 @@ export class PlayBoardComponent implements OnInit {
     }
     return;
   }
-  OpenPlayer($event) {
+  openModalPlayer($event) {
     const dialogRef = this._dialog.open(PlayerDialog, {
       data: {
         player: this.board.listPlayer.find(x => x.id == $event.player_id)
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      if (!!result) {W
-        this.action({ action: 'buy', data: result.card })
+      if (!!result) {
+        this.action({ action: 'buyHold', data: result.card })
       }
     });
   }
-  passTurn() {
+  openModalpassTurn() {
     const dialogRef = this._dialog.open(ConfigDialogComponent, {
       data: {
         title: 'pass game',
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-      if (!!result) {
+      if (!result) {
+      }
+      else {
         this.board.onActionOfUser('pass');
       }
     });

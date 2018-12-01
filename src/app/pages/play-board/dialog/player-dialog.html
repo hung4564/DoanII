@@ -10,7 +10,7 @@
   <div class="flex flex-row" style="flex-wrap:wrap">
     <div *ngFor="let card of player.listHoldCard" class="card-hold" style="margin-right: 2px;margin-bottom: 2px;">
       <card-comp [card]="card" [size-comp]="card_size"></card-comp>
-      <button class="btn button-buy" (click)="buyHoldCard(card)">Buy</button>
+      <button [disabled]="!canBuyCard(card)" class="btn button-buy" (click)="buyHoldCard(card)">Buy</button>
     </div>
 
   </div>

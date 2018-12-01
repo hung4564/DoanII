@@ -95,26 +95,37 @@ export class Board {
     this.listCards.push({ level: 1, count: 30, list: card_2s });
     this.listCards.push({ level: 2, count: 20, list: card_3s });
   }
-  addCard(level: number) {
+  private addCard(level: number) {
     let cardlist = this.listCards.find(x => x.level === level);
     if (cardlist.count > 0)
       cardlist.list.push(new Card(level));
   }
-  removeCard(card: Card) {
+  private removeCard(card: Card) {
     let level = card.level;
     let cardList = this.listCards.find(x => x.level === level)
     let x = cardList.list.indexOf(card);
     cardList.list.splice(x, 1);
     cardList.count--;
   }
+  private checkCard(card: Card) {
+    let level = card.level;
+    let cardList = this.listCards.find(x => x.level === level)
+    if (!!cardList) {
+      return cardList.list.includes(card);
+    }
+    return false;
+  }
   onActionOfUser(type: string, data?) {
     switch (type) {
-      case 'hold':
+      case 'holdCard':
         this._currentPlayer.holdCard(data)
         break;
-      case 'buy':
-        this._currentPlayer.buyCard(data);
+      case 'buyInList':
+        this._currentPlayer.buyInList(data);
         break;
+      case 'buyHold':
+        this._currentPlayer.buyHoldCard(data);
+        break
       case 'setToken':
         this._currentPlayer.setToken(data);
         break;
@@ -131,11 +142,11 @@ export class Board {
   afterActionOfUser(data: EventActionData) {
     if (data.isActive) {
       switch (data.action) {
-        case UserAction.buyCard:
-          this.buyCard(data.data);
+        case UserAction.buyInList:
+          this.changeCardInList(data.data);
           break;
         case UserAction.holdCard:
-          this.holdCard(data.data);
+          this.changeCardInList(data.data);
           break;
         case UserAction.setToken:
           this.setToken(data.data);
@@ -147,6 +158,8 @@ export class Board {
           this._eventRefundToken.trigger();
           return;
           break;
+        case UserAction.buyHold:
+          break;
         default:
           break;
       }
@@ -157,22 +170,20 @@ export class Board {
     }
 
   }
-  refundToken(data) {
+  private refundToken(data) {
     let boardToken;
     data.forEach(token => {
       boardToken = this.listToken.find(x => x.token_id == token.token_id);
       boardToken.count = boardToken.count + token.count;
     })
   }
-  buyCard(card: Card) {
-    this.removeCard(card);
-    this.addCard(card.level);
+  private changeCardInList(cardremove: Card) {
+    if (this.checkCard(cardremove)) {
+      this.removeCard(cardremove);
+      this.addCard(cardremove.level);
+    }
   }
-  holdCard(card: Card) {
-    this.removeCard(card);
-    this.addCard(card.level);
-  }
-  setToken(tokenList: { count: number, token_id: any }[]) {
+  private setToken(tokenList: { count: number, token_id: any }[]) {
     if (!!tokenList) {
       tokenList.forEach(x => {
         this.listToken.find(y => y.token_id == x.token_id).count -= x.count;

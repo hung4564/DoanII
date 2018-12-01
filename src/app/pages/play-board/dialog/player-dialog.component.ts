@@ -17,16 +17,19 @@ export class PlayerDialog implements OnInit {
     public dialogRef: MatDialogRef<DialogPlayerData>,
     @Inject(MAT_DIALOG_DATA) public data: DialogPlayerData,
     private el: ElementRef) {
+    this.player = this.data.player;
   }
   card_size: Size
   token_size: Size;
   ngOnInit() {
     this.token_size = new Size(40);
     this.card_size = new Size(80);
-    this.player = this.data.player;
   }
   buyHoldCard(card) {
     this.dialogRef.close({ card: card });
+  }
+  canBuyCard(card: Card) {
+    return this.player.canAccess && this.player.canBuy(card);
   }
 
 }

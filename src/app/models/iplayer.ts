@@ -11,13 +11,20 @@ export class EventActionData {
 }
 export enum UserAction {
   buyCard,
+  buyHold,
+  buyInList,
   holdCard,
   setToken,
   needrefundToken,
   refundToken,
   passTurn
 }
-import { Nobletile } from './nobletile'; export class IPlayer {
+export enum TypePlayer {
+  UserPlayer,
+  AiPlayer
+}
+import { Nobletile } from './nobletile'; import { Type } from '@angular/compiler/src/core';
+export class IPlayer {
   id: number;
   name: string;
   img: string;
@@ -26,7 +33,11 @@ import { Nobletile } from './nobletile'; export class IPlayer {
   listCard: Card[];
   listHoldCard: Card[];
   listNobletile: Nobletile[];
-  IsMyTurn: boolean;
+  public IsMyTurn: boolean;
+  public get canAccess(): boolean {
+    return this.IsMyTurn && this.type == TypePlayer.UserPlayer;
+  }
+  protected type: TypePlayer = TypePlayer.UserPlayer;
   public get point() {
     let point = 0;
     if (this.listCard.length > 0) {
@@ -35,7 +46,7 @@ import { Nobletile } from './nobletile'; export class IPlayer {
     if (this.listNobletile.length > 0) {
       point += this.listNobletile.map(item => item.value.point).reduce((prev, next) => prev + next)
     }
-    return 15 + this.id;
+    return point;
   }
   //event
   private readonly _eventActionOfUser = new LiteEvent<EventActionData>();
@@ -73,6 +84,22 @@ import { Nobletile } from './nobletile'; export class IPlayer {
   }
   callEvent(action: UserAction, isActive: boolean, data?: any) {
     this._eventActionOfUser.trigger({ action: action, user_id: this.id, isActive, data: data });
+  }
+  buyHoldCard(card: Card) {
+    if (this.buyCard(card)) {
+      let x = this.listHoldCard.indexOf(card);
+      this.listHoldCard.splice(x, 1);
+      this.callEvent(UserAction.buyHold, true, card);
+      return true;
+    }
+    return false;
+  }
+  buyInList(card: Card) {
+    if (this.buyCard(card)) {
+      this.callEvent(UserAction.buyInList, true, card);
+      return true;
+    }
+    return false;
   }
   buyCard(card: Card) {
     if (!this.canBuy(card)) {
@@ -112,7 +139,7 @@ import { Nobletile } from './nobletile'; export class IPlayer {
         let product = this.product.find(x => x.token_id == item.token_id);
         let difference_count = item.count - (material.count + product.count);
         //neu chenh lenh nho hon => can bu von, khong thi khong can
-        count_need = count_need + difference_count > 0 ? difference_count : 0
+        count_need = count_need + (difference_count > 0 ? difference_count : 0)
       })
       //neu nhu bu < von => co the mua
       return (count_need <= this.materials.find(x => x.token_id == 0).count);
