@@ -7,11 +7,13 @@ import { nobletiles } from '@data/card'
 import { LiteEvent } from './LiteEvent';
 import { Nobletile } from './nobletile';
 import { Message } from '@model/message';
-export class BroadConfig {
+export class BoardConfig {
   timeOneTurn: number;//minute
   maxPlayer: number;//int
   maxPointWin: number;//int
+  maxCpus: number;
   constructor() {
+    this.maxCpus = 0;
     this.timeOneTurn = 15;
     this.maxPlayer = 4;
     this.maxPointWin = 15;
@@ -35,7 +37,7 @@ export class Board {
   listToken: { count: number, token_id: any }[] = [];
   listCards: { level: number, count: number, list: Card[] }[];
   isEndGame: boolean = false;
-
+  config: BoardConfig;
   //event
   private readonly _eventBoardNotice = new LiteEvent<Message>();
   public get eventBoardNotice() { return this._eventBoardNotice.expose(); }
@@ -49,22 +51,27 @@ export class Board {
   private readonly _eventNextPlayer = new LiteEvent<any>();
   public get eventNextPlayer() { return this._eventNextPlayer.expose(); }
 
-  constructor(list: IPlayer[]) {
+  constructor() {
     this.listCards = [];
-    this.listPlayer = list;
+    this.listPlayer = [];
+    this.config = new BoardConfig();
     this.init();
-    this._currentPlayer = this.listPlayer[0];
-    this._currentPlayer.IsMyTurn = true;
-    this._indexPlayer = 0;
     this.listNobletile = nobletiles;
-    let eventActionOfUser = (data: EventActionData) => { this.afterActionOfUser(data); }
-    this.listPlayer.forEach((x, index) => {
-      x.id = index;
-      x.eventActionOfUser.on(eventActionOfUser);
-      x.eventEndTurn.on(data => this.endUserTurn(x.id));
-    })
+
   }
-  public startGame() { }
+  public startGame() {
+    if (this.listPlayer.length > 0) {
+      this._currentPlayer = this.listPlayer[0];
+      this._currentPlayer.IsMyTurn = true;
+      this._indexPlayer = 0;
+      let eventActionOfUser = (data: EventActionData) => { this.afterActionOfUser(data); }
+      this.listPlayer.forEach((x, index) => {
+        x.id = index;
+        x.eventActionOfUser.on(eventActionOfUser);
+        x.eventEndTurn.on(data => this.endUserTurn(x.id));
+      })
+    }
+  }
   private init() {
     switch (this.countPlayer) {
       case 2:

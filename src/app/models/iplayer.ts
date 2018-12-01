@@ -56,7 +56,7 @@ export class IPlayer {
 
   constructor(name?, img?) {
     this.img = img ? img : 'assets/img/user.png';
-    this.name = name ? name : 'test name';
+    this.name = name ? name : 'player';
     this.listCard = [];
     this.listHoldCard = [];
     this.listNobletile = [];

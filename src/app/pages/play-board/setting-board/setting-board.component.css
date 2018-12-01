@@ -1,0 +1,14 @@
+.box>.box-header {
+  padding: 5px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.flex-start {
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.box {
+  margin: 20px;
+}

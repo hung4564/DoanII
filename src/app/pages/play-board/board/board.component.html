@@ -1,0 +1,21 @@
+<div id="board-body" class="full">
+  <div class="row no-margin">
+    <div class="flex flex-center full no-margin">
+      <list-player-comp (OpenPlayer)="openModalPlayer($event)" [size-comp]="player_list_size" [players]="board.listPlayer"></list-player-comp>
+      <div class="flex flex-column">
+        <div [ngStyle]="myStyles" class="flex">
+          <div class="clock">
+            <app-countdown [config-comp]="configCountdown" (start)="onStart()" (finished)="onFinished()" [size-comp]="countdown_size"></app-countdown>
+          </div>
+          <button class="btn" [disabled]="!canAccess()" (click)="openModal()">get material</button>
+          <button class="btn" [disabled]="!canAccess()" (click)="openModalpassTurn()">pass</button>
+        </div>
+        <list-material-comp class="pointer" (click)="openModal()" [size-comp]="material_list_size" [materials]="board.listToken"></list-material-comp>
+
+      </div>
+      <list-nobletile-comp [size-comp]="nobletile_list_size" [nobletiles]="board.listNobletile"></list-nobletile-comp>
+      <list-card-comp [size-comp]="card_list_size" [cards]="board.listCards" (action)="action($event)"></list-card-comp>
+
+    </div>
+  </div>
+</div>
