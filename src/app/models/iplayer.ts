@@ -68,7 +68,7 @@ export class IPlayer {
       this.product.push({ count: 0, token_id: item.id });
     })
   }
-  startTurn() {
+  startTurn(cardsListInBoard: { level: number, count: number, list: Card[] }[], materialsLeftInBoard: { count: number, token_id: any }[]) {
 
   }
   passTurn() {

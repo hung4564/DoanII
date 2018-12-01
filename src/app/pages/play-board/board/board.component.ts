@@ -45,7 +45,11 @@ export class BoardComponent implements OnInit {
     private _messageSV: MessageService,
     private _dialog: MatDialog,
     private _router: Router) {
-
+    console.log(!!this.board)
+    if (!!this.board) {
+      this.board = new Board();
+      this.board.listPlayer = [_userService.user, new AIPlayer(), new AIPlayer(), new AIPlayer()];
+    }
   }
   onStart() {
     //this.counter.stop();
@@ -100,9 +104,7 @@ export class BoardComponent implements OnInit {
     this.onResize()
   }
   canAccess() {
-    if (!!this.board)
-      return this.board.currentPlayer.canAccess
-    return false;
+    return this.board.currentPlayer.canAccess
   }
   settingBoard() {
 

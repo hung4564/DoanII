@@ -238,7 +238,7 @@ export class Board {
     this.checkNobletile();
     this.changeNextPlayer();
     this._eventNextPlayer.trigger();
-    this._currentPlayer.startTurn();
+    this._currentPlayer.startTurn(this.listCards, this.listToken);
   }
   changeNextPlayer() {
     if (this._currentPlayer.point >= 15) {
