@@ -2,16 +2,16 @@
   <div class="row no-margin">
     <div class="flex flex-center full no-margin">
       <list-player-comp (OpenPlayer)="openModalPlayer($event)" [size-comp]="player_list_size" [players]="board.listPlayer"></list-player-comp>
-      <div class="flex flex-column">
-        <div [ngStyle]="myStyles" class="flex">
+      <div class="flex flex-column padding-top" style="justify-content: flex-start;height:100%;">
+        <div [ngStyle]="myStyles" class="flex padding-top">
           <div class="clock">
             <app-countdown [config-comp]="configCountdown" (start)="onStart()" (finished)="onFinished()" [size-comp]="countdown_size"></app-countdown>
           </div>
-          <button class="btn" [disabled]="!canAccess()" (click)="openModal()">get material</button>
-          <button class="btn" [disabled]="!canAccess()" (click)="openModalpassTurn()">pass</button>
+          <button [ngStyle]="buttonStyles" class="btn" style="margin-top:5px" [disabled]="!canAccess()" (click)="openModal()">get</button>
+          <button [ngStyle]="buttonStyles" class="btn" style="margin-top:5px" [disabled]="!canAccess()" (click)="openModalpassTurn()">pass</button>
         </div>
-        <list-material-comp class="pointer" (click)="openModal()" [size-comp]="material_list_size" [materials]="board.listToken"></list-material-comp>
-
+        <list-material-comp style="margin-top: 5px;border-radius: 20px;border: solid;" class="pointer" (click)="openModal()"
+          [size-comp]="material_list_size" [materials]="board.listToken"></list-material-comp>
       </div>
       <list-nobletile-comp [size-comp]="nobletile_list_size" [nobletiles]="board.listNobletile"></list-nobletile-comp>
       <list-card-comp [size-comp]="card_list_size" [cards]="board.listCards" (action)="action($event)"></list-card-comp>

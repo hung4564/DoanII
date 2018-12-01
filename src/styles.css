@@ -60,3 +60,7 @@ body {
 .menu>.item {
   margin-bottom: 10px;
 }
+
+.padding-top {
+  padding-top: 5px;
+}

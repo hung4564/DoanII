@@ -14,18 +14,19 @@ export class ListNobletileComponent implements OnInit {
 
   @Input('size-comp') size: Size;
   @Input() nobletiles: Nobletile[]
-  card_size: Size
-  get myStyles(): any {
+  card_size: Size;
+  token_size: Size;
+  get cardStyles() {
     return {
-      'width.px': this.size.width,
-      'height.px': this.size.height,
-      'background-color': 'yellow'
+      'width.px': this.card_size.width,
+      'height.px': this.card_size.height,
     };
   }
   constructor() { }
 
   onResize() {
-    this.card_size = new Size(this.size.height / 4);
+    this.card_size = new Size(this.size.width, this.size.width * 3 / 2);
+    this.token_size = new Size(this.card_size.width / 2);
   }
   ngOnInit() {
     this.onResize();

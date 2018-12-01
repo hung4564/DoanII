@@ -32,16 +32,20 @@ export class BoardComponent implements OnInit {
   material_list_size: Size;
   nobletile_list_size: Size;
   countdown_size: Size;
+  button_size: Size;
   configCountdown: Config;
   get myStyles(): any {
     return {
-      'width.px': this.material_list_size.width,
-      'height.px': this.material_list_size.height,
-      'background-color': 'green',
       'flex-direction': 'column',
       'justify-content': 'space-around',
       'align-items': 'center',
     };
+  }
+  get buttonStyles() {
+    return {
+      'width.px': this.button_size.width,
+      'height.px': this.button_size.height,
+    }
   }
   constructor(
     private _userService: UserService,
@@ -69,6 +73,7 @@ export class BoardComponent implements OnInit {
       this.nobletile_list_size = new Size(this.board_size.width * 0.1, this.board_size.height)
       this.card_list_size = new Size(this.board_size.width * 0.7, this.board_size.height);
       this.countdown_size = new Size(this.material_list_size.width);
+      this.button_size = new Size(this.countdown_size.width, this.countdown_size.width * 1 / 2).subpaddingNumber(5);
     }
     return;
   }

@@ -19,7 +19,6 @@ export class ListMaterialCompComponent implements OnInit {
     return {
       'width.px': this.size.width,
       'height.px': this.size.height,
-      'background-color': 'green',
       'flex-direction': 'column',
       'justify-content': 'space-around',
       'align-items': 'center',

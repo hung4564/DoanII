@@ -1,3 +1,13 @@
-<div [ngStyle]="myStyles">
-  <card-comp *ngFor="let card of nobletiles" [card]="card" [size-comp]="card_size"></card-comp>
+<div style="padding-left:10px;">
+  <div *ngFor="let card of nobletiles" [ngStyle]="cardStyles" class="nobletiles flex flex-column" >
+    <div class="flex flex-row value">
+      <div class="text-white" style="font-size: 2em;">
+        {{card.value.point}}
+      </div>
+    </div>
+    <div class="price flex">
+      <icon-comp *ngFor="let price of card.price" style="margin-right:5px" class=" token" [size-comp]="token_size"
+        [token_id]="price.token_id" [count]="price.count" [center]="'number'" type="rectangle"></icon-comp>
+    </div>
+  </div>
 </div>

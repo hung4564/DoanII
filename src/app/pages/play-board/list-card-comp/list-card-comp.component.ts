@@ -36,16 +36,16 @@ export class ListCardCompComponent implements OnInit {
   }
   get cardSetStyles() {
     return {
-      'width': '40px',
-      'height': '60px',
+      'width.px': this.card_size.height / 3 * 2 / 3,
+      'height.px': this.card_size.height / 3,
+      'font-size.px': this.card_size.height / 9,
       'background-color': 'red'
     }
   }
   padding: Padding = new Padding(5, 0);
   onResize() {
-
     this.list_card_size = new Size(this.size.width, this.size.height / 3).subpadding(this.padding);
-    this.card_size = new Size(this.list_card_size.width / 5, this.list_card_size.height);
+    this.card_size = new Size(this.list_card_size.width / 4, this.list_card_size.height).subpadding(this.padding);
   }
   ngOnInit() {
     this.onResize();
