@@ -1,71 +1,80 @@
-<div class="row no-margin">
-  <div class="flex flex-center full">
-    <div class="flex flex-start flex-column" style="min-height:400px">
-      <div class="box">
-        <div class="box-header">Setting</div>
-        <div class="box-body menu" style="text-align: center;">
-          <div class="item-flex item">
-            <span># of player </span>
-            <mat-form-field style="width: 40px;padding-right: 5px; ">
-              <mat-select placeholder="#" [(ngModel)]="data.maxPlayer" (selectionChange)="selectMaxPlayerChanger($event)">
-                <ng-container *ngFor="let i of array">
-                  <mat-option [value]="i" *ngIf="i > 1">{{i}}</mat-option>
-                </ng-container>
-              </mat-select>
-            </mat-form-field>
-            <span> (with </span>
-            <mat-form-field style="width: 40px;padding-right: 5px; ">
-              <mat-select placeholder="#" [(ngModel)]="data.maxCpus" (selectionChange)="selectCpuChanger($event)">
-                <ng-container *ngFor="let i of array">
-                  <mat-option [value]="i" *ngIf="i < data.maxPlayer">{{i}}</mat-option>
-                </ng-container>
-              </mat-select>
-            </mat-form-field>
-            <span> CPUs)</span>
+<div class="row no-margin" (keydown.enter)="$event.preventDefault()">
+  <form [formGroup]="settingForm">
+    <div class="flex flex-center full">
+      <div class="flex flex-start flex-column" style="min-height:400px">
+        <div class="box">
+          <div class="box-header">Setting</div>
+          <div class="box-body menu" style="text-align: center;">
+            <div class="item-flex item">
+              <span># of player </span>
+              <mat-form-field style="width: 40px;padding-right: 5px; ">
+                <mat-select formControlName="selectMaxPlayer" placeholder="#" (selectionChange)="selectMaxPlayerChanger($event)">
+                  <ng-container *ngFor="let i of array">
+                    <mat-option [value]="i" *ngIf="i > 1">{{i}}</mat-option>
+                  </ng-container>
+                </mat-select>
+              </mat-form-field>
+              <span> (with </span>
+              <mat-form-field style="width: 40px;padding-right: 5px; ">
+                <mat-select formControlName="selectMaxCpu" placeholder="#" [(ngModel)]="data.maxCpus" (selectionChange)="selectCpuChanger($event)">
+                  <ng-container *ngFor="let i of array">
+                    <mat-option [value]="i" *ngIf="i < data.maxPlayer">{{i}}</mat-option>
+                  </ng-container>
+                </mat-select>
+              </mat-form-field>
+              <span> CPUs)</span>
+            </div>
+            <div class="item-flex item">
+              <span>game speed</span>
+              <mat-form-field style="padding-left: 5px; ">
+                <mat-select formControlName="selectTimeOneTurn" placeholder="#">
+                  <mat-option *ngFor="let game_speed of game_speeds" [value]="game_speed.value">{{game_speed.text}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="item-flex item">
+              <span>target score</span>
+              <mat-form-field style="padding-left: 5px; ">
+                <mat-select formControlName="selectScore" placeholder="#">
+                  <mat-option *ngFor="let target_score of target_score " [value]="target_score.value">{{target_score.text}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="item-flex item">
+              <button class="btn" (click)="Submit()" [disabled]="!canSubmit">Play</button>
+            </div>
           </div>
-          <div class="item-flex item">
-            <span>game speed</span>
-            <mat-form-field style="padding-left: 5px; ">
-              <mat-select placeholder="#" [(ngModel)]="data.timeOneTurn">
-                <mat-option *ngFor="let game_speed of game_speeds" [value]="game_speed.value">{{game_speed.text}}</mat-option>
-              </mat-select>
-            </mat-form-field>
+        </div>
+      </div>
+      <div class="flex flex-start flex-column menu" style="min-height:400px">
+        <div class="box">
+          <div class="box-header">
+            List player
           </div>
-          <div class="item-flex item">
-            <span>target score</span>
-            <mat-form-field style="padding-left: 5px; ">
-              <mat-select placeholder="#" [(ngModel)]="data.maxPointWin">
-                <mat-option *ngFor="let target_score of target_score " [value]="target_score.value">{{target_score.text}}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div class="item-flex item">
-            <button class="btn" (click)="Submit()">Play</button>
+          <div class="box-body menu">
+            <div formArrayName="items" *ngFor="let item of settingForm.get('items').controls; let i = index;">
+              <div [formGroupName]="i">
+                <mat-form-field style="width: 40px;padding-right: 5px; ">
+                  <mat-select placeholder="#" formControlName="order" [(ngModel)]="orderList[i].order"
+                    [errorStateMatcher]="checkError" (selectionChange)="selectOrderChange($event)">
+                    <ng-container *ngFor="let a of array">
+                      <mat-option [value]="a" *ngIf="a <= data.maxPlayer&&a>0">{{a}}</mat-option>
+                    </ng-container>
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-icon matPrefix class="fa" [ngClass]="setClass(item.value.type)" style="margin-right:5px"></mat-icon>
+                  <input matInput placeholder="Name player" [(ngModel)]="orderList[i].player.name" formControlName="name"
+                    autocomplete="off">
+                </mat-form-field>
+                <mat-error style="margin-top: -15px" *ngIf="check(orderList[i].order)">
+                  Order cannot be duplicated
+                </mat-error>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="flex flex-start flex-column menu" style="min-height:400px">
-      <div class="box">
-        <div class="box-header">
-          List player
-        </div>
-        <div class="box-body menu">
-          <div class="item item-flex flex flex-row" *ngFor="let player of orderList">
-            <mat-form-field style="width: 40px;padding-right: 5px; ">
-              <mat-select placeholder="#" [value]="player.order">
-                <ng-container *ngFor="let a of array">
-                  <mat-option [value]="a" *ngIf="a <= data.maxPlayer&&a>0">{{a}}</mat-option>
-                </ng-container>
-              </mat-select>
-            </mat-form-field>
-            <mat-form-field>
-              <mat-icon matPrefix class="fa" [ngClass]="setClass(player.type)" style="margin-right:5px"></mat-icon>
-              <input matInput [placeholder]="'Name player ' + player.order" [(ngModel)]="player.player.name">
-            </mat-form-field>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  </form>
 </div>

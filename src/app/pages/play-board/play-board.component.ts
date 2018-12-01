@@ -20,10 +20,7 @@ declare var $: any;
 @Component({
   selector: 'app-play-board',
   templateUrl: './play-board.component.html',
-  styleUrls: ['./play-board.component.css'],
-  host: {
-    '(window:resize)': 'onResize()',
-  }
+  styleUrls: ['./play-board.component.css']
 })
 
 export class PlayBoardComponent implements OnInit {
@@ -49,6 +46,7 @@ export class PlayBoardComponent implements OnInit {
     this.board.listPlayer = listAdd;
     this.board.startGame();
   }
+
   ngOnInit() {
   }
 }

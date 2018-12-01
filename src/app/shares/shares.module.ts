@@ -4,7 +4,7 @@ import { IconCompComponent } from './icon-comp/icon-comp.component';
 import { PlayerCompComponent } from './player-comp/player-comp.component';
 import { MaterialModule } from './material.module';
 import { CardCompComponent } from './card-comp/card-comp.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MainPipe } from '@pipes/pipe.module';
 import { CountdownModule } from 'ngx-countdown';
@@ -25,6 +25,7 @@ import { FlipCountdownComponent } from './countdown/countdown.component';
     HttpClientModule,
     MainPipe,
     CountdownModule,
+    ReactiveFormsModule
   ],
   exports: [
     IconCompComponent,
@@ -37,7 +38,8 @@ import { FlipCountdownComponent } from './countdown/countdown.component';
     MainPipe,
     CountdownModule,
     ConfigDialogComponent,
-    FlipCountdownComponent
+    FlipCountdownComponent,
+    ReactiveFormsModule,
   ],
   providers: [],
   entryComponents: [

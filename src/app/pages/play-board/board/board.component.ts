@@ -17,7 +17,10 @@ declare var $: any;
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
-  styleUrls: ['./board.component.css']
+  styleUrls: ['./board.component.css'],
+  host: {
+    '(window:resize)': 'onResize()',
+  }
 })
 export class BoardComponent implements OnInit {
   @ViewChild(FlipCountdownComponent) counter: FlipCountdownComponent;
