@@ -77,7 +77,7 @@ export class IPlayer {
   endTurn() {
     let count = this.materials.map(item => item.count).reduce((prev, next) => prev + next);
     if (count > 10) {
-      this.callEvent(UserAction.needrefundToken, true);
+      this.needRefunToken(count - 10);
       return;
     }
     this._eventEndTurn.trigger();
@@ -85,27 +85,40 @@ export class IPlayer {
   callEvent(action: UserAction, isActive: boolean, data?: any) {
     this._eventActionOfUser.trigger({ action: action, user_id: this.id, isActive, data: data });
   }
-  buyHoldCard(card: Card) {
-    if (this.buyCard(card)) {
-      let x = this.listHoldCard.indexOf(card);
-      this.listHoldCard.splice(x, 1);
-      this.callEvent(UserAction.buyHold, true, card);
-      return true;
-    }
-    return false;
+  protected needRefunToken(count_need_remove: number) {
+    //this.callEvent(UserAction.needrefundToken, true);
   }
-  buyInList(card: Card) {
-    if (this.buyCard(card)) {
-      this.callEvent(UserAction.buyInList, true, card);
-      return true;
-    }
-    return false;
+  async buyHoldCard(card: Card) {
+    this.canBuy(card).then(value => {
+      if (value) {
+        this.buyCard(card).then(() => {
+          let x = this.listHoldCard.indexOf(card);
+          this.listHoldCard.splice(x, 1);
+          this.callEvent(UserAction.buyHold, true, card);
+        });
+      }
+      else {
+        //this.callEvent(UserAction.buyHold, false);
+      }
+    })
   }
-  buyCard(card: Card) {
-    if (!this.canBuy(card)) {
-      this.callEvent(UserAction.buyCard, false);
-      return false;
-    }
+  async buyInList(card: Card) {
+    this.canBuy(card).then(value => {
+      if (value) {
+        this.buyCard(card).then(value => {
+          this.callEvent(UserAction.buyInList, true, card);
+        });
+      }
+      else {
+        //this.callEvent(UserAction.buyInList, false);
+      }
+    })
+  }
+  async buyCard(card: Card): Promise<void> {
+    // if (!this.canBuy(card)) {
+    //   this.callEvent(UserAction.buyCard, false);
+    //   return false;
+    // }
     card.price.forEach((item, index) => {
       let material = this.materials.find(x => x.token_id == item.token_id);
       let product = this.product.find(x => x.token_id == item.token_id);
@@ -113,31 +126,36 @@ export class IPlayer {
     })
     this.product.find(x => x.token_id == card.value.token_id).count++;
     this.listCard.push(card);
-    this.callEvent(UserAction.buyCard, true, card);
-    return true;
   }
   holdCard(card: Card) {
-    if (!this.canHold()) {
-      this.callEvent(UserAction.holdCard, false, card);
-      return false;
-    }
-    let token = this.materials.find(x => x.token_id == 0);
-    token.count++;
-    this.listHoldCard.push(card);
-    this.callEvent(UserAction.holdCard, true, card);
-    return true;
+    this.canHold().then(value => {
+      if (value) {
+        let token = this.materials.find(x => x.token_id == 0);
+        token.count++;
+        this.listHoldCard.push(card);
+        this.callEvent(UserAction.holdCard, true, card);
+        return true;
+      }
+      else {
+        //this.callEvent(UserAction.holdCard, false, card);
+        return false;
+      }
+    })
   }
-  canHold() {
+  async canHold(): Promise<boolean> {
     //moi nguoi khong the dc giu qua 3 the hay 3 dong vang
     return this.materials.find(x => x.token_id == 0).count < 3 || this.listHoldCard.length < 3
   }
-  canBuy(card: Card): boolean {
+  async canBuy(card: Card): Promise<boolean> {
     if (!!card) {
       let count_need: number = 0; // gia tri can bu 
+      let material: { count: number, token_id: number };
+      let product: { count: number, token_id: number };
+      let difference_count: number = 0;
       card.price.forEach((item, index) => {
-        let material = this.materials.find(x => x.token_id == item.token_id);
-        let product = this.product.find(x => x.token_id == item.token_id);
-        let difference_count = item.count - (material.count + product.count);
+        material = this.materials.find(x => x.token_id == item.token_id);
+        product = this.product.find(x => x.token_id == item.token_id);
+        difference_count = item.count - (material.count + product.count);
         //neu chenh lenh nho hon => can bu von, khong thi khong can
         count_need = count_need + (difference_count > 0 ? difference_count : 0)
       })
@@ -154,7 +172,7 @@ export class IPlayer {
       this.callEvent(UserAction.setToken, true, tokenList);
     }
   }
-  refundToken(data) {
+  refundToken(data: { count: number, token_id: number }[]) {
     if (!data) {
       return
     }

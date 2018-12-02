@@ -40,7 +40,6 @@ export class PlayBoardComponent implements OnInit {
     this.board.config = $event.BoardConfig;
     let list = $event.orderList.sort((x, y) => { return x.order - y.order }).map(x => x.player);
     this.board.listPlayer = list;
-    this.board.startGame();
   }
 
   ngOnInit() {

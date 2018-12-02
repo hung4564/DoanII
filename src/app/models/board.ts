@@ -7,13 +7,14 @@ import { nobletiles } from '@data/card'
 import { LiteEvent } from './LiteEvent';
 import { Nobletile } from './nobletile';
 import { Message } from '@model/message';
+import { Helper } from './helper';
 export class BoardConfig {
   timeOneTurn: number;//minute
   maxPlayer: number;//int
   maxPointWin: number;//int
   maxCpus: number;
   constructor() {
-    this.maxCpus = 0;
+    this.maxCpus = 3;
     this.timeOneTurn = 15;
     this.maxPlayer = 4;
     this.maxPointWin = 15;
@@ -59,7 +60,7 @@ export class Board {
     this.listNobletile = nobletiles;
 
   }
-  public startGame() {
+  public settingGame() {
     if (this.listPlayer.length > 0) {
       this._currentPlayer = this.listPlayer[0];
       this._currentPlayer.IsMyTurn = true;
@@ -71,6 +72,9 @@ export class Board {
         x.eventEndTurn.on(data => this.endUserTurn(x.id));
       })
     }
+  }
+  public startGame() {
+    this._currentPlayer.startTurn(this.listCards, this.listToken);
   }
   private init() {
     switch (this.countPlayer) {
@@ -162,7 +166,7 @@ export class Board {
           this.refundToken(data.data)
           break;
         case UserAction.needrefundToken:
-          this._eventRefundToken.trigger();
+          this.needRefunToken();
           return;
           break;
         case UserAction.buyHold:
@@ -176,6 +180,9 @@ export class Board {
       this._eventBoardNotice.trigger(new Message('cant do that'))
     }
 
+  }
+  private needRefunToken() {
+    this._eventRefundToken.trigger();
   }
   private refundToken(data) {
     let boardToken;
@@ -197,7 +204,7 @@ export class Board {
       })
     }
   }
-  checkNobletile() {
+  private async checkNobletile(): Promise<boolean> {
     //check the quy toc
     let get = true;
     let get_index = -1;
@@ -231,16 +238,18 @@ export class Board {
     scorelist.sort((x, y) => { return y.point - x.point })
     this._eventEndGame.trigger(scorelist);
   }
-  endUserTurn(user_id?: number) {
+  async endUserTurn(user_id?: number): Promise<void> {
     if (!!user_id && user_id != this._currentPlayer.id) {
       return;
     }
-    this.checkNobletile();
-    this.changeNextPlayer();
-    this._eventNextPlayer.trigger();
-    this._currentPlayer.startTurn(this.listCards, this.listToken);
+    this.checkNobletile().then(value => {
+      this.changeNextPlayer().then(() => {
+        this._currentPlayer.startTurn(this.listCards, this.listToken);
+        this._eventNextPlayer.trigger();
+      });
+    });
   }
-  changeNextPlayer() {
+  private async changeNextPlayer(): Promise<void> {
     if (this._currentPlayer.point >= 15) {
       this.isEndGame = true;
     }

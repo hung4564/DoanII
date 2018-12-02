@@ -13,6 +13,7 @@ import { endGameDialog } from '../dialog/endgame.dialog.component';
 import { RefundMaterialDialog, SetMaterialDialog } from '../dialog/material.dialog.component';
 import { Board } from '@model/board';
 import { Config } from 'ngx-countdown';
+import { Helper } from '@model/helper';
 declare var $: any;
 @Component({
   selector: 'app-board',
@@ -114,19 +115,21 @@ export class BoardComponent implements OnInit {
     return this.board.currentPlayer.canAccess
   }
   settingBoard() {
-
     this.board.eventBoardNotice.on((x: Message) => this.notice(x))
     this.board.eventRefundToken.on((data) => this.openModalrefundToken(data))
     this.board.eventEndGame.on((data) => this.openModalEndGame(data));
     this.board.eventNextPlayer.on((data) => this.nextPlayer());
-    this.onResize()
+    this.board.settingGame();
   }
   nextPlayer() {
     this.counter.config.leftTime = this.board.config.timeOneTurn * 60;
     this.counter.restart();
   }
   ngAfterViewInit() {
-
+    Helper.delay(2000).then(() => {
+      this.board.listPlayer[1].materials.forEach(x => x.count = 1);
+      this.board.startGame();
+    })
   }
   openModalEndGame(data) {
     const dialogRef = this._dialog.open(endGameDialog, {
