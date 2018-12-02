@@ -154,7 +154,9 @@ export class Board {
     if (data.isActive) {
       switch (data.action) {
         case UserAction.buyInList:
-          this.changeCardInList(data.data).then();
+          this.changeCardInList(data.data.card).then(() =>
+            this.refundToken(data.data.list_return)
+          );
           break;
         case UserAction.holdCard:
           this.changeCardInList(data.data).then();
@@ -170,6 +172,7 @@ export class Board {
           return;
           break;
         case UserAction.buyHold:
+          this.refundToken(data.data.list_return)
           break;
         default:
           break;
@@ -251,6 +254,7 @@ export class Board {
       this.changeNextPlayer().then(() => {
         Helper.delay(100).then(() => {
           this._eventNextPlayer.trigger();
+          this._currentPlayer.IsMyTurn = true;
           this._currentPlayer.startTurn(this.listCards, this.listToken);
         })
       });
@@ -265,6 +269,5 @@ export class Board {
     }
     this._currentPlayer.IsMyTurn = false;
     this._currentPlayer = this.listPlayer[++this._indexPlayer % this.countPlayer];
-    this._currentPlayer.IsMyTurn = true;
   }
 }

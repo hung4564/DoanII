@@ -41,14 +41,17 @@ export class AIPlayer extends IPlayer {
     user.checkDifferenceValue(user._targetInfo.card).then(value => {
       user._targetInfo.countDIfference = value.count;
       user._targetInfo.tokenDifference = value.data;
-      if (user._targetInfo.countDIfference == 0) {
-        user.buyInList(user._targetInfo.card).then(() => { });
-      }
-      else {
-        user.settingToken(user._targetInfo.tokenDifference).then(result => {
-          user.setToken(result).then();
-        })
-      }
+      Helper.delay(100).then(() => {
+        if (user._targetInfo.countDIfference == 0) {
+          user.buyInList(user._targetInfo.card).then(() => { });
+        }
+        else {
+          user.settingToken(user._targetInfo.tokenDifference).then(result => {
+            user.setToken(result).then();
+          })
+        }
+      })
+
     })
   }
   private async settingTargetCard(count_had: number): Promise<Target> {
@@ -144,9 +147,16 @@ export class AIPlayer extends IPlayer {
         }
       })
     }
+    let token_array = user._materialsLeftInBoard.filter(x => x.count > 0).map(x => x.token_id);
     for (let i = 0; i < get_count; i++) {
-      get_list.push({ count: 1, token_id: Helper.randomTokenId(except_list) });
-      except_list.push(get_list[i].token_id);
+      let token_id = Helper.randomTokenId(except_list);
+      if (token_id > 0) {
+
+        get_list.push({ count: 1, token_id: Helper.randomTokenId(except_list) });
+        except_list.push(get_list[i].token_id);
+      } else {
+        return get_list;
+      }
     }
     return get_list;
   }

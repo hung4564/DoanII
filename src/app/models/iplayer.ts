@@ -24,6 +24,7 @@ export enum TypePlayer {
   AiPlayer
 }
 import { Nobletile } from './nobletile'; import { Type } from '@angular/compiler/src/core';
+import { Helper } from './helper';
 export class IPlayer {
   id: number;
   name: string;
@@ -77,8 +78,10 @@ export class IPlayer {
   endTurn() {
     let count = this.materials.map(item => item.count).reduce((prev, next) => prev + next);
     if (count > 10) {
-      this.needRefundToken(count - 10).then();
-      return;
+      this.needRefundToken(count - 10).then(() => {
+        this.endTurn();
+      }
+      );
     }
     this._eventEndTurn.trigger();
   }
@@ -91,10 +94,10 @@ export class IPlayer {
   async buyHoldCard(card: Card) {
     this.canBuy(card).then(value => {
       if (value) {
-        this.buyCard(card).then(() => {
+        this.buyCard(card).then(result => {
           let x = this.listHoldCard.indexOf(card);
           this.listHoldCard.splice(x, 1);
-          this.callEvent(UserAction.buyHold, true, card);
+          this.callEvent(UserAction.buyHold, true, { card: card, list_return: result });
         });
       }
       else {
@@ -105,8 +108,8 @@ export class IPlayer {
   async buyInList(card: Card) {
     this.canBuy(card).then(value => {
       if (value) {
-        this.buyCard(card).then(value => {
-          this.callEvent(UserAction.buyInList, true, card);
+        this.buyCard(card).then(result => {
+          this.callEvent(UserAction.buyInList, true, { card: card, list_return: result });
         });
       }
       else {
@@ -114,18 +117,40 @@ export class IPlayer {
       }
     })
   }
-  async buyCard(card: Card): Promise<void> {
+  async buyCard(card: Card): Promise<{ count: number, token_id: number }[]> {
     // if (!this.canBuy(card)) {
     //   this.callEvent(UserAction.buyCard, false);
     //   return false;
     // }
-    card.price.forEach((item, index) => {
-      let material = this.materials.find(x => x.token_id == item.token_id);
-      let product = this.product.find(x => x.token_id == item.token_id);
-      material.count = material.count - item.count + product.count;
+    let list_return: { count: number, token_id: number }[] = [];
+    let difference_count: number = 0;
+    console.log(this.materials);
+    debugger
+    let temp
+    card.price.forEach((value, index) => {
+      let material = this.materials.find(x => x.token_id == value.token_id);
+      if (material.count > value.count) {
+        temp = Helper.copy(value.count);
+        material.count -= temp;
+      }
+      else {
+        temp = Helper.copy(material.count);
+        console.log(temp);
+        difference_count += Helper.copy(value.count - material.count);
+        material.count = 0;
+      }
+      list_return.push({ count: temp, token_id: value.token_id })
     })
+    if (difference_count > 0) {
+      this.materials.find(x => x.token_id == 0).count -= difference_count;
+      list_return.push({ count: difference_count, token_id: 0 })
+    }
     this.product.find(x => x.token_id == card.value.token_id).count++;
     this.listCard.push(card);
+
+    console.log(list_return);
+    console.log(card.price);
+    return list_return;
   }
   holdCard(card: Card) {
     this.canHold().then(value => {
