@@ -39,7 +39,7 @@ export class ListCardCompComponent implements OnInit {
       'width.px': this.card_size.height / 3 * 2 / 3,
       'height.px': this.card_size.height / 3,
       'font-size.px': this.card_size.height / 9,
-      'background-color': 'red'
+      'background-color': '#' + 'c0392b' + 'CC',
     }
   }
   padding: Padding = new Padding(5, 0);

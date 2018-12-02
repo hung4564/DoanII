@@ -38,12 +38,8 @@ export class PlayBoardComponent implements OnInit {
   submitSetting($event) {
     this.isSetting = false;
     this.board.config = $event.BoardConfig;
-    let list = $event.orderList.sort((x, y) => { return y.order < x.order })
-    let listAdd: IPlayer[] = []
-    list.forEach((element, index) => {
-      listAdd[index] = element.player;
-    });
-    this.board.listPlayer = listAdd;
+    let list = $event.orderList.sort((x, y) => { return x.order - y.order }).map(x => x.player);
+    this.board.listPlayer = list;
     this.board.startGame();
   }
 

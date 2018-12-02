@@ -52,7 +52,6 @@ export class BoardComponent implements OnInit {
     private _messageSV: MessageService,
     private _dialog: MatDialog,
     private _router: Router) {
-    console.log(!!this.board)
     if (!!this.board) {
       this.board = new Board();
       this.board.listPlayer = [_userService.user, new AIPlayer(), new AIPlayer(), new AIPlayer()];
