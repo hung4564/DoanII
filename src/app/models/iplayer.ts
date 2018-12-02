@@ -77,7 +77,7 @@ export class IPlayer {
   endTurn() {
     let count = this.materials.map(item => item.count).reduce((prev, next) => prev + next);
     if (count > 10) {
-      this.needRefunToken(count - 10);
+      this.needRefundToken(count - 10).then();
       return;
     }
     this._eventEndTurn.trigger();
@@ -85,7 +85,7 @@ export class IPlayer {
   callEvent(action: UserAction, isActive: boolean, data?: any) {
     this._eventActionOfUser.trigger({ action: action, user_id: this.id, isActive, data: data });
   }
-  protected needRefunToken(count_need_remove: number) {
+  protected async needRefundToken(count_need_remove: number) {
     //this.callEvent(UserAction.needrefundToken, true);
   }
   async buyHoldCard(card: Card) {
@@ -164,7 +164,7 @@ export class IPlayer {
     }
     return false;
   }
-  setToken(tokenList: { count: number, token_id: any }[]) {
+  async setToken(tokenList: { count: number, token_id: any }[]) {
     if (!!tokenList) {
       tokenList.forEach(token => {
         this.materials.find(x => x.token_id == token.token_id).count += token.count;
@@ -172,10 +172,7 @@ export class IPlayer {
       this.callEvent(UserAction.setToken, true, tokenList);
     }
   }
-  refundToken(data: { count: number, token_id: number }[]) {
-    if (!data) {
-      return
-    }
+  async refundToken(data: { count: number, token_id: number }[]): Promise<void> {
     let playerToken;
     data.forEach(token => {
       playerToken = this.materials.find(x => x.token_id == token.token_id)

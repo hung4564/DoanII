@@ -55,7 +55,7 @@ export class BoardComponent implements OnInit {
     private _router: Router) {
     if (!!this.board) {
       this.board = new Board();
-      this.board.listPlayer = [_userService.user, new AIPlayer(), new AIPlayer(), new AIPlayer()];
+      this.board.listPlayer = [_userService.user, new AIPlayer()];
     }
   }
   onStart() {
@@ -127,7 +127,6 @@ export class BoardComponent implements OnInit {
   }
   ngAfterViewInit() {
     Helper.delay(2000).then(() => {
-      this.board.listPlayer[1].materials.forEach(x => x.count = 1);
       this.board.startGame();
     })
   }

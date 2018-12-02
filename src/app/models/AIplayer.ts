@@ -29,30 +29,27 @@ export class AIPlayer extends IPlayer {
   private async settingAction(): Promise<void> {
     let user = this;
     let count = user.materials.concat(user.product).filter(x => x.token_id > 0).map(x => x.count).reduce((pre, next) => pre + next);
-    //neu muc tieu chua ton tai hoac ko con tai trong danh sanh the => can thiet lap lai
-    if (!user._targetInfo ||
-      !user._cardsListInBoard.find(x => x.level == user._targetInfo.card.level).list.includes(user._targetInfo.card)) {
-
-      user.settingTargetCard(count).then((result: Target) => {
-        user._targetInfo = result;
-        this.settingAction();
-      });
-    }
-    //neu da co muc tieu va the van con ton tai
-    else {
-      user.checkDifferenceValue(user._targetInfo.card).then(value => {
-        user._targetInfo.countDIfference = value.count;
-        user._targetInfo.tokenDifference = value.data;
-        if (user._targetInfo.countDIfference == 0) {
-          user.buyInList(user._targetInfo.card).then(() => { });
-        }
-        else {
-          user.settingToken(user._targetInfo.tokenDifference).then(result => {
-            user.setToken(result)
-          })
-        }
+    user.settingTargetCard(count).then((result: Target) => {
+      user._targetInfo = result;
+      Helper.delay(100).then(() => {
+        this.checkTarget().then();
       })
-    }
+    });
+  }
+  private async checkTarget() {
+    let user = this;
+    user.checkDifferenceValue(user._targetInfo.card).then(value => {
+      user._targetInfo.countDIfference = value.count;
+      user._targetInfo.tokenDifference = value.data;
+      if (user._targetInfo.countDIfference == 0) {
+        user.buyInList(user._targetInfo.card).then(() => { });
+      }
+      else {
+        user.settingToken(user._targetInfo.tokenDifference).then(result => {
+          user.setToken(result).then();
+        })
+      }
+    })
   }
   private async settingTargetCard(count_had: number): Promise<Target> {
     let user = this;
@@ -99,10 +96,11 @@ export class AIPlayer extends IPlayer {
     data.count = count_need;
     return data;
   }
-  protected async needRefunToken(count_need_remove: number) {
+  protected async needRefundToken(count_need_remove: number) {
     let user = this;
+    super.needRefundToken(count_need_remove);
     user.settingRefund(count_need_remove).then(data => {
-      user.refundToken(data);
+      user.refundToken(data).then();
     })
   }
   private async settingRefund(count_need_remove: number): Promise<{ count: number, token_id: any }[]> {

@@ -1,5 +1,5 @@
 <div style="padding-left:10px;">
-  <div *ngFor="let card of nobletiles" [ngStyle]="cardStyles" class="nobletiles flex flex-column" >
+  <div [@rollInOnEnter] [@rollOutOnLeave] *ngFor="let card of nobletiles" [ngStyle]="cardStyles" class="nobletiles flex flex-column" >
     <div class="flex flex-row value">
       <div class="text-white" style="font-size: 2em;">
         {{card.value.point}}

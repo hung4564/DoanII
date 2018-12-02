@@ -154,16 +154,16 @@ export class Board {
     if (data.isActive) {
       switch (data.action) {
         case UserAction.buyInList:
-          this.changeCardInList(data.data);
+          this.changeCardInList(data.data).then();
           break;
         case UserAction.holdCard:
-          this.changeCardInList(data.data);
+          this.changeCardInList(data.data).then();
           break;
         case UserAction.setToken:
-          this.setToken(data.data);
+          this.setToken(data.data).then();
           break;
         case UserAction.refundToken:
-          this.refundToken(data.data)
+          this.refundToken(data.data).then();
           break;
         case UserAction.needrefundToken:
           this.needRefunToken();
@@ -184,20 +184,25 @@ export class Board {
   private needRefunToken() {
     this._eventRefundToken.trigger();
   }
-  private refundToken(data) {
+  private async refundToken(data) {
     let boardToken;
     data.forEach(token => {
       boardToken = this.listToken.find(x => x.token_id == token.token_id);
       boardToken.count = boardToken.count + token.count;
     })
   }
-  private changeCardInList(cardremove: Card) {
+  private async changeCardInList(cardremove: Card) {
     if (this.checkCard(cardremove)) {
-      this.removeCard(cardremove);
-      this.addCard(cardremove.level);
+      // this.removeCard(cardremove);
+      // this.addCard(cardremove.level);
+      let level = cardremove.level;
+      let cardList = this.listCards.find(x => x.level === level)
+      let x = cardList.list.indexOf(cardremove);
+      cardList.list[x] = new Card(level);
+      cardList.count--;
     }
   }
-  private setToken(tokenList: { count: number, token_id: any }[]) {
+  private async setToken(tokenList: { count: number, token_id: any }[]) {
     if (!!tokenList) {
       tokenList.forEach(x => {
         this.listToken.find(y => y.token_id == x.token_id).count -= x.count;
@@ -244,8 +249,10 @@ export class Board {
     }
     this.checkNobletile().then(value => {
       this.changeNextPlayer().then(() => {
-        this._currentPlayer.startTurn(this.listCards, this.listToken);
-        this._eventNextPlayer.trigger();
+        Helper.delay(100).then(() => {
+          this._eventNextPlayer.trigger();
+          this._currentPlayer.startTurn(this.listCards, this.listToken);
+        })
       });
     });
   }

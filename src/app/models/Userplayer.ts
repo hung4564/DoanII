@@ -8,6 +8,7 @@ export class UserPlayer extends IPlayer {
     this.name = name ? name : "User Player";
   }
   protected needRefunToken(count_need_remove: number) {
+    super.needRefundToken(count_need_remove);
     this.callEvent(UserAction.needrefundToken, true);
   }
 }

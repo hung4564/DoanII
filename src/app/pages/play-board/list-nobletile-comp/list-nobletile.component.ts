@@ -1,14 +1,18 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Size } from '@model/Size';
 import { Nobletile } from '@model/nobletile';
-
+import {rollInOnEnterAnimation,rollOutOnLeaveAnimation} from 'angular-animations';
 @Component({
   selector: 'list-nobletile-comp',
   templateUrl: './list-nobletile.component.html',
   styleUrls: ['./list-nobletile.component.css'],
   host: {
     '(window:resize)': 'onResize()',
-  }
+  },
+  animations: [
+    rollInOnEnterAnimation(),
+    rollOutOnLeaveAnimation()
+  ]
 })
 export class ListNobletileComponent implements OnInit {
 
