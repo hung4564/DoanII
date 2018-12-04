@@ -1,11 +1,11 @@
-import { Token } from './token';
+import { Token, ListToken } from './token';
 import { materials } from '@data/token';
 import { Helper } from './helper';
 export class Card {
   id: number;
   level: number;
   value: { point: number, token_id: number }
-  price: { count: number, token_id: number }[];
+  price: ListToken[];
   img: string;
   constructor(level: number) {
     this.level = level;
@@ -48,7 +48,7 @@ export class Card {
     else {
       countToken = Helper.randomIntFromInterval(price_ranger[0], price_ranger[1])
     };
-    let price: { count: number, token_id: number }[] = [];
+    let price: ListToken[] = [];
     switch (maxToken) {
       case 1:
         price = [{ count: countToken, token_id: Helper.randomTokenId() }]

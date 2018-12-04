@@ -10,3 +10,7 @@ export class Token {
     this.imgInfo = imgInfo;
   }
 }
+export class ListToken {
+  count: number;
+  token_id: number;
+}

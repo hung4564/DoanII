@@ -25,12 +25,13 @@ export enum TypePlayer {
 }
 import { Nobletile } from './nobletile'; import { Type } from '@angular/compiler/src/core';
 import { Helper } from './helper';
+import { ListToken } from './token';
 export class IPlayer {
   id: number;
   name: string;
   img: string;
-  materials: { count: number, token_id: number }[] = [];
-  product: { count: number, token_id: number }[] = [];
+  materials: ListToken[] = [];
+  product: ListToken[] = [];
   listCard: Card[];
   listHoldCard: Card[];
   listNobletile: Nobletile[];
@@ -69,7 +70,7 @@ export class IPlayer {
       this.product.push({ count: 0, token_id: item.id });
     })
   }
-  startTurn(cardsListInBoard: { level: number, count: number, list: Card[] }[], materialsLeftInBoard: { count: number, token_id: any }[]) {
+  startTurn(cardsListInBoard: { level: number, count: number, list: Card[] }[], materialsLeftInBoard: ListToken[]) {
     this.IsMyTurn = true;
   }
   passTurn() {
@@ -128,12 +129,12 @@ export class IPlayer {
       }
     })
   }
-  async buyCard(card: Card): Promise<{ count: number, token_id: number }[]> {
+  async buyCard(card: Card): Promise<ListToken[]> {
     // if (!this.canBuy(card)) {
     //   this.callEvent(UserAction.buyCard, false);
     //   return false;
     // }
-    let list_return: { count: number, token_id: number }[] = [];
+    let list_return: ListToken[] = [];
     let difference_count: number = 0;
     let temp
     card.price.forEach((value, index) => {
@@ -179,8 +180,8 @@ export class IPlayer {
   async canBuy(card: Card): Promise<boolean> {
     if (!!card) {
       let count_need: number = 0; // gia tri can bu 
-      let material: { count: number, token_id: number };
-      let product: { count: number, token_id: number };
+      let material: ListToken;
+      let product: ListToken;
       let difference_count: number = 0;
       card.price.forEach((item, index) => {
         material = this.materials.find(x => x.token_id == item.token_id);
@@ -194,7 +195,7 @@ export class IPlayer {
     }
     return false;
   }
-  async setToken(tokenList: { count: number, token_id: any }[]): Promise<boolean> {
+  async setToken(tokenList:ListToken[]): Promise<boolean> {
     if (!!tokenList) {
       tokenList.forEach(token => {
         this.materials.find(x => x.token_id == token.token_id).count += token.count;
@@ -204,7 +205,7 @@ export class IPlayer {
     }
     return false;
   }
-  async refundToken(data: { count: number, token_id: number }[]): Promise<void> {
+  async refundToken(data: ListToken[]): Promise<void> {
     let playerToken;
     data.forEach(token => {
       playerToken = this.materials.find(x => x.token_id == token.token_id)

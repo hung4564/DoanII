@@ -1,6 +1,6 @@
 import { IPlayer, EventActionData, UserAction } from '@model/iplayer'
 
-import { Token } from '@model/token';
+import { Token, ListToken } from '@model/token';
 import { Card } from '@model/card';
 import { materials, } from '@data/token';
 import { nobletiles } from '@data/card'
@@ -35,7 +35,7 @@ export class Board {
   private _currentPlayer: IPlayer;
   listPlayer: IPlayer[];
   listNobletile: Nobletile[];
-  listToken: { count: number, token_id: any }[] = [];
+  listToken: ListToken[] = [];
   listCards: { level: number, count: number, list: Card[] }[];
   isEndGame: boolean = false;
   config: BoardConfig;
@@ -204,7 +204,7 @@ export class Board {
       cardList.count--;
     }
   }
-  private async setToken(tokenList: { count: number, token_id: any }[]) {
+  private async setToken(tokenList: ListToken[]) {
     if (!!tokenList) {
       tokenList.forEach(x => {
         this.listToken.find(y => y.token_id == x.token_id).count -= x.count;

@@ -12,7 +12,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 })
 export class ListMaterialCompComponent implements OnInit {
   @Input('size-comp') size: Size;
-  @Input() materials: { count: number, token_id: number }[];
+  @Input() materials: ListToken[];
   player_size: Size;
   token_size: Size;
   get myStyles(): any {

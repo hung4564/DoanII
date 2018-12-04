@@ -3,11 +3,12 @@ import { Component, OnInit, Inject, ElementRef } from "@angular/core";
 import { Size } from "@model/Size";
 
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
+import { ListToken } from "@model/token";
 
 export interface IMaterialDialog {
   text: String;
-  materials: { count: number, token_id: number }[];
-  get_materials: { count: number, token_id: number }[];
+  materials: ListToken[];
+  get_materials: ListToken[];
   canSelectToken(token_id: number);
   selectToken(token_id: number);
   unSelectToken(token_id: number);
@@ -20,8 +21,8 @@ export interface IMaterialDialog {
 })
 export class SetMaterialDialog implements OnInit, IMaterialDialog {
   text: string = 'Take 3 different colored tokens or 2 tokens of the same color'
-  materials: { count: number, token_id: number }[];
-  get_materials: { count: number, token_id: number }[];
+  materials: ListToken[];
+  get_materials: ListToken[];
   token_size: Size;
   constructor(
     public dialogRef: MatDialogRef<SetMaterialDialog>,
@@ -98,8 +99,8 @@ export class RefundMaterialDialog implements OnInit, IMaterialDialog {
   get text(): string {
     return 'returns' + (this.materials.map(item => item.count).reduce((prev, next) => prev + next) - 10) + 'tokens'
   }
-  materials: { count: number, token_id: number }[];
-  get_materials: { count: number, token_id: number }[];
+  materials: ListToken[];
+  get_materials: ListToken[];
   token_size: Size;
   constructor(
     public dialogRef: MatDialogRef<RefundMaterialDialog>,
@@ -151,5 +152,5 @@ export class RefundMaterialDialog implements OnInit, IMaterialDialog {
   }
 }
 export interface DialogMaterialData {
-  materials: { count: number, token_id: number }[];
+  materials: ListToken[];
 }

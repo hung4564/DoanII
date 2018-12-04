@@ -1,9 +1,10 @@
 import { IPlayer, TypePlayer, UserAction } from '@model/iplayer';
 import { Card } from './card';
 import { Helper } from './helper';
+import { ListToken } from './token';
 class Target {
   card: Card;
-  tokenDifference: { count: number, token_id: number }[];
+  tokenDifference: ListToken[];
   countDIfference: number;
 }
 export class AIPlayer extends IPlayer {
@@ -14,7 +15,7 @@ export class AIPlayer extends IPlayer {
     this.name = name ? name : "Cpu Player";
   }
   private _cardsListInBoard: { level: number, count: number, list: Card[] }[] = [];
-  private _materialsLeftInBoard: { count: number, token_id: number }[] = [];
+  private _materialsLeftInBoard: ListToken[] = [];
   startTurn(cardsListInBoard: { level: number, count: number, list: Card[] }[], materialsLeftInBoard) {
     let user = this;
     super.startTurn(cardsListInBoard, materialsLeftInBoard);
@@ -59,7 +60,7 @@ export class AIPlayer extends IPlayer {
     let level_can_get = count_had <= 5 ? 0 : (count_had < 8 ? 1 : 2)
     let listardLists = user._cardsListInBoard.filter(x => x.level <= level_can_get && x.count > 0);
     let min_card: number = -1;
-    let temp: { count: number, data: { count: number, token_id: number }[] };
+    let temp: { count: number, data: ListToken[] };
     let targe: Target = new Target;
     listardLists.forEach(cardLists => {
       if (cardLists.count > 0) {
@@ -80,10 +81,10 @@ export class AIPlayer extends IPlayer {
 
     return targe;
   }
-  async checkDifferenceValue(card: Card): Promise<{ count: number, data: { count: number, token_id: number }[] }> {
-    let data: { count: number, data: { count: number, token_id: number }[] } = { count: 0, data: [] }
-    let material: { count: number, token_id: number };
-    let product: { count: number, token_id: number };
+  async checkDifferenceValue(card: Card): Promise<{ count: number, data: ListToken[] }> {
+    let data: { count: number, data: ListToken[] } = { count: 0, data: [] }
+    let material: ListToken;
+    let product: ListToken;
     let difference_count: number = 0;
     let count_need: number = 0; // gia tri can bu 
     card.price.forEach((item, index) => {
@@ -106,11 +107,11 @@ export class AIPlayer extends IPlayer {
       user.refundToken(data).then();
     })
   }
-  private async settingRefund(count_need_remove: number): Promise<{ count: number, token_id: any }[]> {
+  private async settingRefund(count_need_remove: number): Promise<ListToken[]> {
     let user = this;
     let token_id_remove: number;
     let except_list = user.materials.filter(x => x.count == 0 || x.token_id == 0).map(x => x.token_id);
-    let list_refund: { count: number, token_id: any }[] = [];
+    let list_refund: ListToken[] = [];
     for (let i = 0; i < count_need_remove; i++) {
       token_id_remove = Helper.randomTokenId(except_list);
       let item = list_refund.find(x => x.token_id == token_id_remove);
@@ -124,13 +125,13 @@ export class AIPlayer extends IPlayer {
     }
     return list_refund;
   }
-  private async settingToken(needToken: { count: number, token_id: number }[] = []): Promise<{ count: number, token_id: any }[]> {
+  private async settingToken(needToken: ListToken[] = []): Promise<ListToken[]> {
     let user = this;
     //lay nguyen lieu
     let except_list = user._materialsLeftInBoard.filter(x => x.count == 0).map(x => x.token_id);
     except_list.push(0);
     let get_count = 3
-    let get_list: { count: number, token_id: any }[] = []
+    let get_list: ListToken[] = []
     if (needToken.length > 0) {
       needToken.forEach((value, index) => {
         let token = user._materialsLeftInBoard.find(x => x.token_id == value.token_id)
