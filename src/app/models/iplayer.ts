@@ -70,7 +70,7 @@ export class IPlayer {
     })
   }
   startTurn(cardsListInBoard: { level: number, count: number, list: Card[] }[], materialsLeftInBoard: { count: number, token_id: any }[]) {
-
+    this.IsMyTurn = true;
   }
   passTurn() {
     this.endTurn()
@@ -83,7 +83,11 @@ export class IPlayer {
       }
       );
     }
-    this._eventEndTurn.trigger();
+    this.IsMyTurn = false;
+    Helper.delay(1000).then(() => {
+
+      this._eventEndTurn.trigger();
+    })
   }
   callEvent(action: UserAction, isActive: boolean, data?: any) {
     this._eventActionOfUser.trigger({ action: action, user_id: this.id, isActive, data: data });
@@ -91,29 +95,36 @@ export class IPlayer {
   protected async needRefundToken(count_need_remove: number) {
     //this.callEvent(UserAction.needrefundToken, true);
   }
-  async buyHoldCard(card: Card) {
-    this.canBuy(card).then(value => {
+  async buyHoldCard(card: Card): Promise<boolean> {
+    return this.canBuy(card).then(value => {
       if (value) {
         this.buyCard(card).then(result => {
           let x = this.listHoldCard.indexOf(card);
           this.listHoldCard.splice(x, 1);
           this.callEvent(UserAction.buyHold, true, { card: card, list_return: result });
+          return true;
         });
       }
       else {
         //this.callEvent(UserAction.buyHold, false);
+        return false
       }
     })
   }
-  async buyInList(card: Card) {
-    this.canBuy(card).then(value => {
+  async buyInList(card: Card): Promise<boolean> {
+    return this.canBuy(card).then(value => {
       if (value) {
         this.buyCard(card).then(result => {
-          this.callEvent(UserAction.buyInList, true, { card: card, list_return: result });
+          if (result) {
+            this.callEvent(UserAction.buyInList, true, { card: card, list_return: result });
+          }
+          return result
         });
+        return value;
       }
       else {
         //this.callEvent(UserAction.buyInList, false);
+        return false
       }
     })
   }
@@ -124,8 +135,6 @@ export class IPlayer {
     // }
     let list_return: { count: number, token_id: number }[] = [];
     let difference_count: number = 0;
-    console.log(this.materials);
-    debugger
     let temp
     card.price.forEach((value, index) => {
       let material = this.materials.find(x => x.token_id == value.token_id);
@@ -135,7 +144,6 @@ export class IPlayer {
       }
       else {
         temp = Helper.copy(material.count);
-        console.log(temp);
         difference_count += Helper.copy(value.count - material.count);
         material.count = 0;
       }
@@ -147,13 +155,10 @@ export class IPlayer {
     }
     this.product.find(x => x.token_id == card.value.token_id).count++;
     this.listCard.push(card);
-
-    console.log(list_return);
-    console.log(card.price);
     return list_return;
   }
-  holdCard(card: Card) {
-    this.canHold().then(value => {
+  async holdCard(card: Card): Promise<boolean> {
+    return this.canHold().then(value => {
       if (value) {
         let token = this.materials.find(x => x.token_id == 0);
         token.count++;
@@ -189,13 +194,15 @@ export class IPlayer {
     }
     return false;
   }
-  async setToken(tokenList: { count: number, token_id: any }[]) {
+  async setToken(tokenList: { count: number, token_id: any }[]): Promise<boolean> {
     if (!!tokenList) {
       tokenList.forEach(token => {
         this.materials.find(x => x.token_id == token.token_id).count += token.count;
       })
       this.callEvent(UserAction.setToken, true, tokenList);
+      return true;
     }
+    return false;
   }
   async refundToken(data: { count: number, token_id: number }[]): Promise<void> {
     let playerToken;

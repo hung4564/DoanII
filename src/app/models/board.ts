@@ -63,7 +63,6 @@ export class Board {
   public settingGame() {
     if (this.listPlayer.length > 0) {
       this._currentPlayer = this.listPlayer[0];
-      this._currentPlayer.IsMyTurn = true;
       this._indexPlayer = 0;
       let eventActionOfUser = (data: EventActionData) => { this.afterActionOfUser(data); }
       this.listPlayer.forEach((x, index) => {
@@ -252,9 +251,8 @@ export class Board {
     }
     this.checkNobletile().then(value => {
       this.changeNextPlayer().then(() => {
-        Helper.delay(100).then(() => {
+        Helper.delay(1000).then(() => {
           this._eventNextPlayer.trigger();
-          this._currentPlayer.IsMyTurn = true;
           this._currentPlayer.startTurn(this.listCards, this.listToken);
         })
       });
@@ -267,7 +265,6 @@ export class Board {
     if (this.isEndGame) {
       if (this._currentPlayer.id == 3) this.endGame();
     }
-    this._currentPlayer.IsMyTurn = false;
     this._currentPlayer = this.listPlayer[++this._indexPlayer % this.countPlayer];
   }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Token } from '@model/token';
 import { Size, Padding } from '@model/Size';
 import { materials } from '@data/token';
+import { rubberBandAnimation, collapseAnimation } from 'angular-animations';
 
 @Component({
   selector: 'icon-comp',
@@ -9,7 +10,11 @@ import { materials } from '@data/token';
   styleUrls: ['./icon-comp.component.css'],
   host: {
     '(window:resize)': 'onResize()',
-  }
+  },
+  animations: [
+    rubberBandAnimation(),
+    collapseAnimation(),
+  ]
 })
 // % => hexa
 // 100% — FF
@@ -38,7 +43,20 @@ export class IconCompComponent implements OnInit {
   @Input() token: Token;
   @Input() token_id: number = -1;
   @Input('size-comp') size: Size;
-  @Input() count: number;
+  @Input() set count(value: number) {
+    this._count = value;
+    this.isAnimations = true;
+    setTimeout(() => {
+      this.isAnimations = !this.isAnimations;
+
+    }, 2000);
+  }
+
+  get count(): number {
+    return this._count;
+  }
+  private _count: number;
+  private isAnimations: boolean;
   @Input() center: string = 'token';
   @Input() type: string = 'round'; //round or rectangle
   @Input() disable: boolean;

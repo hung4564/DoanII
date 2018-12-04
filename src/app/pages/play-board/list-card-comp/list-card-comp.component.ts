@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Inject, Output, EventEmitter } from '@angular
 import { Size, Padding } from '@model/Size';
 import { Card } from '@model/card';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { bounceInRightOnEnterAnimation,bounceOutLeftOnLeaveAnimation } from 'angular-animations';
+import { fadeInRightBigOnEnterAnimation,fadeOutLeftBigOnLeaveAnimation } from 'angular-animations';
 export interface DialogData {
   card: Card;
 }
@@ -14,8 +14,8 @@ export interface DialogData {
     '(window:resize)': 'onResize()',
   },
   animations: [
-    bounceInRightOnEnterAnimation(),
-    bounceOutLeftOnLeaveAnimation()
+    fadeInRightBigOnEnterAnimation(),
+    fadeOutLeftBigOnLeaveAnimation()
   ]
 })
 export class ListCardCompComponent implements OnInit {

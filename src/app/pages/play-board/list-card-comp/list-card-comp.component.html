@@ -10,6 +10,6 @@
         <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
       </div>
     </div>
-    <card-comp [@bounceInRightOnEnter] [@bounceOutLeftOnLeave] *ngFor="let card of cardlist.list" [card]="card" [size-comp]="card_size" (click)="click_card(card)"></card-comp>
+    <card-comp [@fadeInRightBigOnEnter] [@fadeOutLeftBigOnLeave] *ngFor="let card of cardlist.list" [card]="card" [size-comp]="card_size" (click)="click_card(card)"></card-comp>
   </div>
 </div>

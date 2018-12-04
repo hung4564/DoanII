@@ -1,4 +1,4 @@
-<div class="icon-container flex flex-center" [ngStyle]="containerStyle">
+<div [@rubberBand]="isAnimations" class="icon-container flex flex-center" [ngStyle]="containerStyle">
   <div class="text-white" [ngStyle]="countStyles" *ngIf="center!='icon'&&count>=0">{{count}}</div>
   <img class="avatar " [src]="_src" [alt]="token.name" [ngStyle]="imgStyles">
   <div class="flex flex-center">

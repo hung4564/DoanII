@@ -1,4 +1,4 @@
-import { IPlayer, TypePlayer } from '@model/iplayer';
+import { IPlayer, TypePlayer, UserAction } from '@model/iplayer';
 import { Card } from './card';
 import { Helper } from './helper';
 class Target {
@@ -31,7 +31,7 @@ export class AIPlayer extends IPlayer {
     let count = user.materials.concat(user.product).filter(x => x.token_id > 0).map(x => x.count).reduce((pre, next) => pre + next);
     user.settingTargetCard(count).then((result: Target) => {
       user._targetInfo = result;
-      Helper.delay(100).then(() => {
+      Helper.delay(1000).then(() => {
         this.checkTarget().then();
       })
     });
@@ -41,9 +41,9 @@ export class AIPlayer extends IPlayer {
     user.checkDifferenceValue(user._targetInfo.card).then(value => {
       user._targetInfo.countDIfference = value.count;
       user._targetInfo.tokenDifference = value.data;
-      Helper.delay(100).then(() => {
+      Helper.delay(1000).then(() => {
         if (user._targetInfo.countDIfference == 0) {
-          user.buyInList(user._targetInfo.card).then(() => { });
+          user.buyInList(user._targetInfo.card).then(result => { });
         }
         else {
           user.settingToken(user._targetInfo.tokenDifference).then(result => {
