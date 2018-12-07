@@ -100,7 +100,7 @@ export class AIPlayer extends IPlayer {
     data.count = count_need;
     return data;
   }
-  protected async needRefundToken(count_need_remove: number) {
+  needRefundToken(count_need_remove: number) {
     let user = this;
     super.needRefundToken(count_need_remove);
     user.settingRefund(count_need_remove).then(data => {
@@ -148,13 +148,11 @@ export class AIPlayer extends IPlayer {
         }
       })
     }
-    let token_array = user._materialsLeftInBoard.filter(x => x.count > 0).map(x => x.token_id);
     for (let i = 0; i < get_count; i++) {
       let token_id = Helper.randomTokenId(except_list);
       if (token_id > 0) {
-
-        get_list.push({ count: 1, token_id: Helper.randomTokenId(except_list) });
-        except_list.push(get_list[i].token_id);
+        get_list.push({ count: 1, token_id: token_id });
+        except_list.push(token_id);
       } else {
         return get_list;
       }

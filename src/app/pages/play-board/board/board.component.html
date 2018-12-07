@@ -8,9 +8,9 @@
             <app-countdown [config-comp]="configCountdown" (start)="onStart()" (finished)="onFinished()" [size-comp]="countdown_size"></app-countdown>
           </div>
           <button mat-button [ngStyle]="buttonStyles" class="btn" style="margin-top:5px" [disabled]="!canAccess()"
-            (click)="openModal()">get</button>
+            (click)="openModal()">{{'player.action.get'|translate}}</button>
           <button mat-button [ngStyle]="buttonStyles" class="btn" style="margin-top:5px" [disabled]="!canAccess()"
-            (click)="openModalpassTurn()">pass</button>
+            (click)="openModalpassTurn()">{{'player.action.pass'|translate}}</button>
         </div>
         <list-material-comp style="margin-top: 5px;border-radius: 20px;border: solid;" class="pointer" (click)="openModal()"
           [size-comp]="material_list_size" [materials]="board.listToken"></list-material-comp>

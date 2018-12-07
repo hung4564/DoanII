@@ -28,8 +28,8 @@ export class SettingBoardComponent implements OnInit {
   settingForm: FormGroup;
   items: FormArray;
   array = [0, 1, 2, 3, 4];
-  game_speeds = [{ value: 15, text: '15 mins' }, { value: 10, text: '10 mins' }, { value: 5, text: '5 mins' }]
-  target_score = [{ value: 15, text: '15' }, { value: 21, text: '21' }]
+  game_speeds = [5, 10, 15]
+  target_score = [15, 21]
   orderList: { order: number, player: IPlayer, type: TypePlayer }[] = [];
   get canSubmit(): boolean {
     for (let i = 0; i < this.data.maxPlayer; i++) {

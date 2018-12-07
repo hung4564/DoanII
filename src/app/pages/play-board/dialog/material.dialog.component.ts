@@ -4,29 +4,34 @@ import { Size } from "@model/Size";
 
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { ListToken } from "@model/token";
-
+import { TranslatePipe } from "@pipes/translate.pipe";
 export interface IMaterialDialog {
   text: String;
   materials: ListToken[];
   get_materials: ListToken[];
+  disableClose: boolean;
   canSelectToken(token_id: number);
   selectToken(token_id: number);
   unSelectToken(token_id: number);
   getToken();
+  canGetToken()
 }
 
 @Component({
   selector: 'set-material-dialog',
   templateUrl: 'material.dialog.html',
+  providers: [TranslatePipe]
 })
 export class SetMaterialDialog implements OnInit, IMaterialDialog {
-  text: string = 'Take 3 different colored tokens or 2 tokens of the same color'
+  disableClose = false;
+  text: string = this._traslate.transform('game.2or3Token');
   materials: ListToken[];
   get_materials: ListToken[];
   token_size: Size;
   constructor(
     public dialogRef: MatDialogRef<SetMaterialDialog>,
     @Inject(MAT_DIALOG_DATA) public data: DialogMaterialData,
+    private _traslate: TranslatePipe,
     private el: ElementRef) {
     this.materials = JSON.parse(JSON.stringify(data.materials));
   }
@@ -83,28 +88,44 @@ export class SetMaterialDialog implements OnInit, IMaterialDialog {
     }
   }
   getToken() {
-    let count = this.get_materials.map(item => item.count).reduce((prev, next) => prev + next);
-    if (count < 2 || count > 3) {
+    if (!this.canGetToken()) {
       return;
     }
     this.dialogRef.close(this.get_materials.filter(x => x.count > 0))
+  }
+  canGetToken() {
+    let count = this.get_materials.map(item => item.count).reduce((prev, next) => prev + next);
+    if (count == 2 && !this.get_materials.find(x => x.count == 2)) {
+      return false
+    }
+    if (count < 2 || count > 3) {
+      return false
+    }
+    return true;
   }
 }
 
 @Component({
   selector: 'refund-material-dialog',
   templateUrl: 'material.dialog.html',
+  providers: [TranslatePipe]
 })
 export class RefundMaterialDialog implements OnInit, IMaterialDialog {
   get text(): string {
-    return 'returns' + (this.materials.map(item => item.count).reduce((prev, next) => prev + next) - 10) + 'tokens'
+    let count = this.countReturn.toString();
+    return this._traslate.transform('game.returnToken', count);
   }
+  get countReturn(): number {
+    return this.materials.map(item => item.count).reduce((prev, next) => prev + next) - 10
+  }
+  disableClose = true;
   materials: ListToken[];
   get_materials: ListToken[];
   token_size: Size;
   constructor(
     public dialogRef: MatDialogRef<RefundMaterialDialog>,
     @Inject(MAT_DIALOG_DATA) public data: DialogMaterialData,
+    private _traslate: TranslatePipe,
     private el: ElementRef) {
     this.materials = JSON.parse(JSON.stringify(data.materials));
   }
@@ -144,11 +165,17 @@ export class RefundMaterialDialog implements OnInit, IMaterialDialog {
     }
   }
   getToken() {
-    let count = this.materials.map(item => item.count).reduce((prev, next) => prev + next);
-    if (count > 10) {
+    if (!this.canGetToken()) {
       return;
     }
     this.dialogRef.close(this.get_materials.filter(x => x.count > 0))
+  }
+
+  canGetToken() {
+    if (this.countReturn > 0) {
+      return false;
+    }
+    return true;
   }
 }
 export interface DialogMaterialData {

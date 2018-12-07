@@ -64,3 +64,10 @@ body {
 .padding-top {
   padding-top: 5px;
 }
+
+.background-color {
+  background-color: #CCE2FF;
+}
+.custom-matdialog .mat-dialog-container {  
+  background-color: #CCE2FF;
+}

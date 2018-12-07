@@ -1,3 +1,42 @@
 {
-  "title": "ứng dụng của tôi"
+  "title": "Ứng dụng của tôi",
+  "play": "Chơi",
+  "about": "About",
+  "close": "Đóng",
+  "setting": {
+    "title": "Cài đặt",
+    "targetscore": "Điểm mục tiêu",
+    "gamespeed": "Thời gian mỗi lượt"
+  },
+  "word": {
+    "with": "với",
+    "#player": "Lượng người chơi",
+    "mins": "phút",
+    "score": "điểm",
+    "yes": "Đúng",
+    "no": "Không",
+    "": ""
+  },
+  "player": {
+    "list": "Danh sách người chơi",
+    "name": "Tên người chơi",
+    "action": {
+      "get": "Lấy",
+      "pass": "Bỏ lượt",
+      "buy": "Mua",
+      "hold": "Đặt",
+      "select": "Chọn"
+    }
+  },
+  "game": {
+    "2or3Token": "Lấy 2 cái cùng màu hoặc 3 cái khác màu",
+    "returnToken": "Cần trả về #d tokens",
+    "end": "Game kết thúc"
+  },
+  "error": {
+    "404": "Không tìm thấy",
+    "order": {
+      "duplicated": "Thứ tự không thể bị trùng lặp"
+    }
+  }
 }

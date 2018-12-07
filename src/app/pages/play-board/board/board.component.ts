@@ -83,7 +83,8 @@ export class BoardComponent implements OnInit {
     const dialogRef = this._dialog.open(PlayerDialog, {
       data: {
         player: this.board.listPlayer.find(x => x.id == $event.player_id)
-      }
+      },
+      panelClass:'custom-matdialog',
     })
     dialogRef.afterClosed().subscribe(result => {
       if (!!result) {
@@ -94,8 +95,9 @@ export class BoardComponent implements OnInit {
   openModalpassTurn() {
     const dialogRef = this._dialog.open(ConfigDialogComponent, {
       data: {
-        title: 'pass game',
-      }
+        title: 'pass',
+      },
+      panelClass:'custom-matdialog',
     })
     dialogRef.afterClosed().subscribe(result => {
       if (!result) {
@@ -135,6 +137,7 @@ export class BoardComponent implements OnInit {
   openModalEndGame(data) {
     const dialogRef = this._dialog.open(endGameDialog, {
       disableClose: true,
+      panelClass:'custom-matdialog',
       data: { scoreList: data }
     });
 
@@ -145,6 +148,7 @@ export class BoardComponent implements OnInit {
   openModalrefundToken(data) {
     const dialogRef = this._dialog.open(RefundMaterialDialog, {
       width: '50vw',
+      panelClass:'custom-matdialog',
       disableClose: true,
       data: { materials: this.board.currentPlayer.materials }
     });
@@ -162,6 +166,7 @@ export class BoardComponent implements OnInit {
         canHold = x;
         const dialogRef = this._dialog.open(CardDialog, {
           width: '50vw',
+          panelClass:'custom-matdialog',
           data: {
             card: data,
             canAction: {
@@ -187,6 +192,7 @@ export class BoardComponent implements OnInit {
   openModal() {
     const dialogRef = this._dialog.open(SetMaterialDialog, {
       width: '50vw',
+      panelClass:'custom-matdialog',
       data: { materials: this.board.listToken.filter(x => x.token_id != 0) }
     });
 

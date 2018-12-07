@@ -153,30 +153,38 @@ export class Board {
     if (data.isActive) {
       switch (data.action) {
         case UserAction.buyInList:
-          this.changeCardInList(data.data.card).then(() =>
-            this.refundToken(data.data.list_return)
-          );
+          this.changeCardInList(data.data.card).then(() => {
+            this.refundToken(data.data.list_return);
+            this._currentPlayer.endTurn();
+          });
           break;
         case UserAction.holdCard:
-          this.changeCardInList(data.data).then();
+          this.changeCardInList(data.data).then(() => {
+            this._currentPlayer.endTurn();
+          });
           break;
         case UserAction.setToken:
-          this.setToken(data.data).then();
+          this.setToken(data.data).then(() => {
+            this._currentPlayer.endTurn();
+          });
           break;
         case UserAction.refundToken:
-          this.refundToken(data.data).then();
+          this.refundToken(data.data).then(() => {
+            this._currentPlayer.endTurn();
+          });
           break;
         case UserAction.needrefundToken:
           this.needRefunToken();
           return;
           break;
         case UserAction.buyHold:
-          this.refundToken(data.data.list_return)
+          this.refundToken(data.data.list_return).then(() => {
+            this._currentPlayer.endTurn();
+          })
           break;
         default:
           break;
       }
-      this._currentPlayer.endTurn();
     }
     else {
       this._eventBoardNotice.trigger(new Message('cant do that'))
@@ -250,6 +258,12 @@ export class Board {
       return;
     }
     this.checkNobletile().then(value => {
+      if (this._currentPlayer.point >= this.config.maxPointWin) {
+        this.isEndGame = true;
+      }
+      if (this.isEndGame) {
+        if (this._currentPlayer.id == 3) this.endGame();
+      }
       this.changeNextPlayer().then(() => {
         Helper.delay(1000).then(() => {
           this._eventNextPlayer.trigger();
@@ -259,12 +273,6 @@ export class Board {
     });
   }
   private async changeNextPlayer(): Promise<void> {
-    if (this._currentPlayer.point >= 15) {
-      this.isEndGame = true;
-    }
-    if (this.isEndGame) {
-      if (this._currentPlayer.id == 3) this.endGame();
-    }
     this._currentPlayer = this.listPlayer[++this._indexPlayer % this.countPlayer];
   }
 }

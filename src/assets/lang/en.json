@@ -1,3 +1,42 @@
 {
-  "title": "My Application"
+  "title": "My Application",
+  "play": "Play",
+  "about": "About",
+  "close": "Close",
+  "setting": {
+    "title": "Setting",
+    "targetscore": "Target score",
+    "gamespeed": "Game speed"
+  },
+  "word": {
+    "with": "with",
+    "#player": "# of player",
+    "mins": "mins",
+    "score": "score",
+    "yes": "Yes",
+    "no": "No",
+    "": ""
+  },
+  "player": {
+    "list": "List player",
+    "name": "Name player",
+    "action": {
+      "get": "Get",
+      "pass": "Pass",
+      "buy": "Buy",
+      "hold": "Hold",
+      "select": "Select"
+    }
+  },
+  "game": {
+    "2or3Token": "Take 3 different colored tokens or 2 tokens of the same color",
+    "returnToken": "need return #d tokens",
+    "end": "End game"
+  },
+  "error": {
+    "404": "Not found",
+    "order": {
+      "duplicated": "Order cannot be duplicated"
+    }
+  }
 }

@@ -15,6 +15,6 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button mat-button mat-dialog-close>close</button>
-  <button mat-button (click)="getToken()">Select</button>
+  <button mat-button mat-dialog-close [disabled]="disableClose">{{'close'|translate}}</button>
+  <button mat-button [disabled]="!canGetToken()" (click)="getToken()">{{'player.action.select'|translate}}</button>
 </mat-dialog-actions>

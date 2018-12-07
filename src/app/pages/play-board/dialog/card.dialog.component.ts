@@ -17,7 +17,6 @@ export class CardDialog {
     @Inject(MAT_DIALOG_DATA) public data: DialogData) {
     this.card = data.card;
     this.card_size = new Size(240);
-    console.log(data);
   }
 
 }

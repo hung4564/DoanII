@@ -1,4 +1,4 @@
-<div mat-dialog-content style="display: flex;" class="background-color">
+<div mat-dialog-content style="display: flex;">
   <card-comp [card]="card" [size-comp]="card_size"></card-comp>
   <div style="
   display: inline-flex;
@@ -7,8 +7,8 @@
   height: 250px;
   width: 100%;
   align-items: center;">
-    <button mat-button [disabled]="!data.canAction.hold" [mat-dialog-close]="'holdCard'">Hold</button>
-    <button mat-button [disabled]="!data.canAction.buy" [mat-dialog-close]="'buyInList'">Buy</button>
-    <button mat-button mat-dialog-close>Close</button>
+    <button mat-button [disabled]="!data.canAction.hold" [mat-dialog-close]="'holdCard'">{{'player.action.hold'|translate}}</button>
+    <button mat-button [disabled]="!data.canAction.buy" [mat-dialog-close]="'buyInList'">{{'player.action.buy'|translate}}</button>
+    <button mat-button mat-dialog-close>{{'close'|translate}}</button>
   </div>
 </div>

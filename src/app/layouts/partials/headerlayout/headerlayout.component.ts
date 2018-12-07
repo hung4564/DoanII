@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@services/translate.service';
 
 @Component({
   selector: 'header-layout',
@@ -7,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderlayoutComponent implements OnInit {
 
-  constructor() { }
+  constructor(private _translate: TranslateService) { }
 
   ngOnInit() {
   }
-
+  changeLang(lang: string) {
+    this._translate.use(lang);
+  }
 }

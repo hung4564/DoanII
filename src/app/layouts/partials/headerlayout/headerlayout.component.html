@@ -5,7 +5,11 @@
         <a class="navbar-brand" routerLink="/">
           <img src="assets/img/favicon.ico" class="logo">
         </a>
-        <span class="navbar-brand">Angular</span>
+        <span class="navbar-brand">{{'title'|translate}}</span>
+        <select name="" id="" (change)="changeLang($event.target.value)">
+          <option value="en">en</option>
+          <option value="vi">vi</option>
+        </select>
       </div>
     </div>
   </nav>

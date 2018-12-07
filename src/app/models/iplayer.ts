@@ -26,6 +26,7 @@ export enum TypePlayer {
 import { Nobletile } from './nobletile'; import { Type } from '@angular/compiler/src/core';
 import { Helper } from './helper';
 import { ListToken } from './token';
+import { ProtractorExpectedConditions } from 'protractor';
 export class IPlayer {
   id: number;
   name: string;
@@ -79,21 +80,20 @@ export class IPlayer {
   endTurn() {
     let count = this.materials.map(item => item.count).reduce((prev, next) => prev + next);
     if (count > 10) {
-      this.needRefundToken(count - 10).then(() => {
-        this.endTurn();
-      }
-      );
+      this.needRefundToken(count - 10);
     }
-    this.IsMyTurn = false;
-    Helper.delay(1000).then(() => {
+    else {
+      this.IsMyTurn = false;
+      Helper.delay(1000).then(() => {
 
-      this._eventEndTurn.trigger();
-    })
+        this._eventEndTurn.trigger();
+      })
+    }
   }
   callEvent(action: UserAction, isActive: boolean, data?: any) {
     this._eventActionOfUser.trigger({ action: action, user_id: this.id, isActive, data: data });
   }
-  protected async needRefundToken(count_need_remove: number) {
+  needRefundToken(count_need_remove: number) {
     //this.callEvent(UserAction.needrefundToken, true);
   }
   async buyHoldCard(card: Card): Promise<boolean> {
@@ -195,7 +195,7 @@ export class IPlayer {
     }
     return false;
   }
-  async setToken(tokenList:ListToken[]): Promise<boolean> {
+  async setToken(tokenList: ListToken[]): Promise<boolean> {
     if (!!tokenList) {
       tokenList.forEach(token => {
         this.materials.find(x => x.token_id == token.token_id).count += token.count;

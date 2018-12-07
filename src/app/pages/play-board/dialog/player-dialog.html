@@ -6,7 +6,7 @@
     <icon-comp *ngFor="let material of player.materials" class="token" [size-comp]="token_size" [token_id]="material.token_id"
       [count]="material.count" style="flex: 1" class="flex flex-center"></icon-comp>
   </div>
-  <h3>Hold</h3>
+  <h3>{{'player.action.hold'|translate}}</h3>
   <div class="flex flex-row" style="flex-wrap:wrap">
     <div *ngFor="let card of player.listHoldCard" class="card-hold" style="margin-right: 2px;margin-bottom: 2px;">
       <card-comp [card]="card" [size-comp]="card_size"></card-comp>
@@ -14,7 +14,7 @@
     </div>
 
   </div>
-  <h3>Buy</h3>
+  <h3>{{'player.action.buy'|translate}}</h3>
   <div class="flex flex-row" style="flex-wrap:wrap">
     <card-comp style="margin-right: 2px;margin-bottom: 2px;" *ngFor="let card of player.listCard" [card]="card"
       [size-comp]="card_size"></card-comp>
@@ -22,5 +22,5 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button mat-button mat-dialog-close>close</button>
+  <button mat-button mat-dialog-close>{{'close'|translate}}</button>
 </mat-dialog-actions>
