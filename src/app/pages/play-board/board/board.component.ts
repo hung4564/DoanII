@@ -14,6 +14,8 @@ import { RefundMaterialDialog, SetMaterialDialog } from '../dialog/material.dial
 import { Board } from '@model/board';
 import { Config } from 'ngx-countdown';
 import { Helper } from '@model/helper';
+import { CardDialog } from '../dialog/card.dialog.component';
+import { Card } from '@model/card';
 declare var $: any;
 @Component({
   selector: 'app-board',
@@ -142,7 +144,7 @@ export class BoardComponent implements OnInit {
   }
   openModalrefundToken(data) {
     const dialogRef = this._dialog.open(RefundMaterialDialog, {
-      width: 400 + "px",
+      width: '50vw',
       disableClose: true,
       data: { materials: this.board.currentPlayer.materials }
     });
@@ -150,6 +152,31 @@ export class BoardComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.action({ action: 'refundToken', data: result })
     });
+  }
+  openModalCard(data: Card) {
+    let canBuy: boolean = false;
+    let canHold: boolean = false;
+    this.board.currentPlayer.canBuy(data).then(result => {
+      canBuy = result;
+      this.board.currentPlayer.canHold().then(x => {
+        canHold = x;
+        const dialogRef = this._dialog.open(CardDialog, {
+          width: '50vw',
+          data: {
+            card: data,
+            canAction: {
+              buy: this.board.currentPlayer.canAccess && canBuy,
+              hold: this.board.currentPlayer.canAccess && canHold,
+            }
+          }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          this.action({ action: result, data: data });
+        });
+      })
+    })
+
   }
   notice(message: Message) {
     this._messageSV.notice(message);
@@ -159,7 +186,7 @@ export class BoardComponent implements OnInit {
   }
   openModal() {
     const dialogRef = this._dialog.open(SetMaterialDialog, {
-      width: 400 + "px",
+      width: '50vw',
       data: { materials: this.board.listToken.filter(x => x.token_id != 0) }
     });
 

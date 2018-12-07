@@ -2,10 +2,8 @@ import { Component, OnInit, Input, Inject, Output, EventEmitter } from '@angular
 import { Size, Padding } from '@model/Size';
 import { Card } from '@model/card';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { fadeInRightBigOnEnterAnimation,fadeOutLeftBigOnLeaveAnimation } from 'angular-animations';
-export interface DialogData {
-  card: Card;
-}
+import { fadeInRightBigOnEnterAnimation, fadeOutLeftBigOnLeaveAnimation } from 'angular-animations';
+
 @Component({
   selector: 'list-card-comp',
   templateUrl: './list-card-comp.component.html',
@@ -21,7 +19,7 @@ export interface DialogData {
 export class ListCardCompComponent implements OnInit {
   @Input('cards') cards: Card[][];
   @Input('size-comp') size: Size;
-  @Output() action = new EventEmitter<any>();
+  @Output() clickCard = new EventEmitter<Card>();
   card_size: Size;
   list_card_size: Size;
   constructor(private dialog: MatDialog) { }
@@ -55,33 +53,8 @@ export class ListCardCompComponent implements OnInit {
     this.onResize();
   }
   click_card(card: Card) {
-    const dialogRef = this.dialog.open(CardDialog, {
-      width: 400 + "px",
-      data: { card: card }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.cardAction(result, card);
-    });
-  }
-  cardAction(action: string, card: Card) {
-    this.action.next({ action: action, data: card });
-  }
-
-}
-
-@Component({
-  selector: 'dialog-overview-example-dialog',
-  templateUrl: 'card-dialog.html',
-})
-export class CardDialog {
-  card: Card
-  card_size: Size;
-  constructor(
-    public dialogRef: MatDialogRef<CardDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) {
-    this.card = data.card;
-    this.card_size = new Size(250);
+    this.clickCard.next(card);
+   
   }
 
 }

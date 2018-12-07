@@ -7,14 +7,17 @@
           <div class="clock">
             <app-countdown [config-comp]="configCountdown" (start)="onStart()" (finished)="onFinished()" [size-comp]="countdown_size"></app-countdown>
           </div>
-          <button [ngStyle]="buttonStyles" class="btn" style="margin-top:5px" [disabled]="!canAccess()" (click)="openModal()">get</button>
-          <button [ngStyle]="buttonStyles" class="btn" style="margin-top:5px" [disabled]="!canAccess()" (click)="openModalpassTurn()">pass</button>
+          <button mat-button [ngStyle]="buttonStyles" class="btn" style="margin-top:5px" [disabled]="!canAccess()"
+            (click)="openModal()">get</button>
+          <button mat-button [ngStyle]="buttonStyles" class="btn" style="margin-top:5px" [disabled]="!canAccess()"
+            (click)="openModalpassTurn()">pass</button>
         </div>
         <list-material-comp style="margin-top: 5px;border-radius: 20px;border: solid;" class="pointer" (click)="openModal()"
           [size-comp]="material_list_size" [materials]="board.listToken"></list-material-comp>
       </div>
       <list-nobletile-comp [size-comp]="nobletile_list_size" [nobletiles]="board.listNobletile"></list-nobletile-comp>
-      <list-card-comp [size-comp]="card_list_size" [cards]="board.listCards" (action)="action($event)"></list-card-comp>
+      <list-card-comp (clickCard)="openModalCard($event)" [size-comp]="card_list_size" [cards]="board.listCards"
+        (action)="action($event)"></list-card-comp>
 
     </div>
   </div>

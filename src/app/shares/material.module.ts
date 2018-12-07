@@ -8,6 +8,7 @@ import * as Material from '@angular/material';
     Material.MatInputModule,
     Material.MatSelectModule,
     Material.MatIconModule,
+    Material.MatButtonModule,
   ],
 })
 export class MaterialModule { }

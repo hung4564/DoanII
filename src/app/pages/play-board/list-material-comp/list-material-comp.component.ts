@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Inject, ElementRef, Output, EventEmitter } from '@angular/core';
 import { Size } from '@model/Size';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { ListToken } from '@model/token';
 
 @Component({
   selector: 'list-material-comp',
