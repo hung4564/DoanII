@@ -15,9 +15,10 @@ export class endGameDialog implements OnInit {
     public dialogRef: MatDialogRef<DialogEndGameData>,
     @Inject(MAT_DIALOG_DATA) public data: DialogEndGameData,
     private el: ElementRef) {
-    this.scoreList = JSON.parse(JSON.stringify(data.scoreList));
+    console.log(data.scoreList)
   }
   ngOnInit() {
+    this.scoreList.sort((x, y) => { return y.point - x.point });
   }
   getType(level: number) {
     switch (level) {
@@ -33,7 +34,7 @@ export class endGameDialog implements OnInit {
         break;
     }
   }
-  getSize(level){
+  getSize(level) {
     switch (level) {
       case 0:
         return 'xx-large';

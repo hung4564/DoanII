@@ -29,7 +29,7 @@ export class SettingBoardComponent implements OnInit {
   items: FormArray;
   array = [0, 1, 2, 3, 4];
   game_speeds = [5, 10, 15]
-  target_score = [15, 21]
+  target_score = [2,15, 21]
   orderList: { order: number, player: IPlayer, type: TypePlayer }[] = [];
   get canSubmit(): boolean {
     for (let i = 0; i < this.data.maxPlayer; i++) {

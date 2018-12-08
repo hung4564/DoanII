@@ -5,6 +5,12 @@ export class Helper {
   {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
+  public static getItemRandomInArray(array: any[]) {
+    if (!array) {
+      return null;
+    }
+    return array[this.randomIntFromInterval(0, array.length - 1)]
+  }
   public static randomTokenId(except: number[] = []) {
     let token_id: number
     except.sort((x, y) => x - y);

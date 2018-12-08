@@ -51,17 +51,50 @@ export class Card {
     let price: ListToken[] = [];
     switch (maxToken) {
       case 1:
-        price = [{ count: countToken, token_id: Helper.randomTokenId() }]
+        price = [{ count: price_ranger[0], token_id: Helper.randomTokenId() }]
         break;
       default:
-        let temp
+        // let temp
+        // let except_array = []
+        // for (let i = 0; i < maxToken - 1; i++) {
+        //   let decreas_max = (price_ranger[1] > 10 && maxToken + i > 1) ? 5 : 0
+        //   temp = { count: Helper.randomIntFromInterval(1, price_ranger[1] - maxToken + i + 1 - decreas_max), token_id: Helper.randomTokenId(except_array) };
+        //   price_ranger[1] = price_ranger[1] - temp.count;
+        //   except_array.push(temp.token_id);
+        //   price.push(temp);
+        // }
+        // temp = { count: price_ranger[1], token_id: Helper.randomTokenId(except_array) };
+        // price.push(temp);
+        let price_array = [];
+        let temp;
         let except_array = []
+        let dk_down = Math.floor(price_ranger[0] / maxToken);
+        let dk_up = Math.floor(price_ranger[1] / maxToken)
+        if (dk_up <= 1) {
+          dk_down = 0;
+          dk_up = 1;
+        }
+        for (let i = dk_down; i < dk_up + 1; i++) {
+          if (i > 0)
+            price_array.push(Math.floor((price_ranger[0] - 2) / 3) + i);
+        }
+        let tempcount = 1
         for (let i = 0; i < maxToken - 1; i++) {
-          let decreas_max = (price_ranger[1] > 10 && maxToken + i > 1) ? 5 : 0
-          temp = { count: Helper.randomIntFromInterval(1, price_ranger[1] - maxToken + i + 1 - decreas_max), token_id: Helper.randomTokenId(except_array) };
-          price_ranger[1] = price_ranger[1] - temp.count;
+          tempcount = Helper.getItemRandomInArray(price_array);
+          temp = { count: tempcount, token_id: Helper.randomTokenId(except_array) };
           except_array.push(temp.token_id);
+          price_ranger[1] = price_ranger[1] - temp.count;
           price.push(temp);
+        }
+        if (price_ranger[1] <= 0) {
+          let need_get = true;
+          price.forEach(x => {
+            if (need_get && x.count > 2) {
+              x.count--;
+              price_ranger[1] = 1;
+              need_get = false;
+            }
+          })
         }
         temp = { count: price_ranger[1], token_id: Helper.randomTokenId(except_array) };
         price.push(temp);

@@ -49,7 +49,10 @@ export class IPlayer {
     if (this.listNobletile.length > 0) {
       point += this.listNobletile.map(item => item.value.point).reduce((prev, next) => prev + next)
     }
-    return point;
+    return 15 + this.id;
+  }
+  public async getpoint(): Promise<number> {
+    return this.point;
   }
   //event
   private readonly _eventActionOfUser = new LiteEvent<EventActionData>();
@@ -191,6 +194,7 @@ export class IPlayer {
         count_need = count_need + (difference_count > 0 ? difference_count : 0)
       })
       //neu nhu bu < von => co the mua
+      if (count_need == 0) return true;
       return (count_need <= this.materials.find(x => x.token_id == 0).count);
     }
     return false;

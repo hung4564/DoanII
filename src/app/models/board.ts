@@ -248,9 +248,11 @@ export class Board {
   endGame() {
     let scorelist: { player_id: number, name: string, point: number }[] = [];
     this.listPlayer.forEach(player => {
-      scorelist.push({ player_id: player.id, name: player.name, point: player.point });
+      player.getpoint().then(result => {
+        scorelist.push({ player_id: player.id, name: player.name, point: result });
+      })
     })
-    scorelist.sort((x, y) => { return y.point - x.point })
+    //scorelist.sort((x, y) => { return y.point - x.point })
     this._eventEndGame.trigger(scorelist);
   }
   async endUserTurn(user_id?: number): Promise<void> {
@@ -258,12 +260,7 @@ export class Board {
       return;
     }
     this.checkNobletile().then(value => {
-      if (this._currentPlayer.point >= this.config.maxPointWin) {
-        this.isEndGame = true;
-      }
-      if (this.isEndGame) {
-        if (this._currentPlayer.id == 3) this.endGame();
-      }
+
       this.changeNextPlayer().then(() => {
         Helper.delay(1000).then(() => {
           this._eventNextPlayer.trigger();
@@ -273,6 +270,15 @@ export class Board {
     });
   }
   private async changeNextPlayer(): Promise<void> {
-    this._currentPlayer = this.listPlayer[++this._indexPlayer % this.countPlayer];
+    this, this._currentPlayer.getpoint().then(result => {
+      if (result >= this.config.maxPointWin) {
+        this.isEndGame = true;
+      }
+      if (this.isEndGame) {
+        if (this._currentPlayer.id == 3) this.endGame();
+      }
+      this._currentPlayer = this.listPlayer[++this._indexPlayer % this.countPlayer];
+    })
+
   }
 }

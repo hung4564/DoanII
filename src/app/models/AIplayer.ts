@@ -135,7 +135,7 @@ export class AIPlayer extends IPlayer {
     if (needToken.length > 0) {
       needToken.forEach((value, index) => {
         let token = user._materialsLeftInBoard.find(x => x.token_id == value.token_id)
-        if (token.count > 0) {
+        if (token.count > 0 && get_count > 0) {
           if (token.count > 4 && value.count > 1) {
             get_count = 0;
             get_list = [{ count: 2, token_id: value.token_id }];

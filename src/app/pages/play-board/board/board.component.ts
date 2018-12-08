@@ -64,7 +64,8 @@ export class BoardComponent implements OnInit {
     //this.counter.stop();
   }
   onFinished() {
-    this.board.endUserTurn();
+    if (!this.board.isEndGame)
+      this.board.endUserTurn();
   }
   onResize() {
     let board_body = $('#board-body')
@@ -84,7 +85,7 @@ export class BoardComponent implements OnInit {
       data: {
         player: this.board.listPlayer.find(x => x.id == $event.player_id)
       },
-      panelClass:'custom-matdialog',
+      panelClass: 'custom-matdialog',
     })
     dialogRef.afterClosed().subscribe(result => {
       if (!!result) {
@@ -97,7 +98,7 @@ export class BoardComponent implements OnInit {
       data: {
         title: 'pass',
       },
-      panelClass:'custom-matdialog',
+      panelClass: 'custom-matdialog',
     })
     dialogRef.afterClosed().subscribe(result => {
       if (!result) {
@@ -135,9 +136,11 @@ export class BoardComponent implements OnInit {
     })
   }
   openModalEndGame(data) {
+    console.log(data);
+    this.counter.stop();
     const dialogRef = this._dialog.open(endGameDialog, {
       disableClose: true,
-      panelClass:'custom-matdialog',
+      panelClass: 'custom-matdialog',
       data: { scoreList: data }
     });
 
@@ -148,7 +151,7 @@ export class BoardComponent implements OnInit {
   openModalrefundToken(data) {
     const dialogRef = this._dialog.open(RefundMaterialDialog, {
       width: '50vw',
-      panelClass:'custom-matdialog',
+      panelClass: 'custom-matdialog',
       disableClose: true,
       data: { materials: this.board.currentPlayer.materials }
     });
@@ -166,7 +169,7 @@ export class BoardComponent implements OnInit {
         canHold = x;
         const dialogRef = this._dialog.open(CardDialog, {
           width: '50vw',
-          panelClass:'custom-matdialog',
+          panelClass: 'custom-matdialog',
           data: {
             card: data,
             canAction: {
@@ -192,7 +195,7 @@ export class BoardComponent implements OnInit {
   openModal() {
     const dialogRef = this._dialog.open(SetMaterialDialog, {
       width: '50vw',
-      panelClass:'custom-matdialog',
+      panelClass: 'custom-matdialog',
       data: { materials: this.board.listToken.filter(x => x.token_id != 0) }
     });
 
