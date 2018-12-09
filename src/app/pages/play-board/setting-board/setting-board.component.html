@@ -55,7 +55,7 @@
             {{'player.list'|translate}}
           </div>
           <div class="box-body menu">
-            <div formArrayName="items" *ngFor="let item of settingForm.get('items').controls; let i = index;">
+            <div formArrayName="items" *ngFor="let item of formListPlayerArray.controls; let i = index;">
               <div [formGroupName]="i">
                 <mat-form-field style="width: 40px;padding-right: 5px; ">
                   <mat-select placeholder="#" formControlName="order" [(ngModel)]="orderList[i].order"
