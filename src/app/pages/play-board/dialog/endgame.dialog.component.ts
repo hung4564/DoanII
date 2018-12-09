@@ -15,7 +15,7 @@ export class endGameDialog implements OnInit {
     public dialogRef: MatDialogRef<DialogEndGameData>,
     @Inject(MAT_DIALOG_DATA) public data: DialogEndGameData,
     private el: ElementRef) {
-    console.log(data.scoreList)
+    this.scoreList = data.scoreList;
   }
   ngOnInit() {
     this.scoreList.sort((x, y) => { return y.point - x.point });

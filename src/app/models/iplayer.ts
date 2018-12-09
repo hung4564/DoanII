@@ -49,7 +49,7 @@ export class IPlayer {
     if (this.listNobletile.length > 0) {
       point += this.listNobletile.map(item => item.value.point).reduce((prev, next) => prev + next)
     }
-    return 15 + this.id;
+    return point;
   }
   public async getpoint(): Promise<number> {
     return this.point;

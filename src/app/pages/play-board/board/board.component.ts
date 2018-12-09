@@ -136,7 +136,6 @@ export class BoardComponent implements OnInit {
     })
   }
   openModalEndGame(data) {
-    console.log(data);
     this.counter.stop();
     const dialogRef = this._dialog.open(endGameDialog, {
       disableClose: true,
