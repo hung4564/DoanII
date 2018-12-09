@@ -29,7 +29,7 @@ export class SettingBoardComponent implements OnInit {
   items: FormArray;
   
 get formListPlayerArray(){
-  return this.settingForm.get('items');
+  return <FormArray>this.settingForm.get('items');
 }
   array = [0, 1, 2, 3, 4];
   game_speeds = [5, 10, 15]
