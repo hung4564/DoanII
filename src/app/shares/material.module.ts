@@ -9,6 +9,7 @@ import * as Material from '@angular/material';
     Material.MatSelectModule,
     Material.MatIconModule,
     Material.MatButtonModule,
+    Material.MatSelectModule,
   ],
 })
 export class MaterialModule { }

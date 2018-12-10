@@ -6,10 +6,13 @@
           <img src="assets/img/favicon.ico" class="logo">
         </a>
         <span class="navbar-brand">{{'title'|translate}}</span>
-        <select name="" id="" (change)="changeLang($event.target.value)">
-          <option value="en">en</option>
-          <option value="vi">vi</option>
-        </select>
+        <mat-form-field>
+          <mat-select (valueChange)="changeLang($event.value)" [(ngModel)]="lang">
+            <mat-option value="en">en</mat-option>
+            <mat-option value="vi">vi</mat-option>
+          </mat-select>
+        </mat-form-field>
+
       </div>
     </div>
   </nav>
