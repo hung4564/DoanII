@@ -4,6 +4,8 @@ import { MainlayoutComponent } from './mainlayout.component';
 import { Homeroutes } from '@pages/home/home.route';
 import { PlayBoardroutes } from '@pages/play-board/play-board.route';
 import { NotFoundroutes } from '@pages/not-found/not-found.route';
+import { Aboutroutes } from '@pages/about/about.route';
+import { Howtoplayroutes } from '@pages/howtoplay/howtoplay.route';
 const routes: Routes = [
   {
     path: '',
@@ -17,6 +19,8 @@ const routes: Routes = [
       ...Homeroutes,
       ...PlayBoardroutes,
       ...NotFoundroutes,
+      ...Aboutroutes,
+      ...Howtoplayroutes,
       {
         path: '**',
         redirectTo: '/not-found'

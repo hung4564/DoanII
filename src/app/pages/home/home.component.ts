@@ -20,5 +20,7 @@ export class HomeComponent implements OnInit {
   about() {
     this.router.navigate(['/about'])
   }
-
+  howtoplay(){
+    this.router.navigate(['/how-to-play'])
+  }
 }

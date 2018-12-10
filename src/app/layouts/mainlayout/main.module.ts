@@ -7,6 +7,8 @@ import { ShareModule } from '@share/shares.module'
 import { HomeModule } from '@pages/home/home.module'
 import { PlayBoardModule } from '@pages/play-board/play-board.module'
 import { NotFoundModule } from '@pages/not-found/not-found.module';
+import { AboutModule } from '@pages/about/about.module';
+import { HowtoplayModule } from '@pages/howtoplay/howtoplay.module';
 @NgModule({
   declarations: [
     MainlayoutComponent,
@@ -17,7 +19,9 @@ import { NotFoundModule } from '@pages/not-found/not-found.module';
     MainRoutingModule,
     HomeModule,
     PlayBoardModule,
-    NotFoundModule
+    NotFoundModule,
+    AboutModule,
+    HowtoplayModule
   ],
   providers: [],
 })
