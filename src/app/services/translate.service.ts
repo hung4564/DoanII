@@ -6,8 +6,10 @@ import { HttpClient } from '@angular/common/http';
 })
 export class TranslateService {
   data: any = {};
+  lang: string = 'en';
   constructor(private http: HttpClient) { }
   use(lang: string): Promise<{}> {
+    this.lang = lang;
     return new Promise<{}>((resolve, reject) => {
       const langPath = `assets/lang/${lang || 'en'}.json`;
       this.http.get<{}>(langPath).subscribe(

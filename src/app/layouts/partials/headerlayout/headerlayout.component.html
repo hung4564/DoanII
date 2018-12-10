@@ -7,7 +7,7 @@
         </a>
         <span class="navbar-brand">{{'title'|translate}}</span>
         <mat-form-field>
-          <mat-select (valueChange)="changeLang($event.value)" [(ngModel)]="lang">
+          <mat-select (selectionChange)="changeLang($event.value)" [(ngModel)]="lang">
             <mat-option value="en">en</mat-option>
             <mat-option value="vi">vi</mat-option>
           </mat-select>
