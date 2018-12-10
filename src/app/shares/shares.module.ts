@@ -8,6 +8,7 @@ import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MainPipe } from '@pipes/pipe.module';
 import { CountdownModule } from 'ngx-countdown';
+import { MarkdownModule } from 'ngx-markdown';
 import { ConfigDialogComponent } from './config-dialog/config-dialog.component';
 import { FlipCountdownComponent } from './countdown/countdown.component';
 @NgModule({
@@ -40,6 +41,7 @@ import { FlipCountdownComponent } from './countdown/countdown.component';
     ConfigDialogComponent,
     FlipCountdownComponent,
     ReactiveFormsModule,
+    MarkdownModule
   ],
   providers: [],
   entryComponents: [

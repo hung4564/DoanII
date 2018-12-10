@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-not-found',
-  templateUrl: './not-found.component.html',
-  styleUrls: ['./not-found.component.css']
+  selector: 'app-about',
+  templateUrl: './about.component.html',
+  styleUrls: ['./about.component.css']
 })
-export class NotFoundComponent implements OnInit {
+export class AboutComponent implements OnInit {
 
   constructor(public router: Router) { }
 
@@ -15,4 +15,5 @@ export class NotFoundComponent implements OnInit {
   home() {
     this.router.navigate(['/home'])
   }
+
 }

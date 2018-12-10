@@ -7,7 +7,7 @@ import { TranslateService } from '@services/translate.service';
   styleUrls: ['./headerlayout.component.css']
 })
 export class HeaderlayoutComponent implements OnInit {
-
+  lang = "en";
   constructor(private _translate: TranslateService) { }
 
   ngOnInit() {

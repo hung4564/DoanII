@@ -6,10 +6,11 @@
     <div class="title" style="font-size:5vh">
       {{'title'|translate}}
     </div>
-    <div class="menu-button">
-      <a class="btn btn-primary" style="width: 100%;" (click)="play()">
-        {{'play'|translate}}</a>
-      <a class="btn btn-primary" style="width: 100%;" (click)="about()">{{'about'|translate}}</a>
+    <div class="menu-button flex flex-column">
+      <button mat-flat-button color="primary" (click)="play()">
+        {{'play'|translate}}</button>
+      <button mat-flat-button color="primary" (click)="howtoplay()">{{'howtoplay'|translate}}</button>
+      <button mat-flat-button color="primary" (click)="about()">{{'about'|translate}}</button>
     </div>
   </div>
 </div>
