@@ -1,11 +1,19 @@
-<div class="row no-margin">
-  <div class="col-md-2">
-    <button mat-flat-button color="primary" (click)="home()"><i class="icon-home icon-white"></i> {{'backhome'|translate}}</button>
-  </div>
-  <div class="col-md-10">
-    <div class="flex flex-center flex-column full menu">
-        <div markdown [data]="content"></div>
+<div class="row no-margin" style="height:calc(100vh - 60px)">
+  <div class="col-md-2" style="height:100%">
+
+    <div class="flex flex-column flex-center full menu">
+
+      <div class="menu-button flex flex-column">
+        <button mat-flat-button color="primary" (click)="home()"><i class="icon-home icon-white"></i>
+          {{'backhome'|translate}}</button>
+      </div>
     </div>
+  </div>
+  <div class="col-md-10 scroll-bar" style="height:100%">
+    <div class="flex flex-column full menu">
+      <div markdown [data]="content"></div>
+    </div>
+
   </div>
 
 </div>

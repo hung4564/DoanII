@@ -9,10 +9,19 @@ import { TranslateService } from '@services/translate.service';
   styleUrls: ['./howtoplay.component.css']
 })
 export class HowtoplayComponent implements OnInit {
-  constructor(public router: Router, private _backendSV: BackendService, private _transSV: TranslateService) { }
+  constructor(public router: Router, private _backendSV: BackendService, private _transSV: TranslateService) {
+    _transSV.changeLanguage.subscribe(
+      (result: { language: string }) => {
+        this.changeFile(result.language)
+      }
+    )
+  }
   content: any;
   ngOnInit() {
-    let url = './assets/lang/' + this._transSV.lang + '.howtoplay.md'
+    this.changeFile(this._transSV.lang);
+  }
+  changeFile(lang) {
+    let url = './assets/lang/' + lang + '.howtoplay.md'
     this._backendSV.getText(url).subscribe(
       res => {
         this.content = res;

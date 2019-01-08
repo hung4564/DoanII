@@ -68,6 +68,15 @@ body {
 .background-color {
   background-color: #CCE2FF;
 }
-.custom-matdialog .mat-dialog-container {  
+
+.custom-matdialog .mat-dialog-container {
   background-color: #CCE2FF;
+}
+
+.scroll-bar {
+  overflow-y: hidden;
+}
+
+.scroll-bar:hover {
+  overflow-y: auto
 }
