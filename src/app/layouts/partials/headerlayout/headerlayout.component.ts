@@ -8,6 +8,7 @@ import { TranslateService } from '@services/translate.service';
 })
 export class HeaderlayoutComponent implements OnInit {
   lang = "en";
+  link = "https://github.com/hung4564/DoanII";
   constructor(private _translate: TranslateService) { }
 
   ngOnInit() {
