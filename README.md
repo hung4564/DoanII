@@ -27,6 +27,26 @@ Bạn cần phải cài đặt angular CLI để có thể cài đặt được 
 Chạy lệnh `npm install` để máy tính tải về những gói cần thiết cho dữ án của bạn
 Chạy lệnh `ng server` để chạy chương trình trên localhost.Vào đường dẫn `http://localhost:4200/` để xem ứng dụng
 
+### Triển khai trên github
+
+Cần cài đặt angular-cli-ghpages
+
+```
+npm install -g angular-cli-ghpages
+```
+
+Chạy lệnh để biên dịch chương trình:
+
+```
+ng build --prod --base-href https://hung4564.github.io/DoanII/
+```
+
+CHạy lệnh để đẩy lên github
+
+```
+ngh –no-silent
+```
+
 ## Giấy phép
 
 [MIT](https://choosealicense.com/licenses/mit/)
