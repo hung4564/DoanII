@@ -56,11 +56,11 @@ export class IconCompComponent implements OnInit {
     return this._count;
   }
   private _count: number;
-  private isAnimations: boolean;
+  public isAnimations: boolean;
   @Input() center: string = 'token';
   @Input() type: string = 'round'; //round or rectangle
   @Input() disable: boolean;
-  private get _src(): string {
+  public get _src(): string {
     if (!!this.token) {
       return 'assets/icon/' + this.token.imgInfo.type + '/' + (this.disable ? 'disable-' : '') + this.token.imgInfo.name + '-96.png';
 

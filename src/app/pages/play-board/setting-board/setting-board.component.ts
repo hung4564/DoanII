@@ -27,6 +27,10 @@ export class SettingBoardComponent implements OnInit {
   @Output() submit = new EventEmitter();
   settingForm: FormGroup;
   items: FormArray;
+  
+get formListPlayerArray(){
+  return <FormArray>this.settingForm.get('items');
+}
   array = [0, 1, 2, 3, 4];
   game_speeds = [5, 10, 15]
   target_score = [2,15, 21]

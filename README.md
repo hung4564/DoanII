@@ -1,27 +1,36 @@
-# Doan2
+# Đồ án 2
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.3.
+Dự án được tạo bởi [Angular CLI](https://github.com/angular/angular-cli) version 6.2.
+Đề tài: tạo web game dựa trên game splendor b
 
-## Development server
+## Cài đặt
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+### Cài đặt môi trường
 
-## Code scaffolding
+Bạn cần phải cài đặt môi trường trước để có thể sử dụng được Angular.
+Cài đặt Nodejs và npm nếu chưa cài đặt hoặc phiên bản của nó đã cũ so với yêu cầu
+Chạy lệnh trên console/terminal để kiểm tra phiên bản:
+- ‘Node -v’ để kiểm tra phiên bản của Nodejs
+- ‘Npm -v’ để kiểm tra phiên bản của npm
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Angular 6 yêu cầu tối thiểu:
+- Nodejs phiên bản 8.x trở lên
+- Npm phiên bản 5.x trở lên
+Phiên bản của Nodejs và npm cũ hơn sẽ gây ra lỗi
 
-## Build
+Cài đặt Angular CLi
+- Chạy lênh trên console/terminal để cài đặt: ‘npm install -g @angular/cli’
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+### Chaỵ chương trình
 
-## Running unit tests
+Bạn cần phải cài đặt angular CLI để có thể cài đặt được ứng dụng Angular.
+Chạy lệnh `npm install` để máy tính tải về những gói cần thiết cho dữ án của bạn
+Chạy lệnh `ng server` để chạy chương trình trên localhost.Vào đường dẫn `http://localhost:4200/` để xem ứng dụng
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Giấy phép
 
-## Running end-to-end tests
+[MIT](https://choosealicense.com/licenses/mit/)
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+## Tình trạng
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Code được viết để phục vụ cho đồ án 2. Do mới học nên dự án còn có thể tồn đọng nhiều lỗi, cần thời gian để sửa dần.
