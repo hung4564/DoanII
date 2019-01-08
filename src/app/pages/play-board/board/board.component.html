@@ -12,7 +12,7 @@
           <button mat-flat-button color="warn" [ngStyle]="buttonStyles" style="margin-top:5px" [disabled]="!canAccess()"
             (click)="openModalpassTurn()">{{'player.action.pass'|translate}}</button>
         </div>
-        <list-material-comp style="margin-top: 5px;border-radius: 20px;border: solid;" class="pointer" (click)="openModal()"
+        <list-material-comp style="margin-top: 5px;border-radius: 20px;border: solid;" class="pointer"
           [size-comp]="material_list_size" [materials]="board.listToken"></list-material-comp>
       </div>
       <list-nobletile-comp [size-comp]="nobletile_list_size" [nobletiles]="board.listNobletile"></list-nobletile-comp>

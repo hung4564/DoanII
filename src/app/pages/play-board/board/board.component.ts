@@ -109,6 +109,8 @@ export class BoardComponent implements OnInit {
     });
   }
   ngOnInit() {
+    this.counter.pause();
+    this.counter.stop();
     this.configCountdown = {
       leftTime: this.board.config.timeOneTurn * 60,
       demand: false
@@ -132,7 +134,9 @@ export class BoardComponent implements OnInit {
   }
   ngAfterViewInit() {
     Helper.delay(2000).then(() => {
-      this.board.startGame();
+      this.board.startGame().then(t => {
+        this.counter.restart();
+      });
     })
   }
   openModalEndGame(data) {

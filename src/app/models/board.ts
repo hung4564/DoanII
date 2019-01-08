@@ -72,7 +72,7 @@ export class Board {
       })
     }
   }
-  public startGame() {
+  public async startGame() {
     this._currentPlayer.startTurn(this.listCards, this.listToken);
   }
   private init() {
